@@ -1,11 +1,11 @@
 Rapid MMWR Android App (Photon)
 ===========
-The Rapid MMWR iPhone app provides quick access to highlights from each article in the MMWR Weekly. 
+The Rapid MMWR Android app provides quick access to highlights from each article in the MMWR Weekly. 
 
 Issue tracker is available: [JIRA](https://code.phiresearchlab.org/jira/browse/PHOT)
 
 ## Goals
-To develop an iPhone app that allows quick access to content from MMWR Weekly.
+To develop an Android app that allows quick access to content from MMWR Weekly.
 
 ##Requirements
 * Android 4.0
