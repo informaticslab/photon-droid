@@ -15,6 +15,8 @@ import android.os.Build;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.pkmmte.pkrss.PkRSS;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,13 +24,42 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 
-public class MainActivity extends Activity {
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+
+
+public class MainActivity extends FragmentActivity {
 
     TextView mRssFeed;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);
+
+        if (savedInstanceState == null) {
+            addRssFragment();
+        }
+    }
+
+    private void addRssFragment() {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        RssFragment fragment = new RssFragment();
+        transaction.add(R.id.fragment_container, fragment);
+        transaction.commit();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("fragment_added", true);
+    }
+   // @Override
+    protected void onCreateOld(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
@@ -36,7 +67,7 @@ public class MainActivity extends Activity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
-        new GetAndroidPitRssFeedTask().execute();
+        new GetRssFeedTask().execute();
 
     }
 
@@ -60,7 +91,7 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class GetAndroidPitRssFeedTask extends AsyncTask<Void, Void, String> {
+    private class GetRssFeedTask extends AsyncTask<Void, Void, String> {
 
         @Override
         protected String doInBackground(Void... voids) {
@@ -98,9 +129,10 @@ public class MainActivity extends Activity {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             in = conn.getInputStream();
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[1024*128*16*16];
             for (int count; (count = in.read(buffer)) != -1; ) {
                 out.write(buffer, 0, count);
+                System.out.println("Looping for RSS data.");
             }
             byte[] response = out.toByteArray();
             String rssFeed = new String(response, "UTF-8");
@@ -124,7 +156,6 @@ public class MainActivity extends Activity {
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
-
 
         public PlaceholderFragment() {
         }
