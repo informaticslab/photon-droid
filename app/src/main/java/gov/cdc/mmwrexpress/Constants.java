@@ -1,4 +1,4 @@
-package cdc.gov.mmwrexpress;
+package gov.cdc.mmwrexpress;
 
 public class Constants {
 

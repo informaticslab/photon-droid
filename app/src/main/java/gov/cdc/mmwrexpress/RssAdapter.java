@@ -1,4 +1,4 @@
-package cdc.gov.mmwrexpress;
+package gov.cdc.mmwrexpress;
 
 import java.util.List;
 
@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import cdc.gov.mmwrexpress.R;
 
 public class RssAdapter extends BaseAdapter {
 
@@ -44,7 +46,7 @@ public class RssAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.itemTitle.setText(items.get(position).getTitle());
+        holder.itemTitle.setText(items.get(position).getDescription());
         return convertView;
     }
 

@@ -1,9 +1,6 @@
-package cdc.gov.mmwrexpress;
+package gov.cdc.mmwrexpress;
 
-import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
-import android.app.TabActivity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,11 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
-import android.widget.TabHost;
 import android.widget.TextView;
-
-import com.pkmmte.pkrss.PkRSS;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -24,10 +17,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 
-import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+
+import cdc.gov.mmwrexpress.R;
 
 
 public class MainActivity extends FragmentActivity {

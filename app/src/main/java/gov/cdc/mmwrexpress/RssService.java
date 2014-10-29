@@ -1,4 +1,4 @@
-package cdc.gov.mmwrexpress;
+package gov.cdc.mmwrexpress;
 
 import java.io.IOException;
 import java.io.InputStream;

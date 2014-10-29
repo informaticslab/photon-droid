@@ -1,4 +1,4 @@
-package cdc.gov.mmwrexpress;
+package gov.cdc.mmwrexpress;
 
 
 import java.util.List;
@@ -17,6 +17,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import cdc.gov.mmwrexpress.R;
 
 public class RssFragment extends Fragment implements OnItemClickListener {
 

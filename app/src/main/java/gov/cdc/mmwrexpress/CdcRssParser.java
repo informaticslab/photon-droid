@@ -1,4 +1,4 @@
-package cdc.gov.mmwrexpress;
+package gov.cdc.mmwrexpress;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,6 +31,8 @@ public class CdcRssParser {
         parser.require(XmlPullParser.START_TAG, null, "rss");
         String title = null;
         String link = null;
+        String description = null;
+
         List<RssItem> items = new ArrayList<RssItem>();
         while (parser.next() != XmlPullParser.END_DOCUMENT) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
@@ -41,12 +43,17 @@ public class CdcRssParser {
                 title = readTitle(parser);
             } else if (name.equals("link")) {
                 link = readLink(parser);
+            } else if (name.equals("description")) {
+                description = readDescription(parser);
+                JsonArticleParser jsonArticleParser = new JsonArticleParser(description);
+
             }
             if (title != null && link != null) {
-                RssItem item = new RssItem(title, link);
+                RssItem item = new RssItem(title, link, description);
                 items.add(item);
                 title = null;
                 link = null;
+                description = null;
             }
         }
         return items;
@@ -64,6 +71,13 @@ public class CdcRssParser {
         String title = readText(parser);
         parser.require(XmlPullParser.END_TAG, ns, "title");
         return title;
+    }
+
+    private String readDescription(XmlPullParser parser) throws XmlPullParserException, IOException {
+        parser.require(XmlPullParser.START_TAG, ns, "description");
+        String description = readText(parser);
+        parser.require(XmlPullParser.END_TAG, ns, "description");
+        return description;
     }
 
     // For the tags title and link, extract their text values.
