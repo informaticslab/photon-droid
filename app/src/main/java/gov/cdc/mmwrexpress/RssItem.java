@@ -6,11 +6,13 @@ public class RssItem {
     private final String title;
     private final String link;
     private final String description;
+    private Article article;
 
-    public RssItem(String title, String link, String description) {
+    public RssItem(String title, String link, String description, Article article) {
         this.title = title;
         this.link = link;
         this.description = description;
+        this.article = article;
     }
 
     public String getTitle() {
@@ -23,6 +25,12 @@ public class RssItem {
 
     public String getDescription() {
         return link;
+    }
+    public String getArticleTitle() {
+        if (article == null )
+            return "";
+        else
+            return article.title;
     }
 
 }

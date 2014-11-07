@@ -12,8 +12,14 @@ import android.util.Xml;
 
 public class CdcRssParser {
 
-    // We don't use namespaces
+    // don't use namespaces
     private final String ns = null;
+    private JsonArticleParser jsonArticleParser;
+
+
+    public CdcRssParser () {
+        this.jsonArticleParser = new JsonArticleParser();
+    }
 
     public List<RssItem> parse(InputStream inputStream) throws XmlPullParserException, IOException {
         try {
@@ -32,6 +38,7 @@ public class CdcRssParser {
         String title = null;
         String link = null;
         String description = null;
+        Article article = null;
 
         List<RssItem> items = new ArrayList<RssItem>();
         while (parser.next() != XmlPullParser.END_DOCUMENT) {
@@ -45,15 +52,16 @@ public class CdcRssParser {
                 link = readLink(parser);
             } else if (name.equals("description")) {
                 description = readDescription(parser);
-                JsonArticleParser jsonArticleParser = new JsonArticleParser(description);
+                article = this.jsonArticleParser.parseJsonArticle(description);
 
             }
-            if (title != null && link != null) {
-                RssItem item = new RssItem(title, link, description);
+            if (title != null && link != null && description != null && article != null ) {
+                RssItem item = new RssItem(title, link, description, article);
                 items.add(item);
                 title = null;
                 link = null;
                 description = null;
+                article = null;
             }
         }
         return items;

@@ -27,21 +27,19 @@ public class JsonArticleParser {
     private static final String TAG_CONTENT_VER = "content-ver";
     private static final String TAG_SCHEMA_VER = "schema-ver";
 
-    public JsonArticleParser(String jsonArticle) {
+    public JsonArticleParser() {
 
-        if (jsonArticle != null) {
-            this.json = jsonArticle;
-            parseJson();
-        }
     }
 
+    public Article parseJsonArticle(String jsonArticle) {
 
-    private boolean parseJson() {
+        if (jsonArticle == null)
+            return null;
 
         // create new JSON object from string
         try {
 
-            JSONObject jsonObject = new JSONObject(this.json);
+            JSONObject jsonObject = new JSONObject(jsonArticle);
             int size = jsonObject.length();
 
             Issue newIssue = new Issue(jsonObject.getString(TAG_ISSUE_DATE),
@@ -54,16 +52,16 @@ public class JsonArticleParser {
             newArticle.url = jsonObject.getString(TAG_URL);
             newArticle.already_know = jsonObject.getString(TAG_ALREADY_KNOWN);
 
+            Log.d("JsonArticleParser", "JSON Article title = " + jsonObject.getString(TAG_TITLE));
 
-            Log.d("JsonArticleParser", "JSON Article size = " + String.valueOf(size));
+            //Log.d("JsonArticleParser", "JSON Article size = " + String.valueOf(size));
+            //Log.d("JsonArticleParser", "JSON issue date  = " + jsonObject.getString(TAG_ISSUE_DATE));
 
-            Log.d("JsonArticleParser", "JSON issue date  = " + jsonObject.getString(TAG_ISSUE_DATE));
-
-            return true;
+            return newArticle;
 
         } catch (JSONException ex) {
             ex.printStackTrace();
-            return false;
+            return null;
         }
     }
 
