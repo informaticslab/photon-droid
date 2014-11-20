@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import cdc.gov.mmwrexpress.R;
+import gov.cdc.mmwrexpress.R;
 
 public class RssAdapter extends BaseAdapter {
 

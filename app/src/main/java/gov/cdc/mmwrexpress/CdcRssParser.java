@@ -8,17 +8,22 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import android.content.Context;
 import android.util.Xml;
+
+import io.realm.Realm;
 
 public class CdcRssParser {
 
     // don't use namespaces
     private final String ns = null;
     private JsonArticleParser jsonArticleParser;
+    private Realm realm;
 
+    public CdcRssParser (Context ctx) {
 
-    public CdcRssParser () {
-        this.jsonArticleParser = new JsonArticleParser();
+        this.jsonArticleParser = new JsonArticleParser(realm);
+        this.realm = Realm.getInstance(ctx);
     }
 
     public List<RssItem> parse(InputStream inputStream) throws XmlPullParserException, IOException {

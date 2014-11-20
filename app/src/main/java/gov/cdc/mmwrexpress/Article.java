@@ -1,17 +1,18 @@
 package gov.cdc.mmwrexpress;
 
-import com.orm.SugarRecord;
+
+import io.realm.RealmObject;
 
 /**
  * Created by jtq6 on 10/29/14.
  */
-public class Article extends SugarRecord<Article> {
+public class Article extends RealmObject {
 
 
     String title;
     String url;
     Issue issue;
-    String already_know;
+    String already_known;
     String added_by_report;
     String implications;
     String[] tags;
@@ -22,14 +23,15 @@ public class Article extends SugarRecord<Article> {
     public Article() {
 
     }
-    public Article (String title) {
+    public void setArticle (String title) {
         this.title = title;
 
     }
-    public Article (String title, Integer ver) {
+    public void setArticle (String title, Integer ver) {
         this.title = title;
-        this.version = version;
+        this.version = ver;
 
     }
+
 
 }

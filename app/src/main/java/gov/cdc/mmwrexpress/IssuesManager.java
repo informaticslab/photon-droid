@@ -1,5 +1,7 @@
 package gov.cdc.mmwrexpress;
 
+import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -9,26 +11,33 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
+
 /**
  * Created by jtq6 on 10/29/14.
  */
 public class IssuesManager {
 
-    List<Issue> issues;
-    List<Keyword> keywords;
+    RealmResults<Issue> issues;
+    RealmResults<Keyword> keywords;
     boolean hasIssues;
+    private Realm realm;
 
-    public IssuesManager() {
+    public IssuesManager(Realm realm) {
 
         this.hasIssues = false;
-        this.issues = Issue.listAll(Issue.class);
+        this.realm = realm;
+//        this.issues = realm.allObjects(Issue.class);
+//        this.keywords = realm.allObjects(Keyword.class);
 
     }
 
 
     public void getAllKeywords() {
 
-        this.keywords = Keyword.listAll(Keyword.class);
+ //       this.keywords = Keyword.listAll(Keyword.class);
 
 
     }
@@ -39,92 +48,71 @@ public class IssuesManager {
         return newIssue;
     }
 
-    public Issue getStoredIssueForIssue(Issue issue) {
 
-        return getIssueWithDateVolNum(issue.date.toString(), issue.volume.toString(), issue.number.toString());
-    }
-
-    public Issue getIssueWithDateVolNum(String date, String volume, String number) {
+    public Issue processRssIssue(String dateAsString, Integer volume, Integer number) {
 
 
-        List<Issue> foundIssues = Issue.find(Issue.class, "date = ? and volume = ? and number = ?", date, volume, number);
+        Date date = Issue.getIssueDateFromString(dateAsString);
+        Issue foundIssue = realm.where(Issue.class).equalTo("date", date).equalTo("volume",volume).equalTo("number",number).findFirst();
 
-        if (foundIssues.size() == 0)
-            return null;
-        else if (foundIssues.size() == 1)
-            return foundIssues.get(0);
-        else
-            Log.d(Constants.ISSUE_MGR, "Found multiple stored issues with same date, volume and number.");
-
-        return null;
-
-    }
-
-
-    public boolean isIssueNew(Issue downloadedIssue) {
-
-        if (issues.isEmpty())
-            return true;
-
-        Issue issue = getStoredIssueForIssue(downloadedIssue);
-
-        if (issue != null)
-            return false;
-        else
-            return true;
-    }
-
-    public void createArticleInIssue(Article newArticle, Issue issue) {
-        issue.addArticle(newArticle);
-    }
-
-    private boolean isArticleNewInIssue(Article newArticle, Issue issue) {
-
-        if (issue.articles.size() == 0)
-            return true;
-
-        // check if article with this title already exists in current issue
-        Article existingArticle = issue.getArticleWithTitle(newArticle.title);
-
-        // if no article with title
-        if (existingArticle == null)
-            return true;
-
-        return false;
-
-    }
-
-    public void newArticleInIssueWithKeywordsAndVersion(Article article, Issue issue, String[] keywords, Integer ver) {
-
-        Issue storedIssue = null;
-        Article storedArticle = null;
-
-        if (isIssueNew(issue)) {
-            storedIssue = addNewIssue(issue);
+        if (foundIssue != null) {
+            return foundIssue;
         } else {
-            storedIssue = getStoredIssueForIssue(issue);
+            Issue newIssue = realm.createObject(Issue.class);
+            newIssue.setIssue(dateAsString, volume, number);
 
+            return newIssue;
         }
-        // check  article with this title already exists in current issue
-        if (isArticleNewInIssue(article, storedIssue)) {
 
-            this.createArticleInIssue(article, storedIssue);
-            this.addArticleKeywords(keywords, article);
+    }
 
-        } else {
 
-            storedArticle = storedIssue.getArticleWithTitle(article.title);
 
-            // check if version number is greater than current version
-            if (article.version > storedArticle.version.intValue()) {
+    public Article createArticleInIssue(Issue issue, String title, Integer version) {
 
-                // create new article object and replace the old with new
-                storedIssue.replaceArticle(storedArticle, article);
-                this.addArticleKeywords(keywords, storedArticle);
+        Article newArticle = realm.createObject(Article.class);
+        newArticle.title = title;
+        newArticle.version = version;
+        issue.articles.add(newArticle);
+        return newArticle;
 
+    }
+
+
+    // return a new Article reference only if needed
+    // otherwise return null
+    public Article processRssArticle(Issue issue, String title, Integer version) {
+
+
+         // quick check for any articles at all
+        if (issue.articles.size() == 0) {
+            Article newArticle = createArticleInIssue(issue, title, version);
+            return newArticle;
+        }
+
+        for (Article article: issue.articles) {
+
+            // check if article with this title already exists in current issue
+            if (article.title.equals(title)) {
+
+                if (article.version == version)
+                    return article;
+
+                // check if version number is greater than current version
+                else if (article.version < version) {
+
+                    article.removeFromRealm();
+                    Article newArticle = createArticleInIssue(issue, title, version);
+                    return newArticle;
+
+                }
             }
+
         }
 
+        // no article matches so create one
+        Article newArticle = createArticleInIssue(issue, title, version);
+        return newArticle;
     }
 
     private Keyword getKeywordWithText(String text) {
@@ -149,6 +137,7 @@ public class IssuesManager {
         return newKeyword;
     }
 
+
     public void addArticleKeywords(String[] foundKeywords, Article article) {
         Keyword keyword;
 
@@ -164,4 +153,34 @@ public class IssuesManager {
         }
 
     }
+
+
+
+
+    public void storeTest() {
+
+//        Realm realm = Realm.getInstance();
+//
+//        realm.beginTransaction();
+//
+//        Log.d(Constants.ISSUE_MGR,"Starting store test.");
+//
+//        Issue testIssue = new Issue("2014-11-02",64,32);
+//        testIssue.save();
+//
+//        Article testArticle = new Article("Test Article title");
+//
+//        String testKeywords[] = {"keyword1", "keyword2"};
+//
+//        Integer version = 1;
+//
+//        this.newArticleInIssueWithKeywordsAndVersion(testArticle, testIssue, testKeywords, version);
+//
+//        realm.commitTransaction();
+//
+//        Log.d(Constants.ISSUE_MGR,"End of store test.");
+
+    }
+
+
 }

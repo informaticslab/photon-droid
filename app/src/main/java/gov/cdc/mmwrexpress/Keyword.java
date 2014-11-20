@@ -1,21 +1,28 @@
 package gov.cdc.mmwrexpress;
 
-import com.orm.SugarRecord;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import io.realm.RealmList;
+import io.realm.RealmObject;
 
 /**
  * Created by jtq6 on 10/29/14.
  */
-public class Keyword extends SugarRecord<Keyword> {
+public class Keyword extends RealmObject {
 
     String text;
-    List<Article> articles;
+    RealmList<Article> articles;
 
     public Keyword () {
 
+
     }
     public Keyword(String text) {
+
+        this();
+
         this.text = text;
     }
 

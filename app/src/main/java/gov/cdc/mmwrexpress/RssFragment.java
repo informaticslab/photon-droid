@@ -18,7 +18,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import cdc.gov.mmwrexpress.R;
+import gov.cdc.mmwrexpress.R;
 
 public class RssFragment extends Fragment implements OnItemClickListener {
 

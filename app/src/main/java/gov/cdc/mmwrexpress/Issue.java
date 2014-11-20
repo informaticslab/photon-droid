@@ -1,17 +1,20 @@
     package gov.cdc.mmwrexpress;
 
-    import com.orm.SugarRecord;
 
     import java.lang.reflect.Array;
     import java.text.ParseException;
     import java.text.SimpleDateFormat;
+    import java.util.ArrayList;
     import java.util.Date;
     import java.util.List;
+
+    import io.realm.RealmList;
+    import io.realm.RealmObject;
 
     /**
      * Created by jtq6 on 10/29/14.
      */
-    public class Issue extends SugarRecord<Issue> {
+    public class Issue extends RealmObject {
 
 
         String title;
@@ -19,27 +22,33 @@
         Integer number;
         Integer volume;
         boolean unread;
-        Article dummy;
-
-        List<Article> articles;
+        RealmList<Article> articles;
 
         public Issue () {
 
         }
 
-        public Issue (String dateAsString, Integer vol, Integer num) {
+        public void setIssue (String dateAsString, Integer vol, Integer num) {
 
+            this.date = getIssueDateFromString(dateAsString);
+            this.volume = vol;
+            this.number = num;
+
+        }
+
+        public static Date getIssueDateFromString(String dateAsString)
+        {
+            Date date = null;
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             try {
-                Date date = format.parse(dateAsString);
+                date = format.parse(dateAsString);
                 System.out.println(date);
             } catch (ParseException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 
-            this.volume = vol;
-            this.number = num;
+            return date;
 
         }
 
@@ -60,22 +69,6 @@
 
         }
 
-        public Article getArticleWithTitle(String title) {
-
-            if (numberOfArticles() == 0)
-                return null;
-
-            for (Article article :articles) {
-                if (article.title.equals(title) ) {
-                    return article;
-
-                }
-
-            }
-
-            return null;
-        }
-
         public Article addArticle(Article newArticle) {
 
             newArticle.issue = this;
@@ -87,17 +80,13 @@
 
         public Article addArticleWithTitle(String title) {
 
-            Article newArticle = new Article(title);
+            Article newArticle = new Article();
             newArticle.issue = this;
             this.articles.add(newArticle);
 
             return newArticle;
         }
 
-
-        public void replaceArticle( Article oldArticle, Article newArticle) {
-
-        }
 
         public Integer numberOfArticles() {
 

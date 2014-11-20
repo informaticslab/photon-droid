@@ -1,9 +1,14 @@
 package gov.cdc.mmwrexpress;
 
+import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.lang.reflect.Array;
+
+import io.realm.Realm;
 
 
 /**
@@ -13,6 +18,8 @@ public class JsonArticleParser {
 
     String  json;
     Article article;
+    private Realm realm;
+    private IssuesManager issuesManager;
 
     // JSON Node names
     private static final String TAG_ISSUE_DATE = "issue-date";
@@ -27,8 +34,10 @@ public class JsonArticleParser {
     private static final String TAG_CONTENT_VER = "content-ver";
     private static final String TAG_SCHEMA_VER = "schema-ver";
 
-    public JsonArticleParser() {
+    public JsonArticleParser(Realm realm) {
 
+        this.realm = realm;
+        this.issuesManager = new IssuesManager(realm);
     }
 
     public Article parseJsonArticle(String jsonArticle) {
@@ -42,22 +51,35 @@ public class JsonArticleParser {
             JSONObject jsonObject = new JSONObject(jsonArticle);
             int size = jsonObject.length();
 
-            Issue newIssue = new Issue(jsonObject.getString(TAG_ISSUE_DATE),
-                    jsonObject.getInt(TAG_ISSUE_NUM), jsonObject.getInt(TAG_ISSUE_NUM));
+            realm.beginTransaction();
 
-            Article newArticle = new Article(jsonObject.getString(TAG_TITLE));
-            newArticle.already_know = jsonObject.getString(TAG_ALREADY_KNOWN);
-            newArticle.added_by_report = jsonObject.getString(TAG_ADDED_BY_REPORT);
-            newArticle.implications = jsonObject.getString(TAG_IMPLICATIONS);
-            newArticle.url = jsonObject.getString(TAG_URL);
-            newArticle.already_know = jsonObject.getString(TAG_ALREADY_KNOWN);
+            // process issue found in RSS feed and find stored issue
+            // or in not there create a new one
+            Issue issue = issuesManager.processRssIssue(jsonObject.getString(TAG_ISSUE_DATE),
+                    jsonObject.getInt(TAG_ISSUE_VOL), jsonObject.getInt(TAG_ISSUE_NUM));
+
+
+
+            // process article found in RSS feed and find stored issue
+            // or in not there create a new one
+            Article article = issuesManager.processRssArticle(issue, jsonObject.getString(TAG_TITLE),jsonObject.getInt(TAG_CONTENT_VER));
+            if (article!= null ) {
+                article.already_known = jsonObject.getString(TAG_ALREADY_KNOWN);
+                article.added_by_report = jsonObject.getString(TAG_ADDED_BY_REPORT);
+                article.implications = jsonObject.getString(TAG_IMPLICATIONS);
+                article.url = jsonObject.getString(TAG_URL);
+            }
+            String[] keywords = new String[0];
+
+            realm.commitTransaction();
+
 
             Log.d("JsonArticleParser", "JSON Article title = " + jsonObject.getString(TAG_TITLE));
 
             //Log.d("JsonArticleParser", "JSON Article size = " + String.valueOf(size));
             //Log.d("JsonArticleParser", "JSON issue date  = " + jsonObject.getString(TAG_ISSUE_DATE));
 
-            return newArticle;
+            return article;
 
         } catch (JSONException ex) {
             ex.printStackTrace();

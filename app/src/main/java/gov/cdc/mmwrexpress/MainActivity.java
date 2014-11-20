@@ -3,6 +3,7 @@ package gov.cdc.mmwrexpress;
 import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,7 +22,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import cdc.gov.mmwrexpress.R;
+import gov.cdc.mmwrexpress.R;
 
 
 public class MainActivity extends FragmentActivity {
@@ -37,6 +38,15 @@ public class MainActivity extends FragmentActivity {
         if (savedInstanceState == null) {
             addRssFragment();
         }
+
+
+    }
+
+    private void testPersistence() {
+        //IssuesManager issueMgr = new IssuesManager();
+        //issueMgr.storeTest();
+
+        Log.d(Constants.MAIN_ACTIVITY,"Done with persistence tests.");
     }
 
     private void addRssFragment() {
@@ -51,18 +61,6 @@ public class MainActivity extends FragmentActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean("fragment_added", true);
-    }
-   // @Override
-    protected void onCreateOld(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
-        }
-        new GetRssFeedTask().execute();
-
     }
 
     @Override
@@ -146,29 +144,4 @@ public class MainActivity extends FragmentActivity {
     }
 
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
-        }
-
-
-        @Override
-        public void onStart() {
-
-            super.onStart();
-
-        }
-
-
-    }
 }

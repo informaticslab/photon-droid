@@ -26,6 +26,7 @@ public class RssItem {
     public String getDescription() {
         return link;
     }
+    
     public String getArticleTitle() {
         if (article == null )
             return "";
