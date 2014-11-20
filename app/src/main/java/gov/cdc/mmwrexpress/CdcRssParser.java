@@ -22,8 +22,9 @@ public class CdcRssParser {
 
     public CdcRssParser (Context ctx) {
 
-        this.jsonArticleParser = new JsonArticleParser(realm);
+        Realm.deleteRealmFile(ctx);
         this.realm = Realm.getInstance(ctx);
+        this.jsonArticleParser = new JsonArticleParser(this.realm);
     }
 
     public List<RssItem> parse(InputStream inputStream) throws XmlPullParserException, IOException {
@@ -37,6 +38,8 @@ public class CdcRssParser {
             inputStream.close();
         }
     }
+
+
 
     private List<RssItem> readFeed(XmlPullParser parser) throws XmlPullParserException, IOException {
         parser.require(XmlPullParser.START_TAG, null, "rss");

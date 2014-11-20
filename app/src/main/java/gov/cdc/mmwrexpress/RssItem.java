@@ -31,7 +31,7 @@ public class RssItem {
         if (article == null )
             return "";
         else
-            return article.title;
+            return article.getTitle();
     }
 
 }

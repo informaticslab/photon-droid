@@ -46,6 +46,7 @@ public class RssAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+
         holder.itemTitle.setText(items.get(position).getArticleTitle());
 //        holder.itemTitle.setText(items.get(position).getDescription());
 

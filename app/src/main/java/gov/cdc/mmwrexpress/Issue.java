@@ -10,87 +10,61 @@
 
     import io.realm.RealmList;
     import io.realm.RealmObject;
+    import io.realm.annotations.RealmClass;
 
     /**
      * Created by jtq6 on 10/29/14.
      */
+    @RealmClass
     public class Issue extends RealmObject {
 
 
-        String title;
-        Date date;
-        Integer number;
-        Integer volume;
-        boolean unread;
-        RealmList<Article> articles;
+        private Date date;
+        private int number;
+        private int volume;
+        private boolean unread;
+        private RealmList<Article> articles;
 
-        public Issue () {
 
-        }
 
-        public void setIssue (String dateAsString, Integer vol, Integer num) {
-
-            this.date = getIssueDateFromString(dateAsString);
-            this.volume = vol;
-            this.number = num;
-
-        }
-
-        public static Date getIssueDateFromString(String dateAsString)
-        {
-            Date date = null;
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            try {
-                date = format.parse(dateAsString);
-                System.out.println(date);
-            } catch (ParseException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
+        public Date getDate() {
             return date;
+        }
 
+        public void setDate(Date date) {
+            this.date = date;
+        }
+
+        public int getNumber() {
+            return number;
+        }
+
+        public void setNumber(int number) {
+            this.number = number;
+        }
+
+        public int getVolume() {
+            return volume;
+        }
+
+        public void setVolume(int volume) {
+            this.volume = volume;
         }
 
 
-        public void updateUnreadArticleStatus() {
-
-            int unreadCount = 0;
-
-            for (Article article :articles) {
-                if (article.unread)
-                    unreadCount++;
-
-                if (unreadCount > 0)
-                    this.unread = true;
-                else
-                    this.unread = false;
-            }
-
+        public boolean isUnread() {
+            return unread;
         }
 
-        public Article addArticle(Article newArticle) {
-
-            newArticle.issue = this;
-            this.articles.add(newArticle);
-
-            return newArticle;
+        public void setUnread(boolean unread) {
+            this.unread = unread;
         }
 
-
-        public Article addArticleWithTitle(String title) {
-
-            Article newArticle = new Article();
-            newArticle.issue = this;
-            this.articles.add(newArticle);
-
-            return newArticle;
+        public RealmList<Article> getArticles() {
+            return articles;
         }
 
-
-        public Integer numberOfArticles() {
-
-            return articles.size();
+        public void setArticles(RealmList<Article> articles) {
+            this.articles = articles;
         }
-
     }

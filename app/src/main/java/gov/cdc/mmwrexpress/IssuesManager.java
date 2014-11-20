@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -52,14 +54,17 @@ public class IssuesManager {
     public Issue processRssIssue(String dateAsString, Integer volume, Integer number) {
 
 
-        Date date = Issue.getIssueDateFromString(dateAsString);
-        Issue foundIssue = realm.where(Issue.class).equalTo("date", date).equalTo("volume",volume).equalTo("number",number).findFirst();
+        Date date = getIssueDateFromString(dateAsString);
+        RealmQuery<Issue> query = realm.where(Issue.class).equalTo("volume",volume).equalTo("number",number);
+        Issue foundIssue = query.findFirst();
 
         if (foundIssue != null) {
             return foundIssue;
         } else {
             Issue newIssue = realm.createObject(Issue.class);
-            newIssue.setIssue(dateAsString, volume, number);
+            newIssue.setDate(date);
+            newIssue.setVolume(volume);
+            newIssue.setNumber(number);
 
             return newIssue;
         }
@@ -68,12 +73,12 @@ public class IssuesManager {
 
 
 
-    public Article createArticleInIssue(Issue issue, String title, Integer version) {
+    public Article createArticleInIssue(Issue issue, String title, int version) {
 
         Article newArticle = realm.createObject(Article.class);
-        newArticle.title = title;
-        newArticle.version = version;
-        issue.articles.add(newArticle);
+        newArticle.setTitle(title);
+        newArticle.setVersion(version);
+        issue.getArticles().add(newArticle);
         return newArticle;
 
     }
@@ -85,21 +90,21 @@ public class IssuesManager {
 
 
          // quick check for any articles at all
-        if (issue.articles.size() == 0) {
+        if (issue.getArticles().size() == 0) {
             Article newArticle = createArticleInIssue(issue, title, version);
             return newArticle;
         }
 
-        for (Article article: issue.articles) {
+        for (Article article: issue.getArticles()) {
 
             // check if article with this title already exists in current issue
-            if (article.title.equals(title)) {
+            if (article.getTitle().equals(title)) {
 
-                if (article.version == version)
+                if (article.getVersion() == version)
                     return article;
 
                 // check if version number is greater than current version
-                else if (article.version < version) {
+                else if (article.getVersion() < version) {
 
                     article.removeFromRealm();
                     Article newArticle = createArticleInIssue(issue, title, version);
@@ -154,6 +159,22 @@ public class IssuesManager {
 
     }
 
+
+     public static Date getIssueDateFromString(String dateAsString)
+    {
+        Date date = null;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            date = format.parse(dateAsString);
+            System.out.println(date);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return date;
+
+    }
 
 
 

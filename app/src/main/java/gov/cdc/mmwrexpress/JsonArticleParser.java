@@ -3,6 +3,7 @@ package gov.cdc.mmwrexpress;
 import android.content.Context;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,15 +41,33 @@ public class JsonArticleParser {
         this.issuesManager = new IssuesManager(realm);
     }
 
+    public boolean isJSONValid(String test) {
+        try {
+            new JSONObject(test);
+        } catch (JSONException ex) {
+            // e.g. in case JSONArray is valid as well...
+            try {
+                new JSONArray(test);
+            } catch (JSONException ex1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public Article parseJsonArticle(String jsonArticle) {
 
         if (jsonArticle == null)
             return null;
 
-        // create new JSON object from string
+        if (isJSONValid(jsonArticle) == false)
+            return null;
+
+            // create new JSON object from string
         try {
 
             JSONObject jsonObject = new JSONObject(jsonArticle);
+
             int size = jsonObject.length();
 
             realm.beginTransaction();
@@ -64,17 +83,17 @@ public class JsonArticleParser {
             // or in not there create a new one
             Article article = issuesManager.processRssArticle(issue, jsonObject.getString(TAG_TITLE),jsonObject.getInt(TAG_CONTENT_VER));
             if (article!= null ) {
-                article.already_known = jsonObject.getString(TAG_ALREADY_KNOWN);
-                article.added_by_report = jsonObject.getString(TAG_ADDED_BY_REPORT);
-                article.implications = jsonObject.getString(TAG_IMPLICATIONS);
-                article.url = jsonObject.getString(TAG_URL);
+                article.setAlready_known(jsonObject.getString(TAG_ALREADY_KNOWN));
+                article.setAdded_by_report(jsonObject.getString(TAG_ADDED_BY_REPORT));
+                article.setImplications(jsonObject.getString(TAG_IMPLICATIONS));
+                article.setUrl(jsonObject.getString(TAG_URL));
             }
             String[] keywords = new String[0];
 
             realm.commitTransaction();
 
 
-            Log.d("JsonArticleParser", "JSON Article title = " + jsonObject.getString(TAG_TITLE));
+            //Log.d("JsonArticleParser", "JSON Article title = " + jsonObject.getString(TAG_TITLE));
 
             //Log.d("JsonArticleParser", "JSON Article size = " + String.valueOf(size));
             //Log.d("JsonArticleParser", "JSON issue date  = " + jsonObject.getString(TAG_ISSUE_DATE));
