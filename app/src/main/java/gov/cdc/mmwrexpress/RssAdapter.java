@@ -9,25 +9,32 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import gov.cdc.mmwrexpress.R;
+import io.realm.Realm;
+import io.realm.RealmList;
+import io.realm.RealmResults;
 
 public class RssAdapter extends BaseAdapter {
 
-    private final List<RssItem> items;
+//    private final RealmList<Article> articles ;
     private final Context context;
+    private Realm realm;
+    private RealmResults<Article> articles;
 
     public RssAdapter(Context context, List<RssItem> items) {
-        this.items = items;
+        //this.items = items;
         this.context = context;
+        this.realm = Realm.getInstance(context);
+        this.articles = realm.where(Article.class).findAll();
     }
 
     @Override
     public int getCount() {
-        return items.size();
+        return articles.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return items.get(position);
+        return articles.get(position);
     }
 
     @Override
@@ -47,7 +54,7 @@ public class RssAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.itemTitle.setText(items.get(position).getArticleTitle());
+        holder.itemTitle.setText(articles.get(position).getTitle());
 //        holder.itemTitle.setText(items.get(position).getDescription());
 
         return convertView;
