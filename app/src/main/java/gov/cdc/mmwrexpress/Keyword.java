@@ -12,26 +12,39 @@ import io.realm.RealmObject;
  */
 public class Keyword extends RealmObject {
 
-    String text;
-    RealmList<Article> articles;
+    private String text;
+    private RealmList<Article> articles;
 
     public Keyword () {
 
 
     }
-    public Keyword(String text) {
+//    public Keyword(String text) {
+//
+//        this();
+//
+//        this.text = text;
+//    }
+//
+//    public void foundInArticle(Article article) {
+//
+//        this.articles.add(article);
+//    }
+//
+    public String getText() {
+        return text;
+    }
 
-        this();
-
+    public void setText(String text) {
         this.text = text;
     }
 
-    public void foundInArticle(Article article) {
-
-        this.articles.add(article);
+    public RealmList<Article> getArticles() {
+        return articles;
     }
 
-
-
+    public void setArticles(RealmList<Article> articles) {
+        this.articles = articles;
+    }
 }
 

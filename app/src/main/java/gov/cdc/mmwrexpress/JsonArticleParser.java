@@ -31,6 +31,7 @@ public class JsonArticleParser {
     private static final String TAG_ADDED_BY_REPORT = "added_by_report";
     private static final String TAG_IMPLICATIONS = "implications";
     private static final String TAG_TAGS = "tags";
+    private static final String TAG_TAG = "tag";
     private static final String TAG_URL = "url";
     private static final String TAG_CONTENT_VER = "content-ver";
     private static final String TAG_SCHEMA_VER = "schema-ver";
@@ -88,7 +89,22 @@ public class JsonArticleParser {
                 article.setImplications(jsonObject.getString(TAG_IMPLICATIONS));
                 article.setUrl(jsonObject.getString(TAG_URL));
             }
-            String[] keywords = new String[0];
+
+            try {
+                JSONArray keywordJsonArray = jsonObject.getJSONArray(TAG_TAGS);
+                JSONObject keywordJson;
+                String[] keywords = new String[keywordJsonArray.length()];
+                for (int i = 0; i < keywordJsonArray.length(); i++) {
+                    keywordJson = (JSONObject) keywordJsonArray.get(i);
+                    keywords[i] = keywordJson.getString(TAG_TAG);
+                }
+                issuesManager.addArticleKeywords(keywords, article);
+
+            } catch (JSONException ex ) {
+                ex.printStackTrace();
+
+            }
+
 
             realm.commitTransaction();
 

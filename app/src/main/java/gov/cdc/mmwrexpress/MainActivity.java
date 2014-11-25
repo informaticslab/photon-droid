@@ -29,7 +29,6 @@ public class MainActivity extends FragmentActivity {
 
     TextView mRssFeed;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +37,6 @@ public class MainActivity extends FragmentActivity {
         if (savedInstanceState == null) {
             addRssFragment();
         }
-
 
     }
 

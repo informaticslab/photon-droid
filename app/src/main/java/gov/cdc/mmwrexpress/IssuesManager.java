@@ -31,8 +31,6 @@ public class IssuesManager {
 
         this.hasIssues = false;
         this.realm = realm;
-//        this.issues = realm.allObjects(Issue.class);
-//        this.keywords = realm.allObjects(Keyword.class);
 
     }
 
@@ -40,7 +38,6 @@ public class IssuesManager {
     public void getAllKeywords() {
 
  //       this.keywords = Keyword.listAll(Keyword.class);
-
 
     }
 
@@ -90,10 +87,8 @@ public class IssuesManager {
 
 
          // quick check for any articles at all
-        if (issue.getArticles().size() == 0) {
-            Article newArticle = createArticleInIssue(issue, title, version);
-            return newArticle;
-        }
+        if (issue.getArticles().size() == 0)
+            return createArticleInIssue(issue, title, version);
 
         for (Article article: issue.getArticles()) {
 
@@ -107,8 +102,7 @@ public class IssuesManager {
                 else if (article.getVersion() < version) {
 
                     article.removeFromRealm();
-                    Article newArticle = createArticleInIssue(issue, title, version);
-                    return newArticle;
+                    return createArticleInIssue(issue, title, version);
 
                 }
             }
@@ -116,15 +110,17 @@ public class IssuesManager {
         }
 
         // no article matches so create one
-        Article newArticle = createArticleInIssue(issue, title, version);
-        return newArticle;
+        return createArticleInIssue(issue, title, version);
+
     }
 
     private Keyword getKeywordWithText(String text) {
 
+        this.keywords = realm.allObjects(Keyword.class);
+
         for (Keyword currKeyword : this.keywords) {
 
-            if (currKeyword.text.equals(text))
+            if (currKeyword.getText().equals(text))
                 return currKeyword;
         }
 
@@ -135,10 +131,9 @@ public class IssuesManager {
 
     private Keyword createNewKeywordInArticle(String text, Article article) {
 
-        Keyword newKeyword = new Keyword(text);
-        newKeyword.foundInArticle(article);
-        this.keywords.add(newKeyword);
-
+        Keyword newKeyword = realm.createObject(Keyword.class);
+        newKeyword.setText(text);
+        newKeyword.getArticles().add(article);
         return newKeyword;
     }
 
@@ -149,18 +144,17 @@ public class IssuesManager {
         for (String currKeyword : foundKeywords) {
 
             if ((keyword = getKeywordWithText(currKeyword)) == null) {
-                keyword = createNewKeywordInArticle(currKeyword, article);
+                createNewKeywordInArticle(currKeyword, article);
 
             } else {
-                keyword.foundInArticle(article);
+                keyword.getArticles().add(article);
 
             }
         }
 
     }
 
-
-     public static Date getIssueDateFromString(String dateAsString)
+    public static Date getIssueDateFromString(String dateAsString)
     {
         Date date = null;
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
