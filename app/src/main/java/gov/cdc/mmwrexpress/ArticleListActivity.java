@@ -25,7 +25,7 @@ import android.support.v4.app.FragmentTransaction;
 import gov.cdc.mmwrexpress.R;
 
 
-public class MainActivity extends FragmentActivity {
+public class ArticleListActivity extends FragmentActivity {
 
     TextView mRssFeed;
 
