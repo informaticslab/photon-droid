@@ -41,6 +41,7 @@ public class IssuesManager {
 
     }
 
+
     public Issue addNewIssue(Issue newIssue) {
 
         this.issues.add(newIssue);
@@ -67,7 +68,6 @@ public class IssuesManager {
         }
 
     }
-
 
 
     public Article createArticleInIssue(Issue issue, String title, int version) {

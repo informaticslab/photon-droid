@@ -18,8 +18,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import gov.cdc.mmwrexpress.R;
-
 public class RssFragment extends Fragment implements OnItemClickListener {
 
     private ProgressBar progressBar;
@@ -35,7 +33,7 @@ public class RssFragment extends Fragment implements OnItemClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (view == null) {
-            view = inflater.inflate(R.layout.fragment_layout, container, false);
+            view = inflater.inflate(R.layout.article_list_fragment, container, false);
             progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
             listView = (ListView) view.findViewById(R.id.listView);
             listView.setOnItemClickListener(this);

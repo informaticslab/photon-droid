@@ -1,14 +1,10 @@
 package gov.cdc.mmwrexpress;
 
-import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
@@ -21,8 +17,6 @@ import java.net.URL;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-
-import gov.cdc.mmwrexpress.R;
 
 
 public class ArticleListActivity extends FragmentActivity {
@@ -44,7 +38,7 @@ public class ArticleListActivity extends FragmentActivity {
         //IssuesManager issueMgr = new IssuesManager();
         //issueMgr.storeTest();
 
-        Log.d(Constants.MAIN_ACTIVITY,"Done with persistence tests.");
+        Log.d(Constants.ARTICLE_LIST_ACTIVITY,"Done with persistence tests.");
     }
 
     private void addRssFragment() {
