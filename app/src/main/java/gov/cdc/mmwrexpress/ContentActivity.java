@@ -11,31 +11,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 /**
- * Demonstrates a "screen-slide" animation using a {@link ViewPager}. Because {@link ViewPager}
- * automatically plays such an animation when calling {@link ViewPager#setCurrentItem(int)}, there
- * isn't any animation-specific code in this sample.
+ * Using a ViewPager to display "blue box" content from MMWR Weekly articles.
  *
- * <p>This sample shows a "next" button that advances the user to the next step in a wizard,
- * animating the current screen out (to the left) and the next screen in (from the right). The
- * reverse animation is played when the user presses the "previous" button.</p>
- *
- * @see ContentActivity
+ * Activity shows a "next" and "previous" button that can advance the user to the next page of
+ * content, as well as swiping.
  */
 public class ContentActivity extends FragmentActivity {
-    /**
-     * The number of pages (wizard steps) to show in this demo.
-     */
+
+     // number of content pages
     private static final int NUM_PAGES = 3;
 
-    /**
-     * The pager widget, which handles animation and allows swiping horizontally to access previous
-     * and next wizard steps.
-     */
+    //pager widget handles animation and swiping to other pages of content
     private ViewPager mPager;
 
-    /**
-     * The pager adapter, which provides the pages to the view pager widget.
-     */
+    // pager adapter provides pages view pager widget
     private PagerAdapter mPagerAdapter;
 
     @Override
@@ -43,7 +32,6 @@ public class ContentActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content);
 
-        // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ContentPagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
@@ -80,20 +68,17 @@ public class ContentActivity extends FragmentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // Navigate "up" the demo structure to the launchpad activity.
-                // See http://developer.android.com/design/patterns/navigation.html for more.
+                // Navigate "up" to the article list activity
                 NavUtils.navigateUpTo(this, new Intent(this, ArticleListActivity.class));
                 return true;
 
             case R.id.action_previous:
-                // Go to the previous step in the wizard. If there is no previous step,
-                // setCurrentItem will do nothing.
+                // go to the previous content page, if no previous step, setCurrentItem does nothing
                 mPager.setCurrentItem(mPager.getCurrentItem() - 1);
                 return true;
 
             case R.id.action_next:
-                // Advance to the next step in the wizard. If there is no next step, setCurrentItem
-                // will do nothing.
+                // go to  next content page, if no content then setCurrentItem will do nothing
                 mPager.setCurrentItem(mPager.getCurrentItem() + 1);
                 return true;
         }
@@ -102,7 +87,7 @@ public class ContentActivity extends FragmentActivity {
     }
 
     /**
-     * A pager adapter that represents the blue boxes in
+     * A pager adapter that represents the blue boxes in MMWR Weekly
      */
     private class ContentPagerAdapter extends FragmentStatePagerAdapter {
         public ContentPagerAdapter(android.support.v4.app.FragmentManager fm) {
