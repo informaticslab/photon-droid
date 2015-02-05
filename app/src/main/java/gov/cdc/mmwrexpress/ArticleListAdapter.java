@@ -8,19 +8,17 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import gov.cdc.mmwrexpress.R;
 import io.realm.Realm;
-import io.realm.RealmList;
 import io.realm.RealmResults;
 
-public class RssAdapter extends BaseAdapter {
+public class ArticleListAdapter extends BaseAdapter {
 
 //    private final RealmList<Article> articles ;
     private final Context context;
     private Realm realm;
     private RealmResults<Article> articles;
 
-    public RssAdapter(Context context, List<RssItem> items) {
+    public ArticleListAdapter(Context context, List<ArticleListItem> items) {
         //this.items = items;
         this.context = context;
         this.realm = Realm.getInstance(context);
@@ -62,5 +60,11 @@ public class RssAdapter extends BaseAdapter {
 
     static class ViewHolder {
         TextView itemTitle;
+    }
+
+    public Article getArticle(int position)
+    {
+        return (Article)this.getItem(position);
+
     }
 }

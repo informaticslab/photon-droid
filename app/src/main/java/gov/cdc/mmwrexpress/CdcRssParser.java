@@ -28,7 +28,7 @@ public class CdcRssParser {
         this.jsonArticleParser = new JsonArticleParser(this.realm);
     }
 
-    public List<RssItem> parse(InputStream inputStream) throws XmlPullParserException, IOException {
+    public List<ArticleListItem> parse(InputStream inputStream) throws XmlPullParserException, IOException {
         try {
             XmlPullParser parser = Xml.newPullParser();
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
@@ -42,14 +42,14 @@ public class CdcRssParser {
 
 
 
-    private List<RssItem> readFeed(XmlPullParser parser) throws XmlPullParserException, IOException {
+    private List<ArticleListItem> readFeed(XmlPullParser parser) throws XmlPullParserException, IOException {
         parser.require(XmlPullParser.START_TAG, null, "rss");
         String title = null;
         String link = null;
         String description = null;
         Article article = null;
 
-        List<RssItem> items = new ArrayList<RssItem>();
+        List<ArticleListItem> items = new ArrayList<ArticleListItem>();
         while (parser.next() != XmlPullParser.END_DOCUMENT) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
                 continue;
@@ -65,7 +65,7 @@ public class CdcRssParser {
 
             }
             if (title != null && link != null && description != null && article != null ) {
-                RssItem item = new RssItem(title, link, description, article);
+                ArticleListItem item = new ArticleListItem(title, link, description, article);
                 items.add(item);
                 title = null;
                 link = null;

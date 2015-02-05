@@ -44,7 +44,7 @@ public class ArticleListActivity extends FragmentActivity {
     private void addRssFragment() {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        RssFragment fragment = new RssFragment();
+        ArticleListFragment fragment = new ArticleListFragment();
         transaction.add(R.id.fragment_container, fragment);
         transaction.commit();
     }

@@ -1,14 +1,14 @@
 package gov.cdc.mmwrexpress;
 
 
-public class RssItem {
+public class ArticleListItem {
 
     private final String title;
     private final String link;
     private final String description;
     private Article article;
 
-    public RssItem(String title, String link, String description, Article article) {
+    public ArticleListItem(String title, String link, String description, Article article) {
         this.title = title;
         this.link = link;
         this.description = description;

@@ -18,7 +18,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-public class RssFragment extends Fragment implements OnItemClickListener {
+public class ArticleListFragment extends Fragment implements OnItemClickListener {
 
     private ProgressBar progressBar;
     private ListView listView;
@@ -63,9 +63,9 @@ public class RssFragment extends Fragment implements OnItemClickListener {
         @Override
         protected void onReceiveResult(int resultCode, Bundle resultData) {
             progressBar.setVisibility(View.GONE);
-            List<RssItem> items = (List<RssItem>) resultData.getSerializable(RssService.ITEMS);
+            List<ArticleListItem> items = (List<ArticleListItem>) resultData.getSerializable(RssService.ITEMS);
             if (items != null) {
-                RssAdapter adapter = new RssAdapter(getActivity(), items);
+                ArticleListAdapter adapter = new ArticleListAdapter(getActivity(), items);
                 listView.setAdapter(adapter);
             } else {
                 Toast.makeText(getActivity(), "An error occurred while accessing the CDC feed.",
@@ -76,8 +76,8 @@ public class RssFragment extends Fragment implements OnItemClickListener {
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        RssAdapter adapter = (RssAdapter) parent.getAdapter();
-        RssItem item = (RssItem) adapter.getItem(position);
+        ArticleListAdapter adapter = (ArticleListAdapter) parent.getAdapter();
+        ArticleListItem item = (ArticleListItem) adapter.getItem(position);
         Uri uri = Uri.parse(item.getLink());
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);

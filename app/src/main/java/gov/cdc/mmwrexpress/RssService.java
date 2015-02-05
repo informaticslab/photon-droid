@@ -8,15 +8,12 @@ import java.util.List;
 
 import org.xmlpull.v1.XmlPullParserException;
 
-import android.app.Activity;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.util.Log;
-
-import io.realm.Realm;
 
 public class RssService extends IntentService {
 
@@ -33,10 +30,10 @@ public class RssService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         Log.d(Constants.TAG, "Service started");
         ctx = this;
-        List<RssItem> rssItems = null;
+        List<ArticleListItem> articleListItems = null;
         try {
             CdcRssParser parser = new CdcRssParser(ctx);
-            rssItems = parser.parse(getInputStream(RSS_LINK));
+            articleListItems = parser.parse(getInputStream(RSS_LINK));
 
         } catch (XmlPullParserException e) {
             Log.w(e.getMessage(), e);
@@ -44,7 +41,7 @@ public class RssService extends IntentService {
             Log.w(e.getMessage(), e);
         }
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ITEMS, (Serializable) rssItems);
+        bundle.putSerializable(ITEMS, (Serializable) articleListItems);
         ResultReceiver receiver = intent.getParcelableExtra(RECEIVER);
         receiver.send(0, bundle);
     }
