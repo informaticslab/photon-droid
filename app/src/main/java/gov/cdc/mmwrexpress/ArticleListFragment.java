@@ -23,6 +23,7 @@ public class ArticleListFragment extends Fragment implements OnItemClickListener
     private ProgressBar progressBar;
     private ListView listView;
     private View view;
+    private ArticleListAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,9 +78,20 @@ public class ArticleListFragment extends Fragment implements OnItemClickListener
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ArticleListAdapter adapter = (ArticleListAdapter) parent.getAdapter();
-        ArticleListItem item = (ArticleListItem) adapter.getItem(position);
-        Uri uri = Uri.parse(item.getLink());
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        startActivity(intent);
+        Article article = (Article) adapter.getItem(position);
+
+        try {
+            // ((OnArticleSelectedListener) getActivity()).onArticleSelected(item.getArticleTitle());
+            ((OnArticleSelectedListener) getActivity()).onArticleSelected(article.getAlready_known(),
+                    article.getAdded_by_report(), article.getImplications());
+
+        }catch (ClassCastException cce) {
+
+
+        }
+    }
+
+    public interface OnArticleSelectedListener {
+        public void onArticleSelected(String known, String added, String implications);
     }
 }

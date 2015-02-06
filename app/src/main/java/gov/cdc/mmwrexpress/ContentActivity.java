@@ -23,6 +23,9 @@ public class ContentActivity extends FragmentActivity {
 
     //pager widget handles animation and swiping to other pages of content
     private ViewPager mPager;
+    private String known;
+    private String added;
+    private String implications;
 
     // pager adapter provides pages view pager widget
     private PagerAdapter mPagerAdapter;
@@ -31,6 +34,13 @@ public class ContentActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content);
+
+        // Get the message from the intent
+        Intent intent = getIntent();
+        known = intent.getStringExtra(Constants.ARTICLE_KNOWN_MSG);
+        added = intent.getStringExtra(Constants.ARTICLE_ADDED_MSG);
+        implications = intent.getStringExtra(Constants.ARTICLE_IMPLICATIONS_MSG);
+
 
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ContentPagerAdapter(getSupportFragmentManager());
@@ -45,6 +55,8 @@ public class ContentActivity extends FragmentActivity {
                 invalidateOptionsMenu();
             }
         });
+
+
     }
 
     @Override
@@ -96,7 +108,14 @@ public class ContentActivity extends FragmentActivity {
 
         @Override
         public android.support.v4.app.Fragment getItem(int position) {
-            return ContentPageFragment.create(position);
+            if (position == 0 )
+                return ContentPageFragment.create(position, "What is already known?", known);
+            if (position == 1 )
+                return ContentPageFragment.create(position, "What is added by this report?", added);
+            if (position == 2 )
+                return ContentPageFragment.create(position, "What are the implications for public health practice?", implications);
+
+            return null;
         }
 
         @Override

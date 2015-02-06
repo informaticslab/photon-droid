@@ -1,5 +1,6 @@
 package gov.cdc.mmwrexpress;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,8 +19,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import gov.cdc.mmwrexpress.Constants;
 
-public class ArticleListActivity extends FragmentActivity {
+public class ArticleListActivity extends FragmentActivity implements ArticleListFragment.OnArticleSelectedListener {
 
     TextView mRssFeed;
 
@@ -135,5 +137,17 @@ public class ArticleListActivity extends FragmentActivity {
         return null;
     }
 
+    public void onArticleSelected(String known, String added, String implications) {
+
+        Intent intent = new Intent(this, ContentActivity.class);
+        intent.putExtra(Constants.ARTICLE_KNOWN_MSG, known);
+        intent.putExtra(Constants.ARTICLE_ADDED_MSG, added);
+        intent.putExtra(Constants.ARTICLE_IMPLICATIONS_MSG, implications);
+
+        startActivity(intent);
+
+
+    }
 
 }
+

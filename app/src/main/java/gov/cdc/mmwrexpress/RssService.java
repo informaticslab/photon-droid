@@ -28,12 +28,14 @@ public class RssService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.d(Constants.TAG, "Service started");
+        Log.d(Constants.RSS_SERVICE, "Service started");
         ctx = this;
         List<ArticleListItem> articleListItems = null;
         try {
             CdcRssParser parser = new CdcRssParser(ctx);
-            articleListItems = parser.parse(getInputStream(RSS_LINK));
+            InputStream inputStream = getInputStream(RSS_LINK);
+            if (inputStream != null)
+                articleListItems = parser.parse(getInputStream(RSS_LINK));
 
         } catch (XmlPullParserException e) {
             Log.w(e.getMessage(), e);
@@ -51,7 +53,7 @@ public class RssService extends IntentService {
             URL url = new URL(link);
             return url.openConnection().getInputStream();
         } catch (IOException e) {
-            Log.w(Constants.TAG, "Exception while retrieving the input stream", e);
+            Log.w(Constants.RSS_SERVICE, "Exception while retrieving the input stream", e);
             return null;
         }
     }

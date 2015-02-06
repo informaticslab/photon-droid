@@ -16,15 +16,21 @@ import android.widget.TextView;
 public class ContentPageFragment extends Fragment {
 
     public static final String ARG_PAGE = "page";
+    public static final String BLUE_BOX_TITLE = "BLUE_BOX_TITLE";
+    public static final String BLUE_BOX_TEXT = "BLUE_BOX_TEXT";
 
-    private int mPageNumber;
-
+    private int pageNumber;
+    private String title;
+    private String text;
 
      // Factory method for this fragment class. Constructs a new fragment for the given page number.
-    public static ContentPageFragment create(int pageNumber) {
+    public static ContentPageFragment create(int pageNumber, String title, String text) {
         ContentPageFragment fragment = new ContentPageFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PAGE, pageNumber);
+        args.putString(BLUE_BOX_TITLE, title);
+        args.putString(BLUE_BOX_TEXT, text);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -35,7 +41,9 @@ public class ContentPageFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPageNumber = getArguments().getInt(ARG_PAGE);
+        pageNumber = getArguments().getInt(ARG_PAGE);
+        title = getArguments().getString(BLUE_BOX_TITLE);
+        text = getArguments().getString(BLUE_BOX_TEXT);
     }
 
     @Override
@@ -46,8 +54,9 @@ public class ContentPageFragment extends Fragment {
                 .inflate(R.layout.fragment_content_page, container, false);
 
         // set the title view to show the page number.
-        ((TextView) rootView.findViewById(android.R.id.text1)).setText(
-                getString(R.string.title_template_step, mPageNumber + 1));
+        ((TextView) rootView.findViewById(R.id.blue_box_title)).setText(title);
+        ((TextView) rootView.findViewById(R.id.blue_box_text)).setText(text);
+
 
         return rootView;
     }
@@ -56,6 +65,6 @@ public class ContentPageFragment extends Fragment {
      * Returns the page number represented by this fragment object.
      */
     public int getPageNumber() {
-        return mPageNumber;
+        return pageNumber;
     }
 }

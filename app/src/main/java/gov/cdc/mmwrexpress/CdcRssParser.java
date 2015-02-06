@@ -36,7 +36,8 @@ public class CdcRssParser {
             parser.nextTag();
             return readFeed(parser);
         } finally {
-            inputStream.close();
+            if (inputStream != null)
+                inputStream.close();
         }
     }
 
