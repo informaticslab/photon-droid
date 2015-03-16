@@ -74,7 +74,7 @@ public class JsonArticleParser {
             realm.beginTransaction();
 
             // process issue found in RSS feed and find stored issue
-            // or in not there create a new one
+            // if no stored issue create a new one
             Issue issue = issuesManager.processRssIssue(jsonObject.getString(TAG_ISSUE_DATE),
                     jsonObject.getInt(TAG_ISSUE_VOL), jsonObject.getInt(TAG_ISSUE_NUM));
 
@@ -83,28 +83,29 @@ public class JsonArticleParser {
             // process article found in RSS feed and find stored issue
             // or in not there create a new one
             Article article = issuesManager.processRssArticle(issue, jsonObject.getString(TAG_TITLE),jsonObject.getInt(TAG_CONTENT_VER));
-            if (article!= null ) {
+            if (article != null) {
+
                 article.setAlready_known(jsonObject.getString(TAG_ALREADY_KNOWN));
                 article.setAdded_by_report(jsonObject.getString(TAG_ADDED_BY_REPORT));
                 article.setImplications(jsonObject.getString(TAG_IMPLICATIONS));
                 article.setUrl(jsonObject.getString(TAG_URL));
-            }
 
-            try {
-                JSONArray keywordJsonArray = jsonObject.getJSONArray(TAG_TAGS);
-                JSONObject keywordJson;
-                String[] keywords = new String[keywordJsonArray.length()];
-                for (int i = 0; i < keywordJsonArray.length(); i++) {
-                    keywordJson = (JSONObject) keywordJsonArray.get(i);
-                    keywords[i] = keywordJson.getString(TAG_TAG);
+                try {
+                    JSONArray keywordJsonArray = jsonObject.getJSONArray(TAG_TAGS);
+                    JSONObject keywordJson;
+                    String[] keywords = new String[keywordJsonArray.length()];
+                    for (int i = 0; i < keywordJsonArray.length(); i++) {
+                        keywordJson = (JSONObject) keywordJsonArray.get(i);
+                        keywords[i] = keywordJson.getString(TAG_TAG);
+                    }
+                    issuesManager.addArticleKeywords(keywords, article);
+
+                } catch (JSONException ex ) {
+                    ex.printStackTrace();
+                    realm.cancelTransaction();
                 }
-                issuesManager.addArticleKeywords(keywords, article);
-
-            } catch (JSONException ex ) {
-                ex.printStackTrace();
 
             }
-
 
             realm.commitTransaction();
 

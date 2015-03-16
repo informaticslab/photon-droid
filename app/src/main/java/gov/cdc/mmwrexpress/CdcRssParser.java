@@ -23,7 +23,7 @@ public class CdcRssParser {
     public CdcRssParser (Context ctx) {
 
         // uncomment this line and run once when data model changes
-        Realm.deleteRealmFile(ctx);
+        //Realm.deleteRealmFile(ctx);
         this.realm = Realm.getInstance(ctx);
         this.jsonArticleParser = new JsonArticleParser(this.realm);
     }
@@ -51,6 +51,8 @@ public class CdcRssParser {
         Article article = null;
 
         List<ArticleListItem> items = new ArrayList<ArticleListItem>();
+
+        // get RSS2 tags <title>, <link> and <description>
         while (parser.next() != XmlPullParser.END_DOCUMENT) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
                 continue;
@@ -59,8 +61,12 @@ public class CdcRssParser {
             if (name.equals("title")) {
                 title = readTitle(parser);
             } else if (name.equals("link")) {
+
+                // link to the article on the CDC website
                 link = readLink(parser);
             } else if (name.equals("description")) {
+
+                // all content for blue boxes of article are store in description
                 description = readDescription(parser);
                 article = this.jsonArticleParser.parseJsonArticle(description);
 

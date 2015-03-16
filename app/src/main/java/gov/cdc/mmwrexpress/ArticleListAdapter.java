@@ -1,10 +1,12 @@
 package gov.cdc.mmwrexpress;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodSubtype;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -16,23 +18,34 @@ public class ArticleListAdapter extends BaseAdapter {
 //    private final RealmList<Article> articles ;
     private final Context context;
     private Realm realm;
+    private RealmResults<Issue> issues;
     private RealmResults<Article> articles;
+    private ArrayList<Article> sortedArticles;
 
-    public ArticleListAdapter(Context context, List<ArticleListItem> items) {
+    public ArticleListAdapter(Context context) {
         //this.items = items;
         this.context = context;
         this.realm = Realm.getInstance(context);
-        this.articles = realm.where(Article.class).findAll();
-    }
+        this.issues = realm.where(Issue.class).findAllSorted("date", RealmResults.SORT_ORDER_DESCENDING);
+        this.sortedArticles = new ArrayList<Article>();
+
+        // use sorted articles for list view
+        for (Issue issue: issues) {
+            for (Article article: issue.getArticles()) {
+                this.sortedArticles.add(article);
+
+            }
+        }
+   }
 
     @Override
     public int getCount() {
-        return articles.size();
+        return sortedArticles.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return articles.get(position);
+        return sortedArticles.get(position);
     }
 
     @Override
@@ -52,7 +65,7 @@ public class ArticleListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.itemTitle.setText(articles.get(position).getTitle());
+        holder.itemTitle.setText(sortedArticles.get(position).getTitle());
 //        holder.itemTitle.setText(items.get(position).getDescription());
 
         return convertView;

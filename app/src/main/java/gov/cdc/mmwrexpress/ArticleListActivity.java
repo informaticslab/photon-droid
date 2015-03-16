@@ -19,8 +19,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import gov.cdc.mmwrexpress.Constants;
-
 public class ArticleListActivity extends FragmentActivity implements ArticleListFragment.OnArticleSelectedListener {
 
     TextView mRssFeed;
@@ -31,7 +29,7 @@ public class ArticleListActivity extends FragmentActivity implements ArticleList
         setContentView(R.layout.main);
 
         if (savedInstanceState == null) {
-            addRssFragment();
+            addArticleListFragment();
         }
 
     }
@@ -43,7 +41,7 @@ public class ArticleListActivity extends FragmentActivity implements ArticleList
         Log.d(Constants.ARTICLE_LIST_ACTIVITY,"Done with persistence tests.");
     }
 
-    private void addRssFragment() {
+    private void addArticleListFragment() {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         ArticleListFragment fragment = new ArticleListFragment();
@@ -145,7 +143,6 @@ public class ArticleListActivity extends FragmentActivity implements ArticleList
         intent.putExtra(Constants.ARTICLE_IMPLICATIONS_MSG, implications);
 
         startActivity(intent);
-
 
     }
 

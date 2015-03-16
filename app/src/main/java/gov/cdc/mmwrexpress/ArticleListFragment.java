@@ -3,12 +3,15 @@ package gov.cdc.mmwrexpress;
 
 import java.util.List;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +21,13 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-public class ArticleListFragment extends Fragment implements OnItemClickListener {
+public class ArticleListFragment extends Fragment implements OnItemClickListener, OnRefreshListener {
 
     private ProgressBar progressBar;
     private ListView listView;
     private View view;
     private ArticleListAdapter adapter;
+    private SwipeRefreshLayout swipeLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +42,17 @@ public class ArticleListFragment extends Fragment implements OnItemClickListener
             progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
             listView = (ListView) view.findViewById(R.id.listView);
             listView.setOnItemClickListener(this);
-            startService();
+            swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+            swipeLayout.setOnRefreshListener(new OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    swipeLayout.setRefreshing(true);
+                    startService();
+                }
+            });
+
+            readStoredArticles();
+            //startService();
         } else {
             // If we are returning from a configuration change:
             // "view" is still attached to the previous view hierarchy
@@ -49,10 +63,30 @@ public class ArticleListFragment extends Fragment implements OnItemClickListener
         return view;
     }
 
+    @Override public void onRefresh() {
+    }
+
     private void startService() {
         Intent intent = new Intent(getActivity(), RssService.class);
         intent.putExtra(RssService.RECEIVER, resultReceiver);
         getActivity().startService(intent);
+    }
+
+    private void readStoredArticles() {
+
+        // read stored articles
+        this.adapter = new ArticleListAdapter(getActivity());
+        listView.setAdapter(adapter);
+
+    }
+
+
+    private void refreshFromStoredArticles() {
+
+        // reread stored articles
+        this.adapter.notifyDataSetChanged();
+        listView.invalidateViews();
+
     }
 
     /**
@@ -66,12 +100,13 @@ public class ArticleListFragment extends Fragment implements OnItemClickListener
             progressBar.setVisibility(View.GONE);
             List<ArticleListItem> items = (List<ArticleListItem>) resultData.getSerializable(RssService.ITEMS);
             if (items != null) {
-                ArticleListAdapter adapter = new ArticleListAdapter(getActivity(), items);
-                listView.setAdapter(adapter);
+                refreshFromStoredArticles();
             } else {
                 Toast.makeText(getActivity(), "An error occurred while accessing the CDC feed.",
                         Toast.LENGTH_LONG).show();
             }
+
+            swipeLayout.setRefreshing(false);
         };
     };
 
@@ -85,7 +120,7 @@ public class ArticleListFragment extends Fragment implements OnItemClickListener
             ((OnArticleSelectedListener) getActivity()).onArticleSelected(article.getAlready_known(),
                     article.getAdded_by_report(), article.getImplications());
 
-        }catch (ClassCastException cce) {
+        } catch (ClassCastException cce) {
 
 
         }

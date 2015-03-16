@@ -85,7 +85,6 @@ public class IssuesManager {
     // otherwise return null
     public Article processRssArticle(Issue issue, String title, Integer version) {
 
-
          // quick check for any articles at all
         if (issue.getArticles().size() == 0)
             return createArticleInIssue(issue, title, version);
@@ -95,16 +94,20 @@ public class IssuesManager {
             // check if article with this title already exists in current issue
             if (article.getTitle().equals(title)) {
 
-                if (article.getVersion() == version)
-                    return article;
+                // check if version number of stored article is less than
+                // version number of article from RSS feed
+                if (article.getVersion() < version) {
 
-                // check if version number is greater than current version
-                else if (article.getVersion() < version) {
-
+                    // delete stored article and create new one
                     article.removeFromRealm();
                     return createArticleInIssue(issue, title, version);
 
                 }
+
+                 // if already have this article, return null
+                if (article.getVersion() == version)
+                    return null;
+
             }
 
         }
@@ -147,7 +150,10 @@ public class IssuesManager {
                 createNewKeywordInArticle(currKeyword, article);
 
             } else {
-                keyword.getArticles().add(article);
+                if (article == null)
+                    Log.d("IssueManager", "Attempt to add null article to keyword " + keyword.getText());
+
+                    keyword.getArticles().add(article);
 
             }
         }
@@ -160,7 +166,7 @@ public class IssuesManager {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
             date = format.parse(dateAsString);
-            System.out.println(date);
+            //System.out.println(date);
         } catch (ParseException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
