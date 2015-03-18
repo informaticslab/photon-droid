@@ -4,7 +4,7 @@
     android:layout_height="wrap_content" >
 
     <ImageView
-        android:id="@+id/icon"
+        android:id="@+id/blueDot"
         android:layout_width="22px"
         android:layout_height="22px"
         android:layout_marginLeft="4px"
@@ -14,7 +14,7 @@
     </ImageView>
 
     <TextView
-        android:id="@+id/itemTitle"
+        android:id="@+id/articleTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"

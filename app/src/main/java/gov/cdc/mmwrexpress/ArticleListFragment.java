@@ -113,16 +113,19 @@ public class ArticleListFragment extends Fragment implements OnItemClickListener
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ArticleListAdapter adapter = (ArticleListAdapter) parent.getAdapter();
-        Article article = (Article) adapter.getItem(position);
-
-        try {
-            // ((OnArticleSelectedListener) getActivity()).onArticleSelected(item.getArticleTitle());
-            ((OnArticleSelectedListener) getActivity()).onArticleSelected(article.getAlready_known(),
-                    article.getAdded_by_report(), article.getImplications());
-
-        } catch (ClassCastException cce) {
+        if (adapter.itemIsArticle(position)) {
+            Article article = (Article) adapter.getArticle(position);
 
 
+            try {
+                // ((OnArticleSelectedListener) getActivity()).onArticleSelected(item.getArticleTitle());
+                ((OnArticleSelectedListener) getActivity()).onArticleSelected(article.getAlready_known(),
+                        article.getAdded_by_report(), article.getImplications());
+
+            } catch (ClassCastException cce) {
+
+
+            }
         }
     }
 

@@ -1,12 +1,11 @@
 package gov.cdc.mmwrexpress;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodSubtype;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -15,24 +14,61 @@ import io.realm.RealmResults;
 
 public class ArticleListAdapter extends BaseAdapter {
 
-//    private final RealmList<Article> articles ;
+
+    //    private final RealmList<Article> articles ;
     private final Context context;
-    private Realm realm;
-    private RealmResults<Issue> issues;
-    private RealmResults<Article> articles;
-    private ArrayList<Article> sortedArticles;
+    private ArrayList<Article> articles;
+    private ArrayList<IssueArticleItem> listItems;
+    private class IssueArticleItem {
+
+        private static final int ISSUE = 0;
+        private static final int ARTICLE = 1;
+
+        private int type;
+        private String text;
+        private Article article;
+
+
+        private IssueArticleItem(Issue issue) {
+
+            this.type = ISSUE;
+            this.article = null;
+            DateFormat df = DateFormat.getDateInstance();
+            this.text = df.format(issue.getDate()) + "                         VOL " + String.valueOf(issue.getVolume())
+                    + " NO " + String.valueOf(issue.getNumber());
+
+        }
+
+        private IssueArticleItem(Article article) {
+
+            this.type = ARTICLE;
+            this.text = article.getTitle();
+            this.article = article;
+
+        }
+
+    }
 
     public ArticleListAdapter(Context context) {
+
+        Realm realm;
+        RealmResults<Issue> issues;
+        IssueArticleItem item;
+
         //this.items = items;
         this.context = context;
-        this.realm = Realm.getInstance(context);
-        this.issues = realm.where(Issue.class).findAllSorted("date", RealmResults.SORT_ORDER_DESCENDING);
-        this.sortedArticles = new ArrayList<Article>();
+        realm = Realm.getInstance(context);
+        issues = realm.where(Issue.class).findAllSorted("date", RealmResults.SORT_ORDER_DESCENDING);
+        this.articles = new ArrayList<Article>();
+        this.listItems = new ArrayList<IssueArticleItem>();
 
         // use sorted articles for list view
         for (Issue issue: issues) {
+            item = new IssueArticleItem(issue);
+            listItems.add(item);
             for (Article article: issue.getArticles()) {
-                this.sortedArticles.add(article);
+                item = new IssueArticleItem(article);
+                listItems.add(item);
 
             }
         }
@@ -40,12 +76,12 @@ public class ArticleListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return sortedArticles.size();
+        return listItems.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return sortedArticles.get(position);
+        return listItems.get(position);
     }
 
     @Override
@@ -55,19 +91,26 @@ public class ArticleListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         ViewHolder holder;
+        IssueArticleItem item  = listItems.get(position);
+
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.rss_item, null);
             holder = new ViewHolder();
-            holder.itemTitle = (TextView) convertView.findViewById(R.id.itemTitle);
+            if (item.type == IssueArticleItem.ARTICLE) {
+                convertView = View.inflate(context, R.layout.article_list_item, null);
+                holder.itemTitle = (TextView) convertView.findViewById(R.id.articleTitle);
+            } else if (item.type == IssueArticleItem.ISSUE) {
+                convertView = View.inflate(context, R.layout.issue_list_item, null);
+                holder.itemTitle = (TextView) convertView.findViewById(R.id.issueTitle);
+            }
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.itemTitle.setText(sortedArticles.get(position).getTitle());
-//        holder.itemTitle.setText(items.get(position).getDescription());
-
+        //holder.itemTitle.setText(articles.get(position).getTitle());
+        holder.itemTitle.setText(listItems.get(position).text);
         return convertView;
     }
 
@@ -75,9 +118,23 @@ public class ArticleListAdapter extends BaseAdapter {
         TextView itemTitle;
     }
 
-    public Article getArticle(int position)
-    {
-        return (Article)this.getItem(position);
+    public boolean itemIsArticle(int position) {
+        if (listItems.get(position).type == IssueArticleItem.ARTICLE)
+            return true;
+        else
+            return false;
+
 
     }
+
+    public Article getArticle(int position) {
+
+        IssueArticleItem selectedItem = listItems.get(position);
+        if (selectedItem.type == IssueArticleItem.ARTICLE)
+            return selectedItem.article;
+        else
+            return null;
+
+    }
+
 }

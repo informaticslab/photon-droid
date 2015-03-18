@@ -26,7 +26,6 @@
         private RealmList<Article> articles;
 
 
-
         public Date getDate() {
             return date;
         }
