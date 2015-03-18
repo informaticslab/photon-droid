@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -34,7 +35,7 @@ public class ArticleListAdapter extends BaseAdapter {
             this.type = ISSUE;
             this.article = null;
             DateFormat df = DateFormat.getDateInstance();
-            this.text = df.format(issue.getDate()) + "                         VOL " + String.valueOf(issue.getVolume())
+            this.text = df.format(issue.getDate()) + "                     VOL " + String.valueOf(issue.getVolume())
                     + " NO " + String.valueOf(issue.getNumber());
 
         }
@@ -79,6 +80,19 @@ public class ArticleListAdapter extends BaseAdapter {
         return listItems.size();
     }
 
+
+    @Override
+    public int getItemViewType(int position) {
+        return listItems.get(position).type;
+
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return 2;
+    }
+
+
     @Override
     public Object getItem(int position) {
         return listItems.get(position);
@@ -92,7 +106,7 @@ public class ArticleListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ViewHolder holder;
+        ViewHolder holder = null;
         IssueArticleItem item  = listItems.get(position);
 
         if (convertView == null) {
@@ -100,9 +114,12 @@ public class ArticleListAdapter extends BaseAdapter {
             if (item.type == IssueArticleItem.ARTICLE) {
                 convertView = View.inflate(context, R.layout.article_list_item, null);
                 holder.itemTitle = (TextView) convertView.findViewById(R.id.articleTitle);
+                Log.d("ArticleListAdapter", "article view");
             } else if (item.type == IssueArticleItem.ISSUE) {
                 convertView = View.inflate(context, R.layout.issue_list_item, null);
                 holder.itemTitle = (TextView) convertView.findViewById(R.id.issueTitle);
+                Log.d("ArticleListAdapter", "issue view");
+
             }
             convertView.setTag(holder);
         } else {
