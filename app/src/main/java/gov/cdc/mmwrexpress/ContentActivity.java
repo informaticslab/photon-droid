@@ -56,7 +56,6 @@ public class ContentActivity extends FragmentActivity {
             }
         });
 
-
     }
 
     @Override

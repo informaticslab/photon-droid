@@ -115,7 +115,13 @@ public class ArticleListFragment extends Fragment implements OnItemClickListener
         ArticleListAdapter adapter = (ArticleListAdapter) parent.getAdapter();
         if (adapter.itemIsArticle(position)) {
             Article article = (Article) adapter.getArticle(position);
+            adapter.setArticleReadState(article);
+            // read stored articles
+            this.adapter = new ArticleListAdapter(getActivity());
+            listView.setAdapter(adapter);
 
+            //adapter.setListData(getListData());
+//            adapter.notifyDataSetChanged();
 
             try {
                 // ((OnArticleSelectedListener) getActivity()).onArticleSelected(item.getArticleTitle());

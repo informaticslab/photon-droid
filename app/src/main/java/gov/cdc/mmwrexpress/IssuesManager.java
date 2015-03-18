@@ -75,6 +75,7 @@ public class IssuesManager {
         Article newArticle = realm.createObject(Article.class);
         newArticle.setTitle(title);
         newArticle.setVersion(version);
+        newArticle.setUnread(true);
         issue.getArticles().add(newArticle);
         return newArticle;
 

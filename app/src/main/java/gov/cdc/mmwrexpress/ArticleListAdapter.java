@@ -57,7 +57,10 @@ public class ArticleListAdapter extends BaseAdapter {
         IssueArticleItem item;
 
         //this.items = items;
+
+
         this.context = context;
+        //Realm.deleteRealmFile(context);
         realm = Realm.getInstance(context);
         issues = realm.where(Issue.class).findAllSorted("date", RealmResults.SORT_ORDER_DESCENDING);
         this.articles = new ArrayList<Article>();
@@ -112,7 +115,12 @@ public class ArticleListAdapter extends BaseAdapter {
         if (convertView == null) {
             holder = new ViewHolder();
             if (item.type == IssueArticleItem.ARTICLE) {
-                convertView = View.inflate(context, R.layout.article_list_item, null);
+                Article article = getArticle(position);
+                if (article.isUnread())
+                    convertView = View.inflate(context, R.layout.article_list_item, null);
+                else
+                    convertView = View.inflate(context, R.layout.article_list_read_item, null);
+
                 holder.itemTitle = (TextView) convertView.findViewById(R.id.articleTitle);
                 Log.d("ArticleListAdapter", "article view");
             } else if (item.type == IssueArticleItem.ISSUE) {
@@ -151,6 +159,19 @@ public class ArticleListAdapter extends BaseAdapter {
             return selectedItem.article;
         else
             return null;
+
+    }
+
+    public void setArticleReadState(Article article) {
+
+        Realm realm = Realm.getInstance(context);
+
+        realm.beginTransaction();
+
+        article.setUnread(false);
+
+        realm.commitTransaction();
+
 
     }
 
