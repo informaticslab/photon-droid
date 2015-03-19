@@ -14,7 +14,7 @@
     </ImageView>
 
     <TextView
-        android:id="@+id/articleTitle"
+        android:id="@+id/unreadArticleTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"

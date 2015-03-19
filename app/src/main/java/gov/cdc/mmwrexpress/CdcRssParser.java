@@ -23,7 +23,6 @@ public class CdcRssParser {
     public CdcRssParser (Context ctx) {
 
         // uncomment this line and run once when data model changes
-        //Realm.deleteRealmFile(ctx);
         this.realm = Realm.getInstance(ctx);
         this.jsonArticleParser = new JsonArticleParser(this.realm);
     }
