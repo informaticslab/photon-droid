@@ -3,9 +3,7 @@ package gov.cdc.mmwrexpress;
 
 import java.util.List;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
@@ -28,8 +26,10 @@ public class ArticleListFragment extends Fragment implements OnItemClickListener
     private View view;
     private ArticleListAdapter adapter;
     private SwipeRefreshLayout swipeLayout;
-
+    private int index = -1;
+    private int top = 0;
     @Override
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
@@ -66,6 +66,26 @@ public class ArticleListFragment extends Fragment implements OnItemClickListener
     @Override public void onRefresh() {
     }
 
+    @Override
+    public void onPause() {
+        //state = listView.onSaveInstanceState();
+        super.onPause();
+//        index = this.getListView().getFirstVisiblePosition();
+//        View v = this.getListView().getChildAt(0);
+//        top = (v == null) ? 0 : v.getTop();
+
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        //listView.onRestoreInstanceState(state);
+//        setListAdapter(adapter);
+//        if(index!=-1){
+//            this.getListView().setSelectionFromTop(index, top);
+//        }
+
+    }
+
     private void startService() {
         Intent intent = new Intent(getActivity(), RssService.class);
         intent.putExtra(RssService.RECEIVER, resultReceiver);
@@ -84,6 +104,7 @@ public class ArticleListFragment extends Fragment implements OnItemClickListener
     private void refreshFromStoredArticles() {
 
         // reread stored articles
+        this.adapter.refreshData();
         this.adapter.notifyDataSetChanged();
         listView.invalidateViews();
 

@@ -59,15 +59,19 @@ public class ArticleListAdapter extends BaseAdapter {
 
     public ArticleListAdapter(Context context) {
 
-        IssueArticleItem item;
-
-        //this.items = items;
-
-
         this.context = context;
         //Realm.deleteRealmFile(context);
         this.realm = Realm.getInstance(context);
         Log.d("ArticleListAdapter", "realm path: " + realm.getPath());
+
+        // refresh data from database
+        this.refreshData();
+     }
+
+    public void refreshData() {
+
+        IssueArticleItem item;
+
         issues = realm.where(Issue.class).findAllSorted("date", RealmResults.SORT_ORDER_DESCENDING);
         Log.d("ArticleListAdapter", "Issues size = " + String.valueOf(issues.size()));
         this.articles = new ArrayList<Article>();
@@ -87,7 +91,9 @@ public class ArticleListAdapter extends BaseAdapter {
 
             }
         }
-   }
+
+    }
+
 
     @Override
     public boolean isEnabled (int position) {

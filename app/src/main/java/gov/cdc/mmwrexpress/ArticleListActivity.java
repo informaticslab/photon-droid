@@ -75,66 +75,6 @@ public class ArticleListActivity extends FragmentActivity implements ArticleList
         return super.onOptionsItemSelected(item);
     }
 
-    private class GetRssFeedTask extends AsyncTask<Void, Void, String> {
-
-        @Override
-        protected String doInBackground(Void... voids) {
-            String result = "";
-            try {
-                result = getMmwrExpressRssFeed();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(String rssFeed) {
-            mRssFeed = (TextView)findViewById(R.id.rss_feed);
-            mRssFeed.setText(rssFeed);
-        }
-
-        @Override
-        protected void onPreExecute() {
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-        }
-
-    }
-
-    private String getMmwrExpressRssFeed() throws IOException {
-        InputStream in = null;
-        try {
-            //URL url = new URL("http://www.androidpit.com/feed/main.xml");
-            URL url = new URL("http://t.cdc.gov/feed.aspx?feedid=100");
-
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            in = conn.getInputStream();
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024*128*16*16];
-            for (int count; (count = in.read(buffer)) != -1; ) {
-                out.write(buffer, 0, count);
-                System.out.println("Looping for RSS data.");
-            }
-            byte[] response = out.toByteArray();
-            String rssFeed = new String(response, "UTF-8");
-            return rssFeed;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return null;
-    }
-
     public void onArticleSelected(String known, String added, String implications) {
 
         Intent intent = new Intent(this, ContentActivity.class);
