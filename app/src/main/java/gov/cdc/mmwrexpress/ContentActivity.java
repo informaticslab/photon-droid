@@ -27,6 +27,11 @@ public class ContentActivity extends FragmentActivity {
     private String added;
     private String implications;
 
+    // Images for each content pages
+    private static int known_image_id = R.drawable.known_icon;
+    private static int added_image_id = R.drawable.added_icon;
+    private static int implications_image_id = R.drawable.implications_icon;
+
     // pager adapter provides pages view pager widget
     private PagerAdapter mPagerAdapter;
 
@@ -108,11 +113,11 @@ public class ContentActivity extends FragmentActivity {
         @Override
         public android.support.v4.app.Fragment getItem(int position) {
             if (position == 0 )
-                return ContentPageFragment.create(position, "What is already known?", known);
+                return ContentPageFragment.create(position, "What is already known?", known, known_image_id);
             if (position == 1 )
-                return ContentPageFragment.create(position, "What is added by this report?", added);
+                return ContentPageFragment.create(position, "What is added by this report?", added, added_image_id);
             if (position == 2 )
-                return ContentPageFragment.create(position, "What are the implications for public health practice?", implications);
+                return ContentPageFragment.create(position, "What are the implications for public health practice?", implications, implications_image_id);
 
             return null;
         }
