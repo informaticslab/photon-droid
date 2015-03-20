@@ -28,8 +28,9 @@ public class ArticleListFragment extends Fragment implements OnItemClickListener
     private SwipeRefreshLayout swipeLayout;
     private int index = -1;
     private int top = 0;
-    @Override
 
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
