@@ -68,15 +68,25 @@ public class ContentActivity extends FragmentActivity {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.activity_content, menu);
 
-        menu.findItem(R.id.action_previous).setEnabled(mPager.getCurrentItem() > 0);
+        //menu.findItem(R.id.action_previous).setEnabled(mPager.getCurrentItem() > 0);
+
+        // Add either a "previous" or "finish" button to the action bar, depending on which page
+        // is currently selected.
+        MenuItem previous_item = menu.add(Menu.NONE, R.id.action_previous, Menu.NONE,
+                (mPager.getCurrentItem() == 0)
+                        ? R.string.action_finish
+                        : R.string.action_previous);
+        previous_item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
         // Add either a "next" or "finish" button to the action bar, depending on which page
         // is currently selected.
-        MenuItem item = menu.add(Menu.NONE, R.id.action_next, Menu.NONE,
+        MenuItem next_item = menu.add(Menu.NONE, R.id.action_next, Menu.NONE,
                 (mPager.getCurrentItem() == mPagerAdapter.getCount() - 1)
                         ? R.string.action_finish
                         : R.string.action_next);
-        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+        next_item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+
+
         return true;
     }
 
@@ -89,12 +99,22 @@ public class ContentActivity extends FragmentActivity {
                 return true;
 
             case R.id.action_previous:
-                // go to the previous content page, if no previous step, setCurrentItem does nothing
-                mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+                // go to the previous content page, if no previous step, go home
+                if (mPager.getCurrentItem() == 0) {
+                    // Navigate "up" to the article list activity
+                    NavUtils.navigateUpTo(this, new Intent(this, ArticleListActivity.class));
+
+                } else
+                    mPager.setCurrentItem(mPager.getCurrentItem() - 1);
                 return true;
 
             case R.id.action_next:
-                // go to  next content page, if no content then setCurrentItem will do nothing
+                // go to  next content page, if no content then go home
+                if (mPager.getCurrentItem() == mPagerAdapter.getCount() - 1) {
+                    // Navigate "up" to the article list activity
+                    NavUtils.navigateUpTo(this, new Intent(this, ArticleListActivity.class));
+
+                } else
                 mPager.setCurrentItem(mPager.getCurrentItem() + 1);
                 return true;
         }
