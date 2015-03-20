@@ -1,10 +1,13 @@
 package gov.cdc.mmwrexpress;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -18,6 +21,7 @@ import java.net.URL;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.widget.Toast;
 
 public class ArticleListActivity extends FragmentActivity implements ArticleListFragment.OnArticleSelectedListener {
 
@@ -57,23 +61,47 @@ public class ArticleListActivity extends FragmentActivity implements ArticleList
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_list, menu);
         return true;
     }
 
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.version:
+                String versionName = getApplicationVersionName();
+                Toast.makeText(this, "MMWR Express Version " + versionName, Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.help:
+                Toast.makeText(this, "Help content coming soon!", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.about_us:
+                Toast.makeText(this, "About Us content coming soon!", Toast.LENGTH_LONG).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
+
+    public int getApplicationVersionCode() {
+        PackageManager packageManager = getPackageManager();
+        try {
+            PackageInfo packageInfo = packageManager.getPackageInfo(getPackageName(), 0);
+            return packageInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException ex) {} catch(Exception e){}
+        return 0;
+    }
+
+    public String getApplicationVersionName() {
+        PackageManager packageManager = getPackageManager();
+        try {
+            PackageInfo packageInfo = packageManager.getPackageInfo(getPackageName(), 0);
+            return packageInfo.versionName;
+        } catch (PackageManager.NameNotFoundException ex) {} catch(Exception e){}
+        return "";
+    }
+
 
     public void onArticleSelected(String known, String added, String implications) {
 
