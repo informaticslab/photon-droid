@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_articles_list_fragment"
+            android:icon="@drawable/ic_one"
+            android:title="Articles" />
+        <item
+            android:id="@+id/nav_search_fragment"
+            android:icon="@drawable/ic_two"
+            android:title="Search for Keywords" />
+        <item
+            android:id="@+id/nav_help_fragment"
+            android:icon="@drawable/ic_three"
+            android:title="Help" />
+        <item
+            android:id="@+id/nav_feedback_fragment"
+            android:icon="@drawable/ic_three"
+            android:title="Feedback" />
+    </group>
+</menu>
