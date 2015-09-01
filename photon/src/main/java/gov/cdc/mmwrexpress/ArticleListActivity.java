@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 public class ArticleListActivity extends AppCompatActivity implements ArticleListFragment.OnArticleSelectedListener {
 
+    private static final String TAG = "ArticleListActivity";
     protected ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
@@ -132,7 +133,7 @@ public class ArticleListActivity extends AppCompatActivity implements ArticleLis
         //IssuesManager issueMgr = new IssuesManager();
         //issueMgr.storeTest();
 
-        Log.d(Constants.ARTICLE_LIST_ACTIVITY, "Done with persistence tests.");
+        Log.d(TAG, "Done with persistence tests.");
     }
 
     private void addArticleListFragment() {

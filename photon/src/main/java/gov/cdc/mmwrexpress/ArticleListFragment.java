@@ -28,7 +28,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CheckBox;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +37,8 @@ import io.realm.RealmResults;
 //public class ArticleListFragment extends Fragment implements OnItemClickListener, OnRefreshListener {
 public class ArticleListFragment extends Fragment implements OnRefreshListener {
 
-    private ProgressBar progressBar;
+    private static final String TAG = "ArticleListFragment";
+
     private ListView listView;
     private RecyclerView mArticlesRV;
     private View view;
@@ -58,9 +58,11 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (view == null) {
             view = inflater.inflate(R.layout.article_list_fragment, container, false);
-            //progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
             mArticlesRV = (RecyclerView) view.findViewById(R.id.articles_rv);
             mArticlesRV.setLayoutManager(new LinearLayoutManager(getActivity()));
+            mArticlesRV.addItemDecoration(new SimpleDividerItemDecoration(
+                    getActivity()
+            ));
 //            listView.setOnItemClickListener(this);
             swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
             swipeLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -155,7 +157,6 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
         @SuppressWarnings("unchecked")
         @Override
         protected void onReceiveResult(int resultCode, Bundle resultData) {
- //           progressBar.setVisibility(View.GONE);
             List<ArticleListItem> items = (List<ArticleListItem>) resultData.getSerializable(RssService.ITEMS);
             if (items != null) {
                 refreshFromStoredArticles();
@@ -247,7 +248,7 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
             this.context = context;
             //Realm.deleteRealmFile(context);
             this.realm = Realm.getInstance(context);
-            Log.d("ArticleListAdapter", "realm path: " + realm.getPath());
+            Log.d(TAG, "realm path: " + realm.getPath());
 
             // refresh data from database
             this.refreshData();
@@ -301,7 +302,7 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
             IssueArticleItem item;
 
             issues = realm.where(Issue.class).findAllSorted("date", RealmResults.SORT_ORDER_DESCENDING);
-            Log.d("ArticleListAdapter", "Issues size = " + String.valueOf(issues.size()));
+            Log.d(TAG, "Issues size = " + String.valueOf(issues.size()));
             this.articles = new ArrayList<Article>();
             this.listItems = new ArrayList<IssueArticleItem>();
 
