@@ -107,7 +107,7 @@ public class ArticleListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return listItems.size();
+            return listItems.size();
     }
 
 
@@ -200,13 +200,11 @@ public class ArticleListAdapter extends BaseAdapter {
 
     public void setArticleReadState(Article article) {
 
-
         realm.beginTransaction();
 
         article.setUnread(false);
 
         realm.commitTransaction();
-
 
     }
 
