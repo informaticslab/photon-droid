@@ -1,5 +1,6 @@
 package gov.cdc.mmwrexpress;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -9,6 +10,8 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.util.UUID;
 
 /**
  * Using a ViewPager to display "blue box" content from MMWR Weekly articles.
@@ -34,6 +37,16 @@ public class ContentActivity extends FragmentActivity {
 
     // pager adapter provides pages view pager widget
     private PagerAdapter mPagerAdapter;
+
+    public static Intent newIntent(Context packageContext, String known, String added, String implications) {
+
+        Intent intent = new Intent(packageContext, ContentActivity.class);
+        intent.putExtra(Constants.ARTICLE_KNOWN_MSG, known);
+        intent.putExtra(Constants.ARTICLE_ADDED_MSG, added);
+        intent.putExtra(Constants.ARTICLE_IMPLICATIONS_MSG, implications);
+        return intent;
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

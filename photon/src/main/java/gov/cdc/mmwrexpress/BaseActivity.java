@@ -1,7 +1,5 @@
 package gov.cdc.mmwrexpress;
 
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -11,18 +9,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.widget.Toast;
 
-public class ArticleListActivity extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity {
 
-    private static final String TAG = "ArticleListActivity";
     protected ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
@@ -30,7 +21,6 @@ public class ArticleListActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.main);
         setContentView(R.layout.activity_main);
 
         // navigationview setup
@@ -38,7 +28,7 @@ public class ArticleListActivity extends AppCompatActivity {
         initNavigationDrawer();
 
         if (savedInstanceState == null) {
-            addArticleListFragment();
+            //addArticleListFragment();
         }
 
     }
@@ -128,96 +118,4 @@ public class ArticleListActivity extends AppCompatActivity {
         }
     }
 
-    private void testPersistence() {
-        //IssuesManager issueMgr = new IssuesManager();
-        //issueMgr.storeTest();
-
-        Log.d(TAG, "Done with persistence tests.");
-    }
-
-    private void addArticleListFragment() {
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        ArticleListFragment fragment = new ArticleListFragment();
-        transaction.add(R.id.fragment_container, fragment);
-        transaction.commit();
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBoolean("fragment_added", true);
-    }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.activity_list, menu);
-//        return true;
-//    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle item selection
-//        switch (item.getItemId()) {
-//            case R.id.version:
-//                String versionName = getApplicationVersionName();
-//                Toast.makeText(this, "MMWR Express Version " + versionName, Toast.LENGTH_LONG).show();
-//                return true;
-//            case R.id.help:
-//                Toast.makeText(this, "Help content coming soon!", Toast.LENGTH_LONG).show();
-//                return true;
-//            case R.id.about_us:
-//                Toast.makeText(this, "About Us content coming soon!", Toast.LENGTH_LONG).show();
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        switch (id) {
-
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
-
-            case R.id.action_settings:
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
-
-    public int getApplicationVersionCode() {
-        PackageManager packageManager = getPackageManager();
-        try {
-            PackageInfo packageInfo = packageManager.getPackageInfo(getPackageName(), 0);
-            return packageInfo.versionCode;
-        } catch (PackageManager.NameNotFoundException ex) {} catch(Exception e){}
-        return 0;
-    }
-
-    public String getApplicationVersionName() {
-        PackageManager packageManager = getPackageManager();
-        try {
-            PackageInfo packageInfo = packageManager.getPackageInfo(getPackageName(), 0);
-            return packageInfo.versionName;
-        } catch (PackageManager.NameNotFoundException ex) {} catch(Exception e){}
-        return "";
-    }
-
 }
-

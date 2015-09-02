@@ -24,9 +24,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -355,8 +352,11 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
         @Override
         public void onClick(View v) {
 
-//            Intent intent = CrimePagerActivity.newIntent(getActivity(), mCrime.getId());
-//            startActivity(intent);
+            Article article = mIssueArticleItem.article;
+            Intent intent = ContentActivity.newIntent(getActivity(), article.getAlready_known(),
+                    article.getAdded_by_report(), article.getImplications());
+            startActivity(intent);
+
         }
 
     }
