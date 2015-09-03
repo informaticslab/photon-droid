@@ -6,10 +6,12 @@ import java.util.List;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.RealmClass;
 
 /**
  * Created by jtq6 on 10/29/14.
  */
+@RealmClass
 public class Keyword extends RealmObject {
 
     private String text;
