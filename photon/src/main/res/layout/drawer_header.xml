@@ -12,20 +12,20 @@
         android:scaleType="centerCrop"
         android:src="@drawable/bg_material_design" />
 
-    <TextView
+    <!--<TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txtViewAppTitle"
-        android:text="MMWR Express"
+        android:text="MMWR Exprress"
         android:layout_marginTop="@dimen/margin_user_name"
         android:textStyle="bold"
         android:textSize="24sp"
         android:layout_marginLeft="@dimen/margin_user_layout"
         android:layout_marginStart="@dimen/margin_user_layout"
         android:textColor="@android:color/white"
-        android:layout_above="@+id/txtViewCdc"/>
+        android:layout_above="@+id/txtViewCdc"/>-->
 
-    <TextView
+   <!-- <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txtViewCdc"
@@ -34,6 +34,6 @@
         android:layout_marginBottom="@dimen/margin_user_email"
         android:layout_alignLeft="@+id/txtViewAppTitle"
         android:layout_alignParentBottom="true"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/white"/>-->
 
 </RelativeLayout>
