@@ -3,6 +3,8 @@ package gov.cdc.mmwrexpress;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
@@ -19,9 +21,10 @@ import java.util.UUID;
  * Activity shows a "next" and "previous" button that can advance the user to the next page of
  * content, as well as swiping.
  */
-public class ContentActivity extends FragmentActivity {
+//public class ContentActivity extends FragmentActivity {
+public class ContentActivity extends BaseActivity {
 
-     // number of content pages
+    // number of content pages
     private static final int NUM_PAGES = 3;
 
     //pager widget handles animation and swiping to other pages of content
@@ -49,9 +52,13 @@ public class ContentActivity extends FragmentActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content);
+
+        // navigationview setup
+        setupToolbar();
+        initNavigationDrawer();
 
         // Get the message from the intent
         Intent intent = getIntent();
@@ -63,46 +70,56 @@ public class ContentActivity extends FragmentActivity {
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ContentPagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
-        mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
             @Override
             public void onPageSelected(int position) {
-                // When changing pages, reset the action bar actions since they are dependent
-                // on which page is currently active. An alternative approach is to have each
-                // fragment expose actions itself (rather than the activity exposing actions),
-                // but for simplicity, the activity provides the actions in this sample.
                 invalidateOptionsMenu();
+                showSwipeHelpSnackbar(position);
+
             }
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+
         });
+        showSnackbar(R.string.content_page_1);
+
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.activity_content, menu);
-
-        //menu.findItem(R.id.action_previous).setEnabled(mPager.getCurrentItem() > 0);
-
-        // Add either a "previous" or "finish" button to the action bar, depending on which page
-        // is currently selected.
-        MenuItem previous_item = menu.add(Menu.NONE, R.id.action_previous, Menu.NONE,
-                (mPager.getCurrentItem() == 0)
-                        ? R.string.action_finish
-                        : R.string.action_previous);
-        previous_item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-
-        // Add either a "next" or "finish" button to the action bar, depending on which page
-        // is currently selected.
-        MenuItem next_item = menu.add(Menu.NONE, R.id.action_next, Menu.NONE,
-                (mPager.getCurrentItem() == mPagerAdapter.getCount() - 1)
-                        ? R.string.action_finish
-                        : R.string.action_next);
-        next_item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-
-
-        return true;
-    }
-
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        super.onCreateOptionsMenu(menu);
+//        getMenuInflater().inflate(R.menu.activity_content, menu);
+//
+//        //menu.findItem(R.id.action_previous).setEnabled(mPager.getCurrentItem() > 0);
+//
+//        // Add either a "previous" or "finish" button to the action bar, depending on which page
+//        // is currently selected.
+//        MenuItem previous_item = menu.add(Menu.NONE, R.id.action_previous, Menu.NONE,
+//                (mPager.getCurrentItem() == 0)
+//                        ? R.string.action_finish
+//                        : R.string.action_previous);
+//        previous_item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+//
+//        // Add either a "next" or "finish" button to the action bar, depending on which page
+//        // is currently selected.
+//        MenuItem next_item = menu.add(Menu.NONE, R.id.action_next, Menu.NONE,
+//                (mPager.getCurrentItem() == mPagerAdapter.getCount() - 1)
+//                        ? R.string.action_finish
+//                        : R.string.action_next);
+//        next_item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+//
+//
+//        return true;
+//    }
+//
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -135,6 +152,18 @@ public class ContentActivity extends FragmentActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void showSwipeHelpSnackbar(int position) {
+
+        if (position == 0)
+            showSnackbar(R.string.content_page_1);
+        else if (position == 1)
+            showSnackbar(R.string.content_page_2);
+        else if (position == 2)
+            showSnackbar(R.string.content_page_3);
+
+    }
+
+
     /**
      * A pager adapter that represents the blue boxes in MMWR Weekly
      */
@@ -145,19 +174,27 @@ public class ContentActivity extends FragmentActivity {
 
         @Override
         public android.support.v4.app.Fragment getItem(int position) {
-            if (position == 0 )
+            if (position == 0 ) {
                 return ContentPageFragment.create(position, "What is already known?", known, known_image_id);
-            if (position == 1 )
+            }
+            if (position == 1 ) {
                 return ContentPageFragment.create(position, "What is added by this report?", added, added_image_id);
-            if (position == 2 )
+            }
+            if (position == 2 ) {
                 return ContentPageFragment.create(position, "What are the implications for public health practice?", implications, implications_image_id);
-
+            }
             return null;
         }
 
         @Override
         public int getCount() {
             return NUM_PAGES;
+        }
+
+
+        public void o(int pageNumber) {
+            // Just define a callback method in your fragment and call it like this!
+
         }
     }
 }

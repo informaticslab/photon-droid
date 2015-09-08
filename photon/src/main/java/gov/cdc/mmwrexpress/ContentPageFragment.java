@@ -1,6 +1,7 @@
 package gov.cdc.mmwrexpress;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ public class ContentPageFragment extends Fragment {
     private int pageNumber;
     private String title;
     private String text;
+    private int mSnackbarStringId;
     private int imageId;
 
 
@@ -51,6 +53,15 @@ public class ContentPageFragment extends Fragment {
         text = getArguments().getString(BLUE_BOX_TEXT);
         imageId = getArguments().getInt(BLUE_BOX_IMAGE_ID);
 
+        if (pageNumber == 0)
+            mSnackbarStringId = R.string.content_page_1;
+        else if (pageNumber == 1)
+            mSnackbarStringId = R.string.content_page_2;
+        else if (pageNumber == 2)
+            mSnackbarStringId = R.string.content_page_3;
+
+
+
     }
 
     @Override
@@ -75,4 +86,6 @@ public class ContentPageFragment extends Fragment {
     public int getPageNumber() {
         return pageNumber;
     }
+
+
 }

@@ -1,7 +1,5 @@
 package gov.cdc.mmwrexpress;
 
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -20,7 +18,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Toast;
 
-public class ArticleListActivity extends AppCompatActivity {
+//public class ArticleListActivity extends AppCompatActivity {
+public class ArticleListActivity extends BaseActivity {
 
     private static final String TAG = "ArticleListActivity";
     protected ActionBarDrawerToggle mDrawerToggle;
@@ -30,7 +29,6 @@ public class ArticleListActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.main);
         setContentView(R.layout.activity_main);
 
         // navigationview setup
@@ -43,90 +41,93 @@ public class ArticleListActivity extends AppCompatActivity {
 
     }
 
-    private void setupToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        final ActionBar ab = getSupportActionBar();
-        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
-        ab.setDisplayHomeAsUpEnabled(true);
-    }
-
-    private void initNavigationDrawer() {
-
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
-
-        setupActionBarDrawerToogle();
-        if (mNavigationView != null) {
-            setupDrawerContent(mNavigationView);
-        }
-    }
-
+//    private void setupToolbar() {
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//
+//        final ActionBar ab = getSupportActionBar();
+//        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+//        ab.setDisplayHomeAsUpEnabled(true);
+//    }
+//
+//    private void initNavigationDrawer() {
+//
+//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
+//
+//        setupActionBarDrawerToogle();
+//        if (mNavigationView != null) {
+//            setupDrawerContent(mNavigationView);
+//        }
+//    }
+//
     /**
      * In case if you require to handle drawer open and close states
      */
-    private void setupActionBarDrawerToogle() {
+//    private void setupActionBarDrawerToogle() {
+//
+//        mDrawerToggle = new ActionBarDrawerToggle(
+//                this,                  /* host Activity */
+//                mDrawerLayout,         /* DrawerLayout object */
+//                R.string.drawer_open,  /* "open drawer" description */
+//                R.string.drawer_close  /* "close drawer" description */
+//        ) {
+//
+//            /**
+//             * Called when a drawer has settled in a completely closed state.
+//             */
+//            public void onDrawerClosed(View view) {
+//                Snackbar.make(view, R.string.drawer_close, Snackbar.LENGTH_SHORT).show();
+//            }
+//
+//            /**
+//             * Called when a drawer has settled in a completely open state.
+//             */
+//            public void onDrawerOpened(View drawerView) {
+//                Snackbar.make(drawerView, R.string.drawer_open, Snackbar.LENGTH_SHORT).show();
+//            }
+//        };
+//        mDrawerLayout.setDrawerListener(mDrawerToggle);
+//
+//    }
+//
+//    private void setupDrawerContent(final NavigationView navigationView) {
+//
+//        //setting up selected item listener
+//        navigationView.setNavigationItemSelectedListener(
+//                new NavigationView.OnNavigationItemSelectedListener() {
+//                    @Override
+//                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+//                        menuItem.setChecked(true);
+//                        if (menuItem.getItemId() == R.id.nav_articles_list_fragment)
+//                            Snackbar.make(navigationView, R.string.nav_articles, Snackbar.LENGTH_SHORT).show();
+//                        mDrawerLayout.closeDrawers();
+//                        return true;
+//                    }
+//                });
+//    }
 
-        mDrawerToggle = new ActionBarDrawerToggle(
-                this,                  /* host Activity */
-                mDrawerLayout,         /* DrawerLayout object */
-                R.string.drawer_open,  /* "open drawer" description */
-                R.string.drawer_close  /* "close drawer" description */
-        ) {
+// GSL - put back in if BaseActivity fails
+//    @Override
+//    public void onBackPressed() {
+//        if (isNavDrawerOpen()) {
+//            closeNavDrawer();
+//        } else {
+//            super.onBackPressed();
+//        }
+//    }
 
-            /**
-             * Called when a drawer has settled in a completely closed state.
-             */
-            public void onDrawerClosed(View view) {
-                Snackbar.make(view, R.string.drawer_close, Snackbar.LENGTH_SHORT).show();
-            }
+// GSL - put back in if BaseActivity fails
+//    protected boolean isNavDrawerOpen() {
+//        return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(GravityCompat.START);
+//    }
 
-            /**
-             * Called when a drawer has settled in a completely open state.
-             */
-            public void onDrawerOpened(View drawerView) {
-                Snackbar.make(drawerView, R.string.drawer_open, Snackbar.LENGTH_SHORT).show();
-            }
-        };
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-    }
-
-    private void setupDrawerContent(final NavigationView navigationView) {
-
-        //setting up selected item listener
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        menuItem.setChecked(true);
-                        if (menuItem.getItemId() == R.id.nav_articles_list_fragment)
-                            Snackbar.make(navigationView, R.string.nav_articles, Snackbar.LENGTH_SHORT).show();
-                        mDrawerLayout.closeDrawers();
-                        return true;
-                    }
-                });
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (isNavDrawerOpen()) {
-            closeNavDrawer();
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    protected boolean isNavDrawerOpen() {
-        return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(GravityCompat.START);
-    }
-
-    protected void closeNavDrawer() {
-        if (mDrawerLayout != null) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-        }
-    }
+// GSL - put back in if BaseActivity fails
+//    protected void closeNavDrawer() {
+//        if (mDrawerLayout != null) {
+//            mDrawerLayout.closeDrawer(GravityCompat.START);
+//        }
+//    }
 
     private void testPersistence() {
         //IssuesManager issueMgr = new IssuesManager();
@@ -149,18 +150,13 @@ public class ArticleListActivity extends AppCompatActivity {
         outState.putBoolean("fragment_added", true);
     }
 
+// GSL - put back in if BaseActivity fails
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.activity_list, menu);
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
 //        return true;
 //    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
 
 //    public boolean onOptionsItemSelected(MenuItem item) {
@@ -181,43 +177,28 @@ public class ArticleListActivity extends AppCompatActivity {
 //        }
 //    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
 
-        int id = item.getItemId();
+// GSL - put back in if BaseActivity fails
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//
+//        int id = item.getItemId();
+//
+//        switch (id) {
+//
+//            case android.R.id.home:
+//                mDrawerLayout.openDrawer(GravityCompat.START);
+//                return true;
+//
+//            case R.id.action_settings:
+//                return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
+//
 
-        switch (id) {
 
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
-
-            case R.id.action_settings:
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
-
-    public int getApplicationVersionCode() {
-        PackageManager packageManager = getPackageManager();
-        try {
-            PackageInfo packageInfo = packageManager.getPackageInfo(getPackageName(), 0);
-            return packageInfo.versionCode;
-        } catch (PackageManager.NameNotFoundException ex) {} catch(Exception e){}
-        return 0;
-    }
-
-    public String getApplicationVersionName() {
-        PackageManager packageManager = getPackageManager();
-        try {
-            PackageInfo packageInfo = packageManager.getPackageInfo(getPackageName(), 0);
-            return packageInfo.versionName;
-        } catch (PackageManager.NameNotFoundException ex) {} catch(Exception e){}
-        return "";
-    }
 
 }
 
