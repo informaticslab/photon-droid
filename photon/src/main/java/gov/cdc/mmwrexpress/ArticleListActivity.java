@@ -23,6 +23,8 @@ public class ArticleListActivity extends BaseActivity {
         setupToolbar();
         initNavigationDrawer();
 
+        loadJsonArticlesFromAsset();
+
         if (savedInstanceState == null) {
             addArticleListFragment();
         }
@@ -61,7 +63,7 @@ public class ArticleListActivity extends BaseActivity {
             json = new String(buffer, "UTF-8");
             Realm realm = Realm.getInstance(this);
             JsonArticleParser jsonArticleParser = new JsonArticleParser(realm);
-            jsonArticleParser.parseJsonArticlesFromString(json);
+            jsonArticleParser.parseEmbeddedArticles(json);
         } catch (IOException ex) {
             ex.printStackTrace();
             return;

@@ -16,7 +16,7 @@ import io.realm.Realm;
  */
 public class JsonArticleParser {
 
-    String  json;
+    String json;
     Article article;
     private Realm realm;
     private IssuesManager issuesManager;
@@ -63,7 +63,7 @@ public class JsonArticleParser {
         if (isJSONValid(jsonArticle) == false)
             return null;
 
-            // create new JSON object from string
+        // create new JSON object from string
         try {
 
             JSONObject jsonObject = new JSONObject(jsonArticle);
@@ -78,10 +78,9 @@ public class JsonArticleParser {
                     jsonObject.getInt(TAG_ISSUE_VOL), jsonObject.getInt(TAG_ISSUE_NUM));
 
 
-
             // process article found in RSS feed and find stored issue
             // or in not there create a new one
-            Article article = issuesManager.processRssArticle(issue, jsonObject.getString(TAG_TITLE),jsonObject.getInt(TAG_CONTENT_VER));
+            Article article = issuesManager.processRssArticle(issue, jsonObject.getString(TAG_TITLE), jsonObject.getInt(TAG_CONTENT_VER));
             if (article != null) {
 
                 article.setAlready_known(jsonObject.getString(TAG_ALREADY_KNOWN));
@@ -99,7 +98,7 @@ public class JsonArticleParser {
                     }
                     issuesManager.addArticleKeywords(keywords, article);
 
-                } catch (JSONException ex ) {
+                } catch (JSONException ex) {
                     ex.printStackTrace();
                     realm.cancelTransaction();
                 }
@@ -124,29 +123,68 @@ public class JsonArticleParser {
     }
 
 
-    public void parseJsonArticlesFromString(String input) {
-//        try {
-//            JSONObject issues = new JSONObject(input);
-//            JSONArray m_jArry = issues.getJSONArray();
-//            ArrayList<HashMap<String, String>> formList = new ArrayList<HashMap<String, String>>();
-//            HashMap<String, String> m_li;
-//
-//            for (int i = 0; i < m_jArry.length(); i++) {
-//                JSONObject jo_inside = m_jArry.getJSONObject(i);
-//                Log.d("Details-->", jo_inside.getString("formule"));
-//                String formula_value = jo_inside.getString("formule");
-//                String url_value = jo_inside.getString("url");
-//
-//                //Add your values in your `ArrayList` as below:
-//                m_li = new HashMap<String, String>();
-//                m_li.put("formule", formula_value);
-//                m_li.put("url", url_value);
-//
-//                formList.add(m_li);
-//            }
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//
+
+    public void parseEmbeddedArticles(String articles) {
+
+        // create new JSON object from string
+        try {
+            JSONArray articleArray = new JSONArray(articles);
+
+
+            for (int j = 0; j < articleArray.length(); j++) {
+                HashMap<String, String> map = new HashMap<String, String>();
+                JSONObject jsonObject = articleArray.getJSONObject(j);
+
+                realm.beginTransaction();
+
+                // process issue found in RSS feed and find stored issue
+                // if no stored issue create a new one
+                Issue issue = issuesManager.processRssIssue(jsonObject.getString(TAG_ISSUE_DATE),
+                        jsonObject.getInt(TAG_ISSUE_VOL), jsonObject.getInt(TAG_ISSUE_NUM));
+
+
+                // process article found in RSS feed and find stored issue
+                // or in not there create a new one
+                Article article = issuesManager.processRssArticle(issue, jsonObject.getString(TAG_TITLE), jsonObject.getInt(TAG_CONTENT_VER));
+                if (article != null) {
+
+                    article.setAlready_known(jsonObject.getString(TAG_ALREADY_KNOWN));
+                    article.setAdded_by_report(jsonObject.getString(TAG_ADDED_BY_REPORT));
+                    article.setImplications(jsonObject.getString(TAG_IMPLICATIONS));
+                    article.setUrl(jsonObject.getString(TAG_URL));
+
+                    try {
+                        JSONArray keywordJsonArray = jsonObject.getJSONArray(TAG_TAGS);
+                        JSONObject keywordJson;
+                        String[] keywords = new String[keywordJsonArray.length()];
+                        for (int i = 0; i < keywordJsonArray.length(); i++) {
+                            keywordJson = (JSONObject) keywordJsonArray.get(i);
+                            keywords[i] = keywordJson.getString(TAG_TAG);
+                        }
+                        issuesManager.addArticleKeywords(keywords, article);
+
+                    } catch (JSONException ex) {
+                        ex.printStackTrace();
+                        realm.cancelTransaction();
+                    }
+
+                }
+
+
+
+                //Log.d("JsonArticleParser", "JSON Article title = " + jsonObject.getString(TAG_TITLE));
+
+                //Log.d("JsonArticleParser", "JSON Article size = " + String.valueOf(size));
+                //Log.d("JsonArticleParser", "JSON issue date  = " + jsonObject.getString(TAG_ISSUE_DATE));
+
+                realm.commitTransaction();
+
+            }
+
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+            return;
+        }
     }
+
 }
