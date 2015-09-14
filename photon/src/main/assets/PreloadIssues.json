@@ -1,0 +1,571 @@
+[
+   {
+      "issue-date":"2014-01-03",
+      "issue-vol":"62",
+      "issue-no":"51",
+      "title":"Histoplasmosis Outbreak Associated with the Renovation of an Old House — Quebec, Canada, 2013",
+      "already_known":"Histoplasmosis outbreaks can occur when demolition work produces dust containing bird or bat droppings.",
+      "added_by_report":"During the renovation of an old house in Quebec, Canada, 14 of 30 workers and residents exposed to dust from bird or bat droppings experienced respiratory symptoms consistent with histoplasmosis. Of the four persons whose infection was laboratory-confirmed, two were hospitalized. Illness was highly correlated with exposure to dust during demolition of the exterior walls, and with the handling of contaminated debris away from the work site.",
+      "implications":"Employers need to provide the appropriate protective equipment and reinforce to employees the necessity of applying protective measures during demolition work, including when handling debris away from the work site.",
+      "tags":[
+         {
+            "tag":"Histoplasmosis"
+         },
+         {
+            "tag":"Dust Exposure"
+         },
+         {
+            "tag":"Outbreak"
+         },
+         {
+            "tag":"Canada"
+         }
+      ],
+      "url":"http://www.cdc.gov/mmwr/preview/mmwrhtml/mm6251a1.htm?s_cid=mm6251a1_w",
+      "content-ver":"1",
+      "schema-ver":"1"
+   },
+   {
+      "issue-date":"2014-01-03",
+      "issue-vol":"62",
+      "issue-no":"51",
+      "title":"Outbreak of Salmonellosis Associated with Consumption of Pulled Pork at a Church Festival — Hamilton County, Ohio, 2010",
+      "already_known":"Festivals and fairs have been implicated in foodborne outbreaks and might remain environments that place persons at risk for foodborne illness. In Ohio, church festivals generally are exempt from food service licensure and inspection.",
+      "added_by_report":"An outbreak of salmonellosis in southwest Ohio in June of 2010 was associated with consumption of pulled pork prepared in a private home and sold to attendees of a church festival. Salmonella isolates available from three of 38 reported cases had matching pulsed-field gel electrophoresis patterns identifying the outbreak pathogen as Salmonella Typhimurium variant Copenhagen.",
+      "implications":"Food service operations at large-scale events, including church festivals and fairs, might place populations at risk for foodborne illness. In particular, environments without public health regulation might benefit from education of event organizers and food vendors regarding food safety practices.",
+      "tags":[
+         {
+            "tag":"Outbreak"
+         },
+         {
+            "tag":"Salmonellosis"
+         },
+         {
+            "tag":"Ohio"
+         },
+         {
+            "tag":"Foodborne Illness"
+         }
+      ],
+      "url":"http://www.cdc.gov/mmwr/preview/mmwrhtml/mm6251a2.htm?s_cid=mm6251a2_w",
+      "content-ver":"1",
+      "schema-ver":"1"
+   },
+   {
+      "issue-date":"2014-01-10",
+      "issue-vol":"63",
+      "issue-no":"01",
+      "title":"Lung Cancer Incidence Trends Among Men and Women — United States, 2005–2009",
+      "already_known":"Because of shifts in cigarette smoking prevalence, the gap between men and women in lung cancer incidence is diminishing, particularly among younger adults.",
+      "added_by_report":"From 2005 to 2009, lung cancer incidence rates decreased among men and women in the United States overall, among men in 23 states, and among women in seven states. Lung cancer incidence rates during 2005–2009 decreased more rapidly among men than among women and more rapidly among adults aged 35–44 years than among other age groups. As a result, differences in lung cancer incidence between men and women narrowed with decreasing age; among adults aged 35–44 years, men had slightly lower rates of lung cancer than did women.",
+      "implications":"Although lung cancer incidence is decreasing overall, it is not decreasing at the same pace among men and women, nor in all age groups, and it is not decreasing in all states. Continued attention to local, state, and national population-based tobacco prevention and control strategies are needed to achieve further reductions in tobacco use among men and women of all ages to reduce lung cancer in the United States.",
+      "tags":[
+         {
+            "tag":"Lung Cancer"
+         },
+         {
+            "tag":"Cigarette Smoking"
+         },
+         {
+            "tag":"Disease Prevalence"
+         }
+      ],
+      "url":"http://www.cdc.gov/mmwr/preview/mmwrhtml/mm6301a1.htm?s_cid=mm6301a1_w",
+      "content-ver":"1",
+      "schema-ver":"1"
+   },
+   {
+      "issue-date":"2014-01-10",
+      "issue-vol":"63",
+      "issue-no":"01",
+      "title":"Recreational Water–Associated Disease Outbreaks — United States, 2009–2010",
+      "already_known":"Recreational water–associated disease outbreaks continue to occur throughout the United States. CDC collects data on waterborne disease outbreaks electronically submitted by states, the District of Columbia, U.S. territories, and Freely Associated States to CDC's Waterborne Disease and Outbreak Surveillance System via the National Outbreak Reporting System.",
+      "added_by_report":"For 2009–2010, a total of 81 recreational water–associated disease outbreaks were reported to CDC. Of the 1,326 reported outbreak-related cases, 62 resulted in hospitalization; no deaths were reported. Almost a third (30%) of the outbreaks were caused by Cryptosporidium and associated with treated recreational water venues (e.g., pools). Of 24 outbreaks associated with untreated recreational water venues (e.g., lakes), almost half (46%) were confirmed or suspected to have been caused by cyanobacterial toxins.",
+      "implications":"Guidance to prevent and control recreational water–associated disease outbreaks, such as the Model Aquatic Health Code, can be optimized when directed by national outbreak data as well as laboratory data (e.g., molecular typing of Cryptosporidium) and environmental data (i.e., inspection data).",
+      "tags":[
+         {
+            "tag":"Outbreak"
+         },
+         {
+            "tag":"Cryptosporidium"
+         },
+         {
+            "tag":"Waterborne Disease"
+         }
+      ],
+      "url":"http://www.cdc.gov/mmwr/preview/mmwrhtml/mm6301a2.htm?s_cid=mm6301a2_w",
+      "content-ver":"1",
+      "schema-ver":"1"
+   },
+   {
+      "issue-date":"2014-01-10",
+      "issue-vol":"63",
+      "issue-no":"01",
+      "title":"Algal Bloom–Associated Disease Outbreaks Among Users of Freshwater Lakes — United States, 2009–2010",
+      "already_known":"Cyanobacteria can form harmful algal blooms that might produce potent toxins in surface waters. Several studies have reported adverse human health effects associated with recreational water exposure to cyanotoxins and cyanobacteria blooms.",
+      "added_by_report":"During 2009–2010 in the United States, 11 outbreaks associated with fresh water and harmful algal blooms affected at least 61 persons, resulting in two hospitalizations and no known deaths. Among 58 persons for whom data are available, seven (12%) visited an emergency department and 34 (59%) visited a health-care provider; 66% of affected persons overall were aged ≤19 years. This report suggests that the time to onset of effects might be rapid, that children might be at higher risk for illness, and that harmful algal bloom–associated outbreaks occur during the warmer months.",
+      "implications":"Untreated recreational waters with harmful algal blooms present a potentially severe health risk to humans and animals. Environmental control and prevention of blooms is needed. Efforts to identify and correctly ascertain algal bloom associated-illness will improve case detection and contribute to the development of evidence-based prevention strategies.",
+      "tags":[
+         {
+            "tag":"Cyanobacteria"
+         },
+         {
+            "tag":"Algal Blooms"
+         },
+         {
+            "tag":"Waterborne Disease"
+         }
+      ],
+      "url":"http://www.cdc.gov/mmwr/preview/mmwrhtml/mm6301a3.htm?s_cid=mm6301a3_w",
+      "content-ver":"1",
+      "schema-ver":"1"
+   },
+   {
+      "issue-date":"2014-01-17",
+      "issue-vol":"63",
+      "issue-no":"02",
+      "title":"Current Cigarette Smoking Among Adults — United States, 2005–2012",
+      "already_known":"Approximately one in five U.S. adults smoke cigarettes, and certain population groups have a higher prevalence of smoking. Despite significant declines during the past 30 years, cigarette smoking among adults in the United States remains widespread, and year-to-year decreases in prevalence have been observed only intermittently in recent years. ",
+      "added_by_report":"Overall smoking prevalence declined significantly during 2005–2012 (from 20.9% to 18.1% [p<0.05]). In addition, among daily smokers, the average number of cigarettes smoked per day declined from 16.7 in 2005 to 14.6 in 2012 (p<0.05 for trend). During the same period, the largest increase in the percentage of ever smokers who quit (from 22.7% to 26.5% [p<0.05]) and the largest declines in smoking prevalence (from 24.4% to 17.3% [p<0.05]) were observed among persons aged 18–24 years.",
+      "implications":"Effective public health interventions that can continue progress toward meeting the Healthy People 2020 target to reduce U.S. adult cigarette smoking to ≤12% include a combination of tobacco price increases, high-impact antitobacco mass media campaigns, comprehensive smoke-free laws, and barrier-free access to help quitting.",
+      "tags":[
+         {
+            "tag":"Cigarette Smoking"
+         },
+         {
+            "tag":"Disease Prevalence"
+         }
+      ],
+      "url":"http://www.cdc.gov/mmwr/preview/mmwrhtml/mm6302a2.htm?s_cid=mm6302a2_w",
+      "content-ver":"1",
+      "schema-ver":"1"
+   },
+   {
+      "issue-date":"2014-01-17",
+      "issue-vol":"63",
+      "issue-no":"02",
+      "title":"Zinc Deficiency–Associated Dermatitis in Infants During a Nationwide Shortage of Injectable Zinc — Washington, DC, and Houston, Texas, 2012–2013",
+      "already_known":"Nationwide shortages of parenteral micronutrients have continued to occur in recent years. These shortages can lead to clinically significant micronutrient deficiencies among patients who depend on prolonged parenteral nutrition. Premature infants are especially vulnerable, and certain micronutrient deficiencies can be lethal.",
+      "added_by_report":"The nationwide shortage of injectable zinc that began in late 2012 led to seven reported cases of zinc deficiency disorder in vulnerable infants. Among these infants, six experienced severe dermatitis, and three experienced invasive bacterial infections. The Food and Drug Administration is now temporarily permitting the importation and sale of an injectable zinc product. ",
+      "implications":"Hospitals with limited stocks of injectable zinc should consider reserving supplies for infants with the highest risk for deficiency (e.g., those who are premature [born at <37 weeks' gestation] or have very low birth weight [<1,500 g] and those with chronic or permanent gastrointestinal dysfunction). If shortages occur, monitoring patients on parenteral nutrition for signs and symptoms of micronutrient deficiencies is crucial.",
+      "tags":[
+         {
+            "tag":"Zinc"
+         },
+         {
+            "tag":"Dermatitis"
+         },
+         {
+            "tag":"Infants"
+         },
+         {
+            "tag":"Houston"
+         },
+         {
+            "tag":"Washington"
+         }
+      ],
+      "url":"http://www.cdc.gov/mmwr/preview/mmwrhtml/mm6302a3.htm?s_cid=mm6302a3_w",
+      "content-ver":"1",
+      "schema-ver":"1"
+   },
+   {
+      "issue-date":"2014-01-24",
+      "issue-vol":"63",
+      "issue-no":"03",
+      "title":"Fatal Hemophagocytic Lymphohistiocytosis Associated with Locally Acquired Dengue Virus Infection — New Mexico and Texas, 2012",
+      "already_known":"Dengue is a potentially fatal acute febrile illness caused by infection with any of four mosquito-transmitted dengue viruses and is endemic throughout the tropics; most reported cases in the 50 United States are in travelers. Hemophagocytic lymphohistiocytosis (HLH) is a potentially fatal clinical syndrome that can be acquired following dengue virus infection.",
+      "added_by_report":"The case described in this report represents the third locally acquired dengue-related death in the 50 United States and the first dengue-associated HLH case documented in the country. ",
+      "implications":"Clinicians and public health professionals in the United States should be vigilant for and report cases of travel-associated and locally acquired dengue and request that both molecular and serologic diagnostics be performed in suspected cases. Clinicians in areas with endemic dengue should be aware of HLH as a potential complication of dengue and of the recommended HLH treatment regimen. ",
+      "tags":[
+         {
+            "tag":"Dengue Virus"
+         },
+         {
+            "tag":"New Mexico"
+         },
+         {
+            "tag":"Texas"
+         },
+         {
+            "tag":"Hemophagocytic Lymphohistiocytosis"
+         }
+      ],
+      "url":"http://www.cdc.gov/mmwr/preview/mmwrhtml/mm6303a1.htm?s_cid=mm6303a1_w",
+      "content-ver":"1",
+      "schema-ver":"1"
+   },
+   {
+      "issue-date":"2014-01-24",
+      "issue-vol":"63",
+      "issue-no":"03",
+      "title":"Prevalence and Indicators of Viral Suppression Among Persons with Diagnosed HIV Infection Retained in Care — Georgia, 2010",
+      "already_known":"Efforts are ongoing on national and local levels to promote testing for human immunodeficiency virus (HIV) infection, identify those with acute infection, link and retain persons living with HIV in medical care, and achieve higher rates of viral suppression. Disparities in adherence and viral suppression have been examined previously; however, disease stage at diagnosis has not been assessed as an indicator of viral suppression. ",
+      "added_by_report":"In a multivariate analysis of patients with newly diagnosed HIV infection in Georgia during 2010, disease stage at diagnosis was a statistically significant indicator of viral suppression among those retained in care, with the prevalence of viral suppression decreasing with earlier disease stage at diagnosis; fewer persons with stage 1 disease (prevalence ratio = 0.8; 95% confidence interval = 0.7–0.9) and stage 2 disease (prevalence ratio = 0.9; 95% confidence interval = 0.8–1.0) achieved viral suppression, compared with persons with stage 3 disease at diagnosis.",
+      "implications":"It is now recommended that persons diagnosed with early disease are initiated on antiretroviral therapy. As new HIV treatment guidelines are implemented, the prevalence of viral suppression should increase among this population from the baseline rate found by this study. These findings can be used to emphasize the importance of implementing and assessing the impact of the new guidelines. If no improvements in viral suppression among persons with stage 1 disease are observed in 2013, additional studies could determine if prescribing practices have not changed or if there are other reasons for the poor suppression.",
+      "tags":[
+         {
+            "tag":"HIV"
+         },
+         {
+            "tag":"Georgia"
+         },
+         {
+            "tag":"Viral Suppression"
+         }
+      ],
+      "url":"http://www.cdc.gov/mmwr/preview/mmwrhtml/mm6303a2.htm?s_cid=mm6303a2_w",
+      "content-ver":"1",
+      "schema-ver":"1"
+   },
+   {
+      "issue-date":"2014-01-24",
+      "issue-vol":"63",
+      "issue-no":"03",
+      "title":"Trends in Uninsured Clients Visiting Health Centers Funded by the Title X Family Planning Program — Massachusetts, 2005–2012",
+      "already_known":"In Massachusetts, health-care reform enacted in 2006 made health-care insurance coverage nearly universal. How health-care service use will change when insurance coverage expands is unclear, particularly for health-care providers who serve as a safety-net for uninsured clients.",
+      "added_by_report":"Data provided by health-care providers funded through the federal Title X family planning program in Massachusetts demonstrate that the percentage of clients who were uninsured decreased significantly during the 6 years since enactment, but the demand for safety-net family planning providers has continued.",
+      "implications":"Ongoing monitoring of the use of publicly funded family planning services is needed after expansion of enrollment in health insurance.",
+      "tags":[
+         {
+            "tag":"Massachusetts"
+         },
+         {
+            "tag":"Family Planning"
+         },
+         {
+            "tag":"Health Insurance"
+         }
+      ],
+      "url":"http://www.cdc.gov/mmwr/preview/mmwrhtml/mm6303a3.htm?s_cid=mm6303a3_w",
+      "content-ver":"1",
+      "schema-ver":"1"
+   },
+   {
+      "issue-date":"2014-01-31",
+      "issue-vol":"63",
+      "issue-no":"04",
+      "title":"Rapidly Building Global Health Security Capacity — Uganda Demonstration Project, 2013",
+      "already_known":"Security against epidemic disease threats for all countries is dependent on their capacity to prevent, detect, and respond to outbreaks as early and effectively as possible. However, 80% of International Health Regulations signatories have not met their 2012 objectives, including Uganda. CDC has committed to assist countries with national surveillance and response activities to prevent, detect, and respond to public health threats. ",
+      "added_by_report":"This report describes rapid global health security enhancements in Uganda targeting three areas: laboratory systems, information systems, and coordination of information through emergency operations centers. These enhancements resulted in substantial improvements in the ability of Uganda's public health system to detect and respond to health threats in 6 months.",
+      "implications":"This report provides a potential model for U.S. government collaborative efforts in building international global health security capacity in other countries.",
+      "tags":[
+         {
+            "tag":"Global Health Security"
+         },
+         {
+            "tag":"Uganda"
+         }
+      ],
+      "url":"http://www.cdc.gov/mmwr/preview/mmwrhtml/mm6304a2.htm?s_cid=mm6304a2_w",
+      "content-ver":"1",
+      "schema-ver":"1"
+   },
+   {
+      "issue-date":"2014-01-31",
+      "issue-vol":"63",
+      "issue-no":"04",
+      "title":"Strengthening Global Health Security Capacity — Vietnam Demonstration Project, 2013",
+      "already_known":"New threats such as Middle East respiratory syndrome corona­virus and influenza A(H7N9) present continued challenges and highlight the need for countries to improve their capacity to prevent, detect, and respond to public health threats. In June 2012, Vietnam, along with many other nations, obtained a 2-year extension for meeting core surveillance and response requirements of the 2005 International Health Regulations.",
+      "added_by_report":"During March–September 2013, CDC collaborated with the Vietnamese Ministry of Health on a project to demonstrate that enhancements could be made in a short period to the capacity for surveillance and early detection of and response to disease outbreaks in Vietnam. Achievements included enhanced laboratory testing capability for several priority pathogens, established emergency operations functions, and demonstration of the need and capability for information systems to enhance public health emergency reporting. ",
+      "implications":"This is a successful model for other nations with similar health systems to increase prevention, detection, and response capability to public health threats. Careful planning, stakeholder buy-in, and intradepartmental and interdepartmental coordination and communication are required.",
+      "tags":[
+         {
+            "tag":"Global Health Security"
+         },
+         {
+            "tag":"Vietnam"
+         }
+      ],
+      "url":"http://www.cdc.gov/mmwr/preview/mmwrhtml/mm6304a3.htm?s_cid=mm6304a3_w",
+      "content-ver":"1",
+      "schema-ver":"1"
+   },
+   {
+      "issue-date":"2014-02-07",
+      "issue-vol":"63",
+      "issue-no":"05",
+      "title":"Progress Along the Continuum of HIV Care Among Blacks with Diagnosed HIV— United States, 2010",
+      "already_known":"Blacks account for 44% of persons living with human immunodeficiency virus (HIV) but only 12% of the population in the United States. The percentages of blacks linked to care, retained in care, taking antiretroviral medications, and achieving viral suppression have been lower than other racial/ethnic groups.",
+      "added_by_report":"This is the first known report to describe the continuum of HIV care among blacks in the United States. The results of this analysis of 2010 data indicate that 74.9% of HIV-infected blacks were linked to care, 48.0% were retained in care, 46.2% were prescribed antiretroviral therapy, and 35.2% had achieved viral suppression. Black males had lower levels of care and viral suppression than black females at each step along the HIV care continuum, and levels of care and viral suppression for blacks aged <25 years were lower than those for blacks aged ≥25 years.",
+      "implications":"Increasing the proportion of black persons living with HIV who are receiving care is critical for achieving the goals of the National HIV/AIDS Strategy to reduce new infections, improve health outcomes, and decrease health disparities. Among blacks, targeted strategies for different groups, such as males and youths, might be needed to achieve improvements at each step of the HIV care continuum. ",
+      "tags":[
+         {
+            "tag":"HIV"
+         },
+         {
+            "tag":"Disease Prevalence"
+         }
+      ],
+      "url":"http://www.cdc.gov/mmwr/preview/mmwrhtml/mm6305a2.htm?s_cid=mm6305a2_w",
+      "content-ver":"1",
+      "schema-ver":"1"
+   },
+   {
+      "issue-date":"2014-02-07",
+      "issue-vol":"63",
+      "issue-no":"05",
+      "title":"HIV Infection Among Partners of HIV-Infected Black Men Who Have Sex with Men — North Carolina, 2011–2013",
+      "already_known":"The incidence of human immunodeficiency virus (HIV) infection has significantly increased among black men who have sex with men (MSM) in the United States, and young black MSM have been disproportionately affected. Previous studies have demonstrated that black MSM have risk behaviors similar to MSM of other racial and ethnic groups but are more likely to have an HIV exposure within their sexual network.",
+      "added_by_report":"Among black MSM who received partner services in North Carolina, a high proportion (41%) of sex partners and social contacts had been previously diagnosed with HIV infection, whereas only 2% of partners were newly diagnosed with HIV infection. Based on sexual and social network and molecular phylogenetic data, a representative partner network demonstrated that HIV-infected and HIV-negative partners were frequently in the same network and that the majority of HIV-infected partners were already aware of their diagnosis but had not achieved viral suppression.",
+      "implications":"Diagnosing persons unaware of their HIV status provides a potential opportunity to reengage HIV-infected partners already aware of their status in medical care. This public health intervention might be particularly important among young black MSM in an HIV transmission network, who are disproportionately affected by new HIV infections and less likely to maintain sustained access to HIV medical care.",
+      "tags":[
+         {
+            "tag":"HIV"
+         },
+         {
+            "tag":"MSM"
+         },
+         {
+            "tag":"North Carolina"
+         }
+      ],
+      "url":"http://www.cdc.gov/mmwr/preview/mmwrhtml/mm6305a3.htm?s_cid=mm6305a3_w",
+      "content-ver":"1",
+      "schema-ver":"1"
+   },
+   {
+      "issue-date":"2014-02-07",
+      "issue-vol":"63",
+      "issue-no":"05",
+      "title":"Noninfluenza Vaccination Coverage Among Adults — United States, 2012",
+      "already_known":"During 2008–2011, coverage with routinely recommended vaccinations among U.S. adults aged ≥19 years remained low.",
+      "added_by_report":"Compared with 2011 estimates, modest gains occurred in tetanus and diphtheria toxoid with acellular pertussis vaccine (Tdap) vaccination among adults aged 19–64 years, herpes zoster vaccination among adults aged ≥60 years, and human papillomavirus vaccination coverage among women aged 19–26 years. Coverage for other vaccines and risk groups did not improve, and racial/ethnic disparities persisted for routinely recommended adult vaccines. Coverage for all vaccines for adults remained low.",
+      "implications":"Wider use of practices shown to improve adult vaccination is needed, including assessment of patients' vaccination needs by health-care providers and routine recommendation and offer of needed vaccines to adults, implementing reminder-recall systems, use of standing order programs for vaccination, and assessment of practice-level vaccination rates with feedback to staff members.",
+      "tags":[
+         {
+            "tag":"Vaccination"
+         }
+      ],
+      "url":"http://www.cdc.gov/mmwr/preview/mmwrhtml/mm6305a4.htm?s_cid=mm6305a4_w",
+      "content-ver":"1",
+      "schema-ver":"1"
+   },
+   {
+      "issue-date":"2014-02-07",
+      "issue-vol":"63",
+      "issue-no":"05",
+      "title":"Global Control and Regional Elimination of Measles, 2000–2012",
+      "already_known":"During 2000–2011, global vaccination coverage with the first dose of measles-containing vaccine increased from 72% to 84%, approximately 225 million children received a second opportunity for measles immunization during measles supplemental immunization activities in 2011, and global reported measles cases decreased until 2008, then increased in 2010 and 2011. By 2011, about 45% of countries had not met the incidence target of <5 cases per million. As milestones toward eventual global measles eradication, the 2010 World Health Assembly endorsed a series of targets to be met by 2015.",
+      "added_by_report":"In 2012, estimated global coverage with the first dose of measles-containing vaccine remained at the 2011 level of 84%, but the number of countries providing a second dose of measles-containing vaccine through routine immunization services increased from 96 (50%) in 2000 to 145 (75%) in 2012, and 144 million children were vaccinated against measles during vaccination campaigns. In 2012, annual reported measles incidence was 33 reported cases per million population, a decline of 77% from 146 cases per million population in 2000, and estimated measles deaths decreased 78%, from 562,400 to 122,000. An estimated 13.8 million deaths were prevented by measles vaccination during 2000–2012.",
+      "implications":"Although measles incidence decreased during 2011–2012, the World Health Organization's African, Eastern Mediterranean, and European regions are not on track to achieving their elimination targets. To accelerate progress toward achieving these regional measles elimination targets national governments and partners are urged to give these efforts high priority and adequate resources to achieve their commonly agreed upon goals, and in so doing reach the targets set by the Global Vaccine Action Plan.",
+      "tags":[
+         {
+            "tag":"Measles"
+         },
+         {
+            "tag":"Global"
+         },
+         {
+            "tag":"Vaccination"
+         }
+      ],
+      "url":"http://www.cdc.gov/mmwr/preview/mmwrhtml/mm6305a5.htm?s_cid=mm6305a5_w",
+      "content-ver":"1",
+      "schema-ver":"1"
+   },
+   {
+      "issue-date":"2014-02-14",
+      "issue-vol":"63",
+      "issue-no":"06",
+      "title":"Progress of Health Plans Toward Meeting the Million Hearts Clinical Target for High Blood Pressure Control — United States, 2010–2012",
+      "already_known":"Uncontrolled high blood pressure is a major public health problem. Focused efforts to improve blood pressure control can greatly improve health outcomes. Performance measures can be used to assess the effectiveness of health insurance plans in controlling high blood pressure among their members with hypertension.",
+      "added_by_report":"In 2012, nearly 113.4 million members were covered under plans that reported valid Healthcare Effectiveness Data and Information Set (HEDIS) controlling high blood pressure (CBP) performance rates. Nationally, nearly 11% of plan members were eligible for the CBP measure, of whom 64% had their blood pressure under control. Adjusted control rates were ≥60% (range = 59.5%–68.2%) for all U.S. Health and Human Services regions, which was a modest improvement from 2010 rates.",
+      "implications":"Based on recent improvements measured through HEDIS, the Million Hearts clinical target of ≥70% blood pressure control among hypertensive patients by 2017 is achievable, but further work is needed to effectively identify, monitor, and treat patients with hypertension.",
+      "tags":[
+         {
+            "tag":"Million Hearts"
+         },
+         {
+            "tag":"High Blood Pressure"
+         }
+      ],
+      "url":"http://www.cdc.gov/mmwr/preview/mmwrhtml/mm6306a2.htm?s_cid=mm6306a2_w",
+      "content-ver":"1",
+      "schema-ver":"1"
+   },
+   {
+      "issue-date":"2014-02-21",
+      "issue-vol":"63",
+      "issue-no":"07",
+      "title":"Interim Estimates of 2013–14 Seasonal Influenza Vaccine Effectiveness — United States, February 2014",
+      "already_known":"The influenza A (H1N1)pdm09 (pH1N1) virus that emerged to cause a pandemic in 2009 has continued to circulate in the United States and has been included as the H1N1 component of all seasonal influenza vaccines since the pandemic. Annual vaccination provides the best protection against circulating influenza viruses and is recommended for all persons aged ≥6 months. Estimates of seasonal influenza vaccine effectiveness (VE) for preventing medically attended illness caused by pH1N1 influenza viruses have ranged from 50% to 80% in previous seasons.",
+      "added_by_report":"Based on data from 2,319 children and adults with acute respiratory illness enrolled in the U.S. Influenza Vaccine Effectiveness Network during December 2, 2013–January 23, 2014, the overall VE (adjusted for study site, age, sex, race/ethnicity, self-rated health, and days from illness onset to enrollment) for all ages against influenza A and B virus infection associated with medically attended acute respiratory illness was 61% (95% confidence interval = 52%–68%). Against the predominant influenza pH1N1 virus, VE for all ages was 62%, with similar protection from medically attended illness across age groups.",
+      "implications":"The 2013-14 seasonal influenza vaccine provides substantial protection against pH1N1 influenza virus, which has been the predominant influenza virus this season. Persons aged ≥6 months who have not yet received the 2013-14 influenza vaccine should be vaccinated. Evidence of protection offered by the 2013-14 influenza vaccine supports the public health benefit of the recent expansion of annual seasonal influenza vaccination to all persons aged ≥6 months.",
+      "tags":[
+         {
+            "tag":"Influenza"
+         },
+         {
+            "tag":"Vaccine Effectiveness"
+         }
+      ],
+      "url":"http://www.cdc.gov/mmwr/preview/mmwrhtml/mm6307a1.htm?s_cid=mm6307a1_w",
+      "content-ver":"1",
+      "schema-ver":"1"
+   },
+   {
+      "issue-date":"2014-02-21",
+      "issue-vol":"63",
+      "issue-no":"07",
+      "title":"Influenza-Associated Intensive-Care Unit Admissions and Deaths — California, September 29, 2013–January 18, 2014",
+      "already_known":"The influenza A (H1N1)pdm09 virus has been the predominant circulating virus in the United States throughout the ongoing 2013–14 influenza season, resulting in high proportions of intensive-care unit (ICU) admissions and deaths among adults aged <65 years.",
+      "added_by_report":"The 2013–14 influenza season in California has resulted in more ICU admissions and deaths associated with influenza virus infection than in any season since the 2009 H1N1 pandemic. Of fatal and ICU cases with laboratory-confirmed influenza occurring in persons aged <65 years, those aged 41–64 years with underlying medical conditions predisposing them to influenza complications have been disproportionately affected. Influenza vaccination and antiviral treatment have been underutilized in observed cases with overreliance on rapid diagnostic tests with poor sensitivity.",
+      "implications":"Early recognition of influenza illness and initiation of empiric antiviral treatment as soon as possible is recommended for persons with preexisting conditions that place them at high risk for influenza complications. Negative rapid influenza diagnostic test results should not be used to make clinical decisions on patients with influenza-like illness. Vaccination remains a critical public health tool in preventing severe influenza resulting in ICU admission or death.",
+      "tags":[
+         {
+            "tag":"California"
+         },
+         {
+            "tag":"Influenza"
+         },
+         {
+            "tag":"ICU Admissions"
+         }
+      ],
+      "url":"http://www.cdc.gov/mmwr/preview/mmwrhtml/mm6307a2.htm?s_cid=mm6307a2_w",
+      "content-ver":"1",
+      "schema-ver":"1"
+   },
+   {
+      "issue-date":"2014-02-21",
+      "issue-vol":"63",
+      "issue-no":"07",
+      "title":"Update: Influenza Activity - United States, September 29, 2013-February 8, 2014",
+      "already_known":"CDC collects, compiles, and analyzes data on influenza activity year-round in the United States, which show that the timing and severity of circulating influenza viruses can vary by geographic location and between influenza seasons. Although influenza causes serious illness and death every season, populations most affected at any point during a season can vary geographically, by age group, and by other characteristics.",
+      "added_by_report":"Influenza activity in the United States began to increase in mid-November and remained elevated through February 8, 2014. During September 29, 2013-February 8, 2014, influenza A (H1N1)pdm09 viruses were identified most frequently, but a small number of influenza B and influenza A (H3N2) viruses also were reported. This season has been more severe for young and middle-aged adults than in the most recent seasons. The second highest hospitalization rates have occurred in patients aged 50-64 years this season, and more than half of influenza-associated hospitalizations occurred in adults aged 18-64 years.",
+      "implications":"Vaccination remains the most effective method to prevent influenza and its complications and is important for persons of all ages, not just the very young and old. Health-care providers should recommend and offer vaccine to all unvaccinated persons aged ≥6 months now and throughout the influenza season. Treatment with neuraminidase inhibitor antiviral medications can reduce severe outcomes of influenza, especially when initiated early, in patients with confirmed or suspected influenza.",
+      "tags":[
+         {
+            "tag":"Influenza"
+         }
+      ],
+      "url":"http://www.cdc.gov/mmwr/preview/mmwrhtml/mm6307a3.htm?s_cid=mm6307a3_w",
+      "content-ver":"1",
+      "schema-ver":"1"
+   },
+   {
+      "issue-date":"2014-02-21",
+      "issue-vol":"63",
+      "issue-no":"07",
+      "title":"Declines in Student Obesity Prevalence Associated with a Prevention Initiative - King County, Washington, 2012",
+      "already_known":"Early signs of declines in youth obesity have been reported from localities and states that have implemented robust obesity prevention initiatives.",
+      "added_by_report":"By 2012, for the first time, self-reported youth obesity prevalence in King County, Washington, saw a statistically significant decrease from its 2004 baseline prevalence, from 9.5% in 2004 to 7.9% in 2012, after a Communities Putting Prevention to Work project was implemented in the county's low-income school districts from 2010 to 2012.",
+      "implications":"School-based policy, systems, and environment changes might be important elements of a comprehensive obesity prevention strategy.",
+      "tags":[
+         {
+            "tag":"Obesity"
+         },
+         {
+            "tag":"Disease Prevalence"
+         },
+         {
+            "tag":"Washington"
+         },
+         {
+            "tag":"Prevention Programs"
+         }
+      ],
+      "url":"http://www.cdc.gov/mmwr/preview/mmwrhtml/mm6307a4.htm?s_cid=mm6307a4_w",
+      "content-ver":"1",
+      "schema-ver":"1"
+   },
+   {
+      "issue-date":"2014-02-21",
+      "issue-vol":"63",
+      "issue-no":"07",
+      "title":"Follow-Up of Infants Diagnosed with HIV - Early Infant Diagnosis Program, Francistown, Botswana, 2005-2012",
+      "already_known":"Despite high rates of human immunodeficiency virus (HIV) testing and antiretroviral prophylaxis for HIV-infected pregnant women in Botswana, up to 4% of their infants are born HIV-infected. Without antiretroviral therapy (ART), half of HIV-infected infants will die in the first year of life. Delays in HIV screening, return of test results, referral, and initiation of ART, and loss to follow-up increase infant mortality. ",
+      "added_by_report":"The Botswana Early Infant Diagnosis (EID) Program was introduced in 2005 to screen infants for HIV beginning at age 6 weeks. In Francistown, Botswana, during 2005-2012, 71% of infants born to HIV-infected women were screened for HIV. As of September 2013, among the 202 HIV-infected infants identified by the EID program, 41% were alive and on ART, 39% had died, and 20% were lost to follow-up, had transferred, or the family had declined therapy.",
+      "implications":"Even in a successful program to prevent mother-to-child transmission, survival of HIV-infected infants is poor without early diagnosis, rapid initiation of treatment, and retention in care. Strategies to overcome educational, cultural, and structural barriers are needed to improve patient outcomes in the EID program. ",
+      "tags":[
+         {
+            "tag":"HIV"
+         },
+         {
+            "tag":"Infants"
+         },
+         {
+            "tag":"Botswana"
+         }
+      ],
+      "url":"http://www.cdc.gov/mmwr/preview/mmwrhtml/mm6307a5.htm?s_cid=mm6307a5_w",
+      "content-ver":"1",
+      "schema-ver":"1"
+   },
+   {
+      "issue-date":"2014-02-28",
+      "issue-vol":"63",
+      "issue-no":"08",
+      "title":"Histoplasmosis Associated with a Bamboo Bonfire — Arkansas, October 2011",
+      "already_known":"The association of Histoplasma capsulatum with bird feces, bat guano, or disturbed ground has long been established.",
+      "added_by_report":"This report describes efficient transmission of H. capsulatum in the setting of a bonfire of bamboo that was previously used as a blackbird roost. This bonfire was the only common exposure reported by all ill attendees.",
+      "implications":"Clinicians should be aware that exposure to a bonfire of bamboo in which birds have previously roosted might be a risk factor to consider when questioning patients with signs and symptoms of histoplasmosis.",
+      "tags":[
+         {
+            "tag":"Histoplasmosis"
+         },
+         {
+            "tag":"Arkansas"
+         },
+         {
+            "tag":"Disease Transmission"
+         }
+      ],
+      "url":"http://www.cdc.gov/mmwr/preview/mmwrhtml/mm6308a1.htm?s_cid=mm6308a1_w",
+      "content-ver":"1",
+      "schema-ver":"1"
+   },
+   {
+      "issue-date":"2014-02-28",
+      "issue-vol":"63",
+      "issue-no":"08",
+      "title":"Multiple-Serotype Salmonella Outbreaks in Two State Prisons — Arkansas, August 2012",
+      "already_known":"Salmonella is the most common cause of bacterial foodborne illness the United States; however, multiple-serotype Salmonella infections and outbreaks are identified infrequently. ",
+      "added_by_report":"Two linked Salmonella outbreaks occurred in Arkansas prisons during August 2012, revealing 15 pulsed-field gel electrophoresis patterns of Salmonella and 10 inmates with multiple-serotype infections. Deficiencies in safe food preparation practices, a lack of inmate kitchen worker training, neglect of hand washing, a delay in recognition and reporting of one of the outbreaks, and inadequately sanitized eggs produced by and distributed to the prisons might have influenced the occurrence, size, and transmission modes associated with the outbreaks.",
+      "implications":"Correctional facility and inmate food service personnel should receive food safety training. Prisons should be inspected by sanitarians in accordance with state or local guidelines and should maintain equivalent standards to commercial food service establishments.",
+      "tags":[
+         {
+            "tag":"Salmonella"
+         },
+         {
+            "tag":"Arkansas"
+         },
+         {
+            "tag":"Foodborne Illness"
+         },
+         {
+            "tag":"Outbreak"
+         },
+         {
+            "tag":"Correctional Facilities"
+         }
+      ],
+      "url":"http://www.cdc.gov/mmwr/preview/mmwrhtml/mm6308a2.htm?s_cid=mm6308a2_w",
+      "content-ver":"1",
+      "schema-ver":"1"
+   },
+   {
+      "issue-date":"2014-02-28",
+      "issue-vol":"63",
+      "issue-no":"08",
+      "title":"Two-Dose Varicella Vaccination Coverage Among Children Aged 7 years — Six Sentinel Sites, United States, 2006–2012",
+      "already_known":"A second dose of varicella vaccine was recommended for children by the Advisory Committee on Immunization Practices in 2007, and the recommendation has been followed by decreases in varicella incidence nationwide. However, estimates of 2-dose varicella vaccination coverage have not been available previously.",
+      "added_by_report":"The number of states with a 2-dose varicella vaccine elementary school entry requirement increased from four in 2007 to 36 in 2012. Two-dose varicella vaccination coverage levels among children aged 7 years in six selected sentinel sites increased from a range of 3.6%–8.9% in 2006 to a range of 79.9%–92.0% in 2012, approaching the coverage level for 2 doses of measles, mumps, and rubella vaccine.",
+      "implications":"Health-care providers have been important to the increase in coverage levels for 2 doses of varicella vaccine. Wider adoption of 2-dose varicella vaccine school entry requirements in more states and higher grades might help reach the Healthy People 2020 targets of 95% and 90% 2-dose varicella vaccination coverage among kindergarten and adolescent students, respectively. ",
+      "tags":[
+         {
+            "tag":"Varicella"
+         },
+         {
+            "tag":"Vaccination"
+         },
+         {
+            "tag":"Children"
+         }
+      ],
+      "url":"http://www.cdc.gov/mmwr/preview/mmwrhtml/mm6308a3.htm?s_cid=mm6308a3_w",
+      "content-ver":"1",
+      "schema-ver":"1"
+   }
+]
