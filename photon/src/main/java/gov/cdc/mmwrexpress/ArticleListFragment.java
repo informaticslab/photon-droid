@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
+import android.support.annotation.UiThread;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
@@ -140,9 +141,7 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
     private void refreshFromStoredArticles() {
 
         // reread stored articles
-        //mAdapter.refreshData();
-        mAdapter.notifyDataSetChanged();
-        //listView.invalidateViews();
+        mAdapter.refreshData();
 
     }
 
@@ -156,7 +155,9 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
         protected void onReceiveResult(int resultCode, Bundle resultData) {
             List<ArticleListItem> items = (List<ArticleListItem>) resultData.getSerializable(RssService.ITEMS);
             if (items != null) {
-                refreshFromStoredArticles();
+
+                //refreshFromStoredArticles();
+                mAdapter.dataSetChanged();
             } else {
                 Toast.makeText(getActivity(), "An error occurred while accessing the CDC feed.",
                         Toast.LENGTH_LONG).show();
@@ -166,34 +167,6 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
         };
     };
 
-//    @Override
-//    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//        ArticleListAdapter adapter = (ArticleListAdapter) parent.getAdapter();
-//        if (adapter.itemIsArticle(position)) {
-//            Article article = (Article) adapter.getArticle(position);
-//            adapter.setArticleReadState(article);
-//            // read stored articles
-//            this.adapter = new ArticleListAdapter(getActivity());
-//            listView.setAdapter(adapter);
-//
-//            //adapter.setListData(getListData());
-////            adapter.notifyDataSetChanged();
-//
-//            try {
-//                // ((OnArticleSelectedListener) getActivity()).onArticleSelected(item.getArticleTitle());
-//                ((OnArticleSelectedListener) getActivity()).onArticleSelected(article.getAlready_known(),
-//                        article.getAdded_by_report(), article.getImplications());
-//
-//            } catch (ClassCastException cce) {
-//
-//
-//            }
-//        }
-//    }
-
-    public interface OnArticleSelectedListener {
-        public void onArticleSelected(String known, String added, String implications);
-    }
 
     private class IssueArticleItem {
 
@@ -293,7 +266,6 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
             return listItems.size();
         }
 
-
         public void refreshData() {
 
             IssueArticleItem item;
@@ -320,6 +292,11 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
 
         }
 
+        @UiThread
+        protected void dataSetChanged() {
+            refreshData();
+            notifyDataSetChanged();
+        }
     }
 
     private class IssueArticleHolder extends RecyclerView.ViewHolder implements View.OnClickListener

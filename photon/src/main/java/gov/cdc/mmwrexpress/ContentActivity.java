@@ -123,10 +123,10 @@ public class ContentActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                // Navigate "up" to the article list activity
-                NavUtils.navigateUpTo(this, new Intent(this, ArticleListActivity.class));
-                return true;
+//            case android.R.id.home:
+//                // Navigate "up" to the article list activity
+//                NavUtils.navigateUpTo(this, new Intent(this, ArticleListActivity.class));
+//                return true;
 
             case R.id.action_previous:
                 // go to the previous content page, if no previous step, go home
