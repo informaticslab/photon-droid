@@ -20,6 +20,11 @@
             android:name=".ContentActivity"
             android:label="@string/app_name" >
          </activity>
+        <activity
+            android:name=".KeywordSearchActivity"
+            android:label="@string/app_name" >
+        </activity>
+
         <service android:name="gov.cdc.mmwrexpress.RssService" />
     </application>
     <uses-permission android:name="android.permission.INTERNET" />

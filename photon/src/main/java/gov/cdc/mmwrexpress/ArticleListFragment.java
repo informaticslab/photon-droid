@@ -37,14 +37,10 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
 
     private static final String TAG = "ArticleListFragment";
 
-    private ListView listView;
     private RecyclerView mArticlesRV;
     private View view;
     private ArticleAdapter mAdapter;
     private SwipeRefreshLayout swipeLayout;
-    private int index = -1;
-    private int top = 0;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,23 +86,13 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
 
     @Override
     public void onPause() {
-        //state = listView.onSaveInstanceState();
         super.onPause();
-//        index = this.getListView().getFirstVisiblePosition();
-//        View v = this.getListView().getChildAt(0);
-//        top = (v == null) ? 0 : v.getTop();
 
     }
     @Override
     public void onResume() {
         super.onResume();
         updateUI();
-        //listView.onRestoreInstanceState(state);
-//        setListAdapter(adapter);
-//        if(index!=-1){
-//            this.getListView().setSelectionFromTop(index, top);
-//        }
-
     }
 
     private void updateUI() {

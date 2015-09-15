@@ -1,5 +1,6 @@
 package gov.cdc.mmwrexpress;
 
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -84,6 +85,10 @@ public class BaseActivity extends AppCompatActivity {
                         menuItem.setChecked(true);
                         if (menuItem.getItemId() == R.id.nav_articles_list_fragment)
                             Snackbar.make(navigationView, R.string.nav_articles, Snackbar.LENGTH_SHORT).show();
+                        if (menuItem.getItemId() == R.id.nav_search_fragment) {
+                            Intent myIntent = new Intent(BaseActivity.this, KeywordSearchActivity.class);
+                            startActivity(myIntent);
+                        }
                         mDrawerLayout.closeDrawers();
                         return true;
                     }

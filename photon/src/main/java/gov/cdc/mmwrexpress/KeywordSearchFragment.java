@@ -1,0 +1,215 @@
+package gov.cdc.mmwrexpress;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.UiThread;
+import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
+
+/**
+ * Created by greg on 9/15/15.
+ */
+public class KeywordSearchFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+
+    private static final String TAG = "KeywordSearchFragment";
+
+
+    private RecyclerView mKeywordsRV;
+    private View view;
+    private KeywordAdapter mAdapter;
+    private SwipeRefreshLayout swipeLayout;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (view == null) {
+            view = inflater.inflate(R.layout.fragment_keyword_list, container, false);
+            mKeywordsRV = (RecyclerView) view.findViewById(R.id.keywords_rv);
+            mKeywordsRV.setLayoutManager(new LinearLayoutManager(getActivity()));
+            mKeywordsRV.addItemDecoration(new SimpleDividerItemDecoration(
+                    getActivity()
+            ));
+            swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+            swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    swipeLayout.setRefreshing(true);
+                    //startService();
+                }
+            });
+
+            updateUI();
+         } else {
+            // If we are returning from a configuration change:
+            // "view" is still attached to the previous view hierarchy
+            // so we need to remove it and re-attach it to the current one
+            ViewGroup parent = (ViewGroup) view.getParent();
+            parent.removeView(view);
+        }
+        return view;
+    }
+
+
+    @Override
+    public void onRefresh() {
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
+    }
+
+    private void updateUI() {
+
+        if (mAdapter == null) {
+            // read stored articles
+            mAdapter = new KeywordAdapter(getActivity());
+            mKeywordsRV.setAdapter(mAdapter);
+
+        } else {
+            mAdapter.notifyDataSetChanged();
+        }
+
+    }
+
+    private class KeywordItem {
+
+        private String text;
+        private Keyword keyword;
+
+
+        private KeywordItem(Keyword keyword) {
+
+            this.text = keyword.getText();
+            this.keyword = keyword;
+
+        }
+
+    }
+
+    private class KeywordAdapter extends RecyclerView.Adapter<KeywordHolder> {
+
+        private static final String TAG = "KeywordAdapter";
+        private ArrayList<Keyword> mKeywords;
+        private ArrayList<KeywordItem> listItems;
+        private Realm realm;
+        private RealmResults<Keyword> realmKeywords;
+
+
+
+        public KeywordAdapter(Context context) {
+
+            this.realm = Realm.getInstance(context);
+            Log.d(TAG, "realm path: " + realm.getPath());
+
+            // refresh data from database
+            this.refreshData();
+        }
+
+        @Override
+        public KeywordHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+            View view = null;
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            view = layoutInflater.inflate(R.layout.keyword_list_item, parent, false);
+
+            return new KeywordHolder(view, viewType);
+        }
+
+        public void onBindViewHolder(KeywordHolder holder, int position) {
+            KeywordItem keyword = listItems.get(position);
+            holder.bindKeyword(keyword);
+
+        }
+
+         @Override
+        public int getItemCount() {
+            return listItems.size();
+        }
+
+        public void refreshData() {
+
+            KeywordItem item;
+
+            realmKeywords = realm.where(Keyword.class).findAllSorted("text");
+            Log.d(TAG, "Keywords size = " + String.valueOf(realmKeywords.size()));
+            this.mKeywords = new ArrayList<Keyword>();
+            this.listItems = new ArrayList<KeywordItem>();
+
+            // use sorted articles for list view
+            for (Keyword keyword : realmKeywords) {
+                item = new KeywordItem(keyword);
+                listItems.add(item);
+                    Log.d(TAG, "Keyword: " + keyword.getText());
+            }
+
+        }
+
+        @UiThread
+        protected void dataSetChanged() {
+            refreshData();
+            notifyDataSetChanged();
+        }
+
+    }
+
+    private class KeywordHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    {
+
+        private KeywordItem mKeywordItem;
+        private TextView mKeywordTextView;
+        private int mViewType;
+
+
+        public KeywordHolder(View itemView, int viewType) {
+            super(itemView);
+            itemView.setOnClickListener(this);
+            mViewType = viewType;
+
+            mKeywordTextView = (TextView) itemView.findViewById(R.id.keywordTitle);
+
+        }
+
+        public void bindKeyword(KeywordItem item) {
+            mKeywordItem = item;
+            mKeywordTextView.setText(mKeywordItem.text);
+        }
+
+        @Override
+        public void onClick(View v) {
+
+            Keyword keyword = mKeywordItem.keyword;
+//            Intent intent = ContentActivity.newIntent(getActivity(), article.getAlready_known(),
+//                    article.getAdded_by_report(), article.getImplications());
+//            startActivity(intent);
+
+        }
+
+    }
+
+}
