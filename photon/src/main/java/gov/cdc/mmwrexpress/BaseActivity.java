@@ -83,8 +83,12 @@ public class BaseActivity extends AppCompatActivity {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         menuItem.setChecked(true);
-                        if (menuItem.getItemId() == R.id.nav_articles_list_fragment)
-                            Snackbar.make(navigationView, R.string.nav_articles, Snackbar.LENGTH_SHORT).show();
+                        if (menuItem.getItemId() == R.id.nav_articles_list_fragment) {
+                            Intent myIntent = new Intent(BaseActivity.this, ArticleListActivity.class);
+                            startActivity(myIntent);
+                        }
+
+                        Snackbar.make(navigationView, R.string.nav_articles, Snackbar.LENGTH_SHORT).show();
                         if (menuItem.getItemId() == R.id.nav_search_fragment) {
                             Intent myIntent = new Intent(BaseActivity.this, KeywordSearchActivity.class);
                             startActivity(myIntent);
