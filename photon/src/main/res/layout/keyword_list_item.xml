@@ -16,6 +16,7 @@
         android:text="@+id/label"
         android:textSize="18dp"
         android:textColor="#373836"
+        android:padding="4dp"
         >
     </TextView>
 
