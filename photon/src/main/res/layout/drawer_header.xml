@@ -25,15 +25,16 @@
         android:textColor="@android:color/white"
         android:layout_above="@+id/txtViewCdc"/>-->
 
-   <!-- <TextView
+   <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txtViewCdc"
         android:text="Centers for Disease Control and Prevention"
-        android:textSize="14sp"
-        android:layout_marginBottom="@dimen/margin_user_email"
-        android:layout_alignLeft="@+id/txtViewAppTitle"
+        android:textSize="12sp"
+        android:layout_marginBottom="@dimen/cdc_margin_bottom"
         android:layout_alignParentBottom="true"
-        android:textColor="@android:color/white"/>-->
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:textColor="@android:color/white"/>
 
 </RelativeLayout>

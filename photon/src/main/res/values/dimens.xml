@@ -7,7 +7,7 @@
     <dimen name="navdrawer_user_picture_size">40dp</dimen>
 
     <dimen name="margin_user_layout">25dp</dimen>
-    <dimen name="margin_user_name">3dp</dimen>
-    <dimen name="margin_user_email">20dp</dimen>
+    <dimen name="cdc_margin_left">12dp</dimen>
+    <dimen name="cdc_margin_bottom">12dp</dimen>
 
 </resources>
