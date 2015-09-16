@@ -226,7 +226,7 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
 
             }
 
-            return new IssueArticleHolder(view, viewType);
+            return new IssueArticleHolder(view, viewType, this);
         }
 
         public void onBindViewHolder(IssueArticleHolder holder, int position) {
@@ -278,6 +278,17 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
 
         }
 
+        public void setArticleReadState(Article article) {
+
+            realm.beginTransaction();
+
+            article.setUnread(false);
+
+            realm.commitTransaction();
+
+        }
+
+
         @UiThread
         protected void dataSetChanged() {
             refreshData();
@@ -291,12 +302,14 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
         private IssueArticleItem mIssueArticleItem;
         private int mViewType;
         private TextView mArticleTitleTextView;
+        private ArticleAdapter mAdapter;
 
 
-        public IssueArticleHolder(View itemView, int viewType) {
+        public IssueArticleHolder(View itemView, int viewType, ArticleAdapter adapter) {
             super(itemView);
             itemView.setOnClickListener(this);
             mViewType = viewType;
+            mAdapter = adapter;
 
             if (viewType == ArticleAdapter.UNREAD_ARTICLE_VIEW_TYPE)
                 mArticleTitleTextView = (TextView) itemView.findViewById(R.id.unreadArticleTitle);
@@ -316,6 +329,7 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
         public void onClick(View v) {
 
             Article article = mIssueArticleItem.article;
+            mAdapter.setArticleReadState(article);
             Intent intent = ContentActivity.newIntent(getActivity(), article.getAlready_known(),
                     article.getAdded_by_report(), article.getImplications());
             startActivity(intent);
