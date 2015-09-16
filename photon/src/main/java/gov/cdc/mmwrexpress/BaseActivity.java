@@ -84,14 +84,15 @@ public class BaseActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         menuItem.setChecked(true);
                         if (menuItem.getItemId() == R.id.nav_articles_list_fragment) {
-                            Intent myIntent = new Intent(BaseActivity.this, ArticleListActivity.class);
-                            startActivity(myIntent);
+                            Intent intent = new Intent(BaseActivity.this, ArticleListActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            startActivity(intent);
                         }
 
-                        Snackbar.make(navigationView, R.string.nav_articles, Snackbar.LENGTH_SHORT).show();
                         if (menuItem.getItemId() == R.id.nav_search_fragment) {
-                            Intent myIntent = new Intent(BaseActivity.this, KeywordSearchActivity.class);
-                            startActivity(myIntent);
+                            Intent intent = new Intent(BaseActivity.this, KeywordSearchActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            startActivity(intent);
                         }
                         mDrawerLayout.closeDrawers();
                         return true;
