@@ -10,6 +10,7 @@
     <string name="action_previous">Previous</string>
     <string name="action_next">Next</string>
     <string name="action_finish">Done</string>
+    <string name="action_search">Search...</string>
 
     <string name="help">Help</string>
     <string name="version">Version</string>

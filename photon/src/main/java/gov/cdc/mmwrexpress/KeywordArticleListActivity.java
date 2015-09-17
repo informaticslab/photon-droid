@@ -31,7 +31,7 @@ public class KeywordArticleListActivity extends BaseActivity {
         setupToolbar();
         initNavigationDrawer();
 
-        // Get the message from the intent
+        // get the message from the intent
         Intent intent = getIntent();
         mKeywordText = intent.getStringExtra(KEYWORD_TEXT);
 

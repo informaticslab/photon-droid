@@ -5,11 +5,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.UiThread;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -20,7 +25,7 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 
-public class KeywordSearchFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class KeywordSearchFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener {
 
     private static final String TAG = "KeywordSearchFragment";
 
@@ -33,6 +38,8 @@ public class KeywordSearchFragment extends Fragment implements SwipeRefreshLayou
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+
         setRetainInstance(true);
     }
 
@@ -65,6 +72,15 @@ public class KeywordSearchFragment extends Fragment implements SwipeRefreshLayou
         return view;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu,inflater);
+        inflater.inflate(R.menu.menu_keyword, menu);
+        final MenuItem item = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setOnQueryTextListener(this);
+
+    }
 
     @Override
     public void onRefresh() {
@@ -110,6 +126,20 @@ public class KeywordSearchFragment extends Fragment implements SwipeRefreshLayou
 
     }
 
+    @Override
+    public boolean onQueryTextChange(String query) {
+        mAdapter.setFilter(query);
+        mKeywordsRV.scrollToPosition(0);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+
+
     private class KeywordAdapter extends RecyclerView.Adapter<KeywordHolder> {
 
         private static final String TAG = "KeywordAdapter";
@@ -144,7 +174,6 @@ public class KeywordSearchFragment extends Fragment implements SwipeRefreshLayou
             holder.bindKeyword(keyword);
 
         }
-
          @Override
         public int getItemCount() {
             return listItems.size();
@@ -166,6 +195,21 @@ public class KeywordSearchFragment extends Fragment implements SwipeRefreshLayou
                     Log.d(TAG, "Keyword: " + keyword.getText());
             }
 
+        }
+
+
+        public void setFilter(String queryText) {
+
+            KeywordItem item;
+
+            listItems = new ArrayList<>();
+            //constraint = constraint.toString().toLowerCase();
+            for (Keyword keyword: realmKeywords) {
+                item = new KeywordItem(keyword);
+                if (keyword.getText().toLowerCase().contains(queryText))
+                    listItems.add(item);
+            }
+            notifyDataSetChanged();
         }
 
         @UiThread

@@ -76,7 +76,6 @@ public class KeywordArticleListFragment extends Fragment implements SwipeRefresh
         return view;
     }
 
-
     @Override
     public void onRefresh() {
     }
