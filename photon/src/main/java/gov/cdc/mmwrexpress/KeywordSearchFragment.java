@@ -19,9 +19,7 @@ import java.util.ArrayList;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-/**
- * Created by greg on 9/15/15.
- */
+
 public class KeywordSearchFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "KeywordSearchFragment";
@@ -204,9 +202,8 @@ public class KeywordSearchFragment extends Fragment implements SwipeRefreshLayou
         public void onClick(View v) {
 
             Keyword keyword = mKeywordItem.keyword;
-//            Intent intent = ContentActivity.newIntent(getActivity(), article.getAlready_known(),
-//                    article.getAdded_by_report(), article.getImplications());
-//            startActivity(intent);
+            Intent intent = KeywordArticleListActivity.newIntent(getActivity(), keyword.getText());
+            startActivity(intent);
 
         }
 

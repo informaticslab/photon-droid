@@ -32,7 +32,6 @@ import android.widget.Toast;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-//public class ArticleListFragment extends Fragment implements OnItemClickListener, OnRefreshListener {
 public class ArticleListFragment extends Fragment implements OnRefreshListener {
 
     private static final String TAG = "ArticleListFragment";
@@ -163,7 +162,6 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
         private String text;
         private Article article;
 
-
         private IssueArticleItem(Issue issue) {
 
             this.type = ISSUE;
@@ -184,10 +182,9 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
 
     }
 
-
     private class ArticleAdapter extends RecyclerView.Adapter<IssueArticleHolder> {
 
-        private static final String TAG = "ArticleAdapter";
+        private static final String TAG = "KeywordArticleAdapter";
         private ArrayList<Article> articles;
         private ArrayList<IssueArticleItem> listItems;
         private Realm realm;
