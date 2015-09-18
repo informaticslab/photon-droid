@@ -61,14 +61,14 @@ public class BaseActivity extends AppCompatActivity {
              * Called when a drawer has settled in a completely closed state.
              */
             public void onDrawerClosed(View view) {
-                Snackbar.make(view, R.string.drawer_close, Snackbar.LENGTH_SHORT).show();
+                //Snackbar.make(view, R.string.drawer_close, Snackbar.LENGTH_SHORT).show();
             }
 
             /**
              * Called when a drawer has settled in a completely open state.
              */
             public void onDrawerOpened(View drawerView) {
-                Snackbar.make(drawerView, R.string.drawer_open, Snackbar.LENGTH_SHORT).show();
+                //Snackbar.make(drawerView, R.string.drawer_open, Snackbar.LENGTH_SHORT).show();
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -145,10 +145,10 @@ public class BaseActivity extends AppCompatActivity {
                 //Toast.makeText(this, versionName, Toast.LENGTH_LONG).show();
                 return true;
             case R.id.help:
-                Toast.makeText(this, "Help content coming soon!", Toast.LENGTH_LONG).show();
+                //Toast.makeText(this, "Help content coming soon!", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.about_us:
-                Toast.makeText(this, "About Us content coming soon!", Toast.LENGTH_LONG).show();
+                //.makeText(this, "About Us content coming soon!", Toast.LENGTH_LONG).show();
                 return true;
 
         }
