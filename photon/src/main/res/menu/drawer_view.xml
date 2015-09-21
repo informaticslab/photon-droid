@@ -13,8 +13,8 @@
             android:icon="@drawable/ic_help"
             android:title="Help" />
         <item
-            android:id="@+id/nav_feedback_fragment"
+            android:id="@+id/nav_eula_fragment"
             android:icon="@drawable/ic_feedback"
-            android:title="Feedback" />
+            android:title="End User Agreement" />
     </group>
 </menu>

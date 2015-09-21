@@ -94,6 +94,16 @@ public class BaseActivity extends AppCompatActivity {
                             intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                             startActivity(intent);
                         }
+                        if (menuItem.getItemId() == R.id.nav_help_fragment) {
+                            Intent intent = WebViewActivity.newIntent(BaseActivity.this, "help.html");
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            startActivity(intent);
+                        }
+                        if (menuItem.getItemId() == R.id.nav_eula_fragment) {
+                            Intent intent = WebViewActivity.newIntent(BaseActivity.this, "eula.html");
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            startActivity(intent);
+                        }
                         mDrawerLayout.closeDrawers();
                         return true;
                     }
