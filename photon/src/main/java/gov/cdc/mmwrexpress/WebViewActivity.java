@@ -37,8 +37,6 @@ public class WebViewActivity extends BaseActivity {
         // Get the message from the intent
         Intent intent = getIntent();
         mWebPage = intent.getStringExtra(WEB_VIEW_PAGE);
-        showSnackbar(R.string.content_page_1);
-
         mWebView = (WebView)findViewById(R.id.webview);
 
         mWebView.loadUrl("file:///android_asset/" + mWebPage);
