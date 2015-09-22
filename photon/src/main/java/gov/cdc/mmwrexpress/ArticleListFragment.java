@@ -67,8 +67,6 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
             });
 
             updateUI();
-            //readStoredArticles();
-            //startService();
         } else {
             // If we are returning from a configuration change:
             // "view" is still attached to the previous view hierarchy
@@ -79,7 +77,11 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
         return view;
     }
 
+    @Override public void onStart() {
+        super.onStart();
+        startService();
 
+    }
     @Override public void onRefresh() {
     }
 
@@ -92,6 +94,7 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
     public void onResume() {
         super.onResume();
         updateUI();
+
     }
 
     private void updateUI() {
