@@ -5,10 +5,10 @@
 
     <ImageView
         android:id="@+id/blueDot"
-        android:layout_width="22px"
-        android:layout_height="22px"
-        android:layout_marginLeft="4px"
-        android:layout_marginRight="10px"
+        android:layout_width="11dp"
+        android:layout_height="11dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="10dp"
         android:src="@drawable/blue_dot" >
     </ImageView>
@@ -18,9 +18,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
         android:text="@+id/label"
         android:textSize="18dp" >
     </TextView>
