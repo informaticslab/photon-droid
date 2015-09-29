@@ -6,18 +6,25 @@
             <!--
             body {
                 font-family: Helvetica, Arial, sans-serif;
-                font-size: 15px;
-                line-height:18px;
+                font-size: 17px;
+                line-height:20px;
                 margin: 0;
                 padding: 0;
-                color: #000;
+                color: #757575;
+                background-color:#f5f5f5;
+            }
+            hr {
+            width:90%; border: 1px solid #e0e0e0; height:1px;
+            }
+            .t-text {
+            color:#000;
             }
             
             
             
             /* ~~ this fixed width container surrounds all other elements ~~ */
             .container {
-                width: 98%;
+                width: 100%;
                 background: #FFF;
                 margin: 0 auto; /* the auto value on the sides, coupled with the width, centers the layout */
             }
@@ -52,40 +59,58 @@
             .text {padding-right:10px;
 			padding-left:10px;}
             -->
+            .icon-style {
+            width:10%;
+            float:left;
+            position:relative;
+            margin: 10px 0 10px 20px;
+            }
+            .help-text {
+            width:75%;
+            float:right;
+            position:relative;
+            margin:10px;
+            }
+            .title-style {
+            width:100%;
+            background-color:#e0e0e0;
+            padding:10px 0px 10px 16px;
+            color:#000;
+            margin:0px 0px 10px 0px;
+            font-size:20px;
+            font-weight:bold;
+            }
+
             </style></head>
     
     <body>
         
 
-        <div class="container">
-            <div class="content">
-               
-                
-                <div class="agreement">
-
-<h2>Help</h2>
-
-<p><strong>Terms and
-Conditions of Use for MMWR EXPRESS</strong><br>
-</span>User acknowledges and agrees that he or she is solely responsible for
-and shall abide by these Terms of Use.<br>
-<br>
-<strong>Modification of These Terms of Use</strong><br> CDC reserves the right to change the terms, conditions, and notices
-under which the Services are offered. You may review the most current terms and
-conditions of use by going to the Account Settings in this application. If you do not agree to, or cannot comply
-with, the Agreement as amended, you must stop using the Service. You will be
-deemed to have accepted the Agreement as amended if you continue to use any of
-the Services. For information about
-our privacy policy, please visit <a href="http://www.cdc.gov/privacy.html">http://www.cdc.gov/privacy.html</a>.</p>
 
 
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<div class="title-style">Navigation Drawer</div>
 
-    </div>
-                
-                <!-- end .content --></div>
-            <!-- end .container --></div>
+<div style="width:100%; background-color:#f5f5f5;">
+                <div class="icon-style"><img src="icon-unread.jpg" alt="Unread Icon"></div>
+                <div class="help-text"><span class="t-text">Unread Articles:</span><br>Within the list of articles, a blue dot appears before unread articles.</div>
+                <hr>
+                <div class="icon-style"><img src="icon-articles.jpg" alt="Articles Icon"></div>
+                <div class="help-text"><span class="t-text">Articles:</span><br>View summaries of specific MMWR articles.</div>
+                <hr>
+                <div class="icon-style"><img src="icon-search.jpg" alt="Search Icon"></div>
+                <div class="help-text"><span class="t-text">Keyword Search:</span><br>Search by keyword to view related article summaries.</div>
+                <hr>
+                <div class="icon-style"><img src="icon-help.jpg" alt="Help Icon"></div>
+                <div class="help-text"><span class="t-text">Help:</span><br>Learn how to use the app in the Help section.</div>
+                <hr>
+                <div class="icon-style"><img src="icon-eula.jpg" alt="End User Agreement Icon"></div>
+                <div class="help-text"><span class="t-text">End User Agreement:</span><br>Some text goes here.</div>
+                <hr>
+                <div class="icon-style"><img src="icon-about.jpg" alt="About Icon"></div>
+                <div class="help-text"><span class="t-text">About:</span><br>Displays which version of MMWR Express is installed on your mobile device. You can also read more about MMWR Express.</div>
+            </div>
+
+
     </body>
 </html>
 
