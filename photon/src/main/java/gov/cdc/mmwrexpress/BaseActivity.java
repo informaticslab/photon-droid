@@ -104,6 +104,11 @@ public class BaseActivity extends AppCompatActivity {
                             intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                             startActivity(intent);
                         }
+                        if (menuItem.getItemId() == R.id.nav_about_fragment) {
+                            Intent intent = WebViewActivity.newIntent(BaseActivity.this, "about.html");
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            startActivity(intent);
+                        }
                         mDrawerLayout.closeDrawers();
                         return true;
                     }

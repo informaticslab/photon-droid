@@ -71,8 +71,8 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
             // If we are returning from a configuration change:
             // "view" is still attached to the previous view hierarchy
             // so we need to remove it and re-attach it to the current one
-            ViewGroup parent = (ViewGroup) view.getParent();
-            parent.removeView(view);
+//            ViewGroup parent = (ViewGroup) view.getParent();
+//            parent.removeView(view);
         }
         return view;
     }

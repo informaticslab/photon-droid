@@ -3,4 +3,5 @@
 <color name="window_background">#FFF5F5F5</color>
     <color name="divider_color">#cdcdcd</color>
     <color name="mmwr_blue">#155eab</color>
+    <color name="agree_button_background">#000000</color>
 </resources>

@@ -1,5 +1,6 @@
 package gov.cdc.mmwrexpress;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.support.v4.app.FragmentManager;
@@ -13,10 +14,12 @@ import io.realm.Realm;
 public class ArticleListActivity extends BaseActivity {
 
     private static final String TAG = "ArticleListActivity";
+    public static final String PREFS_NAME = "CdcMmwrExpressPrefsFile";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         // navigationview setup
@@ -29,6 +32,15 @@ public class ArticleListActivity extends BaseActivity {
             addArticleListFragment();
         }
 
+        // Restore preferences
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        boolean agreedToEula = settings.getBoolean("agreedToEula", false);
+        if (agreedToEula == false)
+            addDisplayEulaFragment();
+
+
+
+
     }
 
     private void testPersistence() {
@@ -37,6 +49,16 @@ public class ArticleListActivity extends BaseActivity {
 
         Log.d(TAG, "Done with persistence tests.");
     }
+
+    private void addDisplayEulaFragment() {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        EulaFragment fragment = new EulaFragment();
+        transaction.replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
 
     private void addArticleListFragment() {
         FragmentManager manager = getSupportFragmentManager();
