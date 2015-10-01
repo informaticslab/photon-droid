@@ -45,6 +45,7 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        startService();
     }
 
     @Override
@@ -79,7 +80,7 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
 
     @Override public void onStart() {
         super.onStart();
-        startService();
+
 
     }
     @Override public void onRefresh() {
