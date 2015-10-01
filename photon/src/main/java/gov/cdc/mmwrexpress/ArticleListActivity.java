@@ -35,8 +35,8 @@ public class ArticleListActivity extends BaseActivity {
         // Restore preferences
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         boolean agreedToEula = settings.getBoolean("agreedToEula", false);
-        if (agreedToEula == false)
-            addDisplayEulaFragment();
+        /*if (agreedToEula == false)
+            addDisplayEulaFragment();*/
 
 
 
@@ -50,14 +50,14 @@ public class ArticleListActivity extends BaseActivity {
         Log.d(TAG, "Done with persistence tests.");
     }
 
-    private void addDisplayEulaFragment() {
+ /*   private void addDisplayEulaFragment() {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         EulaFragment fragment = new EulaFragment();
         transaction.replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
                 .commit();
-    }
+    }*/
 
 
     private void addArticleListFragment() {

@@ -39,5 +39,6 @@
     <string name="content_page_1">Page 1 of 3, swipe left for next.</string>
     <string name="content_page_2">Page 2 of 3, swipe left or right for next or previous.</string>
     <string name="content_page_3">Page 3 of 3, swipe right for previous.</string>
+    <string name="title_activity_eula">EulaActivity</string>
 
 </resources>

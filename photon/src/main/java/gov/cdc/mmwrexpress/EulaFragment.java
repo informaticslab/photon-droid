@@ -1,3 +1,4 @@
+/*
 package gov.cdc.mmwrexpress;
 
 import android.content.SharedPreferences;
@@ -69,3 +70,4 @@ public class EulaFragment extends Fragment{
 
 
 }
+*/
