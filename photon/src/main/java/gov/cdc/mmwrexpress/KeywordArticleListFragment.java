@@ -26,7 +26,7 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 
 
-public class KeywordArticleListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class KeywordArticleListFragment extends Fragment {
 
     private static final String TAG = "KeywordArticleListFragment";
     public static final String KEYWORD_TEXT = "KEYWORD_TEXT";
@@ -35,7 +35,6 @@ public class KeywordArticleListFragment extends Fragment implements SwipeRefresh
     private View view;
     private KeywordArticleAdapter mAdapter;
     private String mKeywordText;
-    private SwipeRefreshLayout swipeLayout;
 
     // Factory method for this fragment class. Constructs a new fragment for the given page number.
     public static KeywordArticleListFragment create(String keywordText) {
@@ -64,8 +63,6 @@ public class KeywordArticleListFragment extends Fragment implements SwipeRefresh
             mArticlesRV.addItemDecoration(new SimpleDividerItemDecoration(
                     getActivity()
             ));
-
-            updateUI();
         } else {
             // If we are returning from a configuration change:
             // "view" is still attached to the previous view hierarchy
@@ -74,10 +71,6 @@ public class KeywordArticleListFragment extends Fragment implements SwipeRefresh
             parent.removeView(view);
         }
         return view;
-    }
-
-    @Override
-    public void onRefresh() {
     }
 
     @Override
@@ -123,8 +116,6 @@ public class KeywordArticleListFragment extends Fragment implements SwipeRefresh
                 Toast.makeText(getActivity(), "An error occurred while accessing the CDC feed.",
                         Toast.LENGTH_LONG).show();
             }
-
-            swipeLayout.setRefreshing(false);
         }
 
         ;

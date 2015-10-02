@@ -25,7 +25,7 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 
-public class KeywordSearchFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener {
+public class KeywordSearchFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     private static final String TAG = "KeywordSearchFragment";
 
@@ -33,7 +33,6 @@ public class KeywordSearchFragment extends Fragment implements SwipeRefreshLayou
     private RecyclerView mKeywordsRV;
     private View view;
     private KeywordAdapter mAdapter;
-    private SwipeRefreshLayout swipeLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,16 +51,6 @@ public class KeywordSearchFragment extends Fragment implements SwipeRefreshLayou
             mKeywordsRV.addItemDecoration(new SimpleDividerItemDecoration(
                     getActivity()
             ));
-            swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
-            swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    swipeLayout.setRefreshing(true);
-                    //startService();
-                }
-            });
-
-            updateUI();
          } else {
             // If we are returning from a configuration change:
             // "view" is still attached to the previous view hierarchy
@@ -80,10 +69,6 @@ public class KeywordSearchFragment extends Fragment implements SwipeRefreshLayou
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
         searchView.setOnQueryTextListener(this);
 
-    }
-
-    @Override
-    public void onRefresh() {
     }
 
     @Override
