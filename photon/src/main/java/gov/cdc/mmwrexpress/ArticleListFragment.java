@@ -328,12 +328,13 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
 
         @Override
         public void onClick(View v) {
-
-            Article article = mIssueArticleItem.article;
-            mAdapter.setArticleReadState(article);
-            Intent intent = ContentActivity.newIntent(getActivity(), article.getAlready_known(),
-                    article.getAdded_by_report(), article.getImplications());
-            startActivity(intent);
+            if(mViewType != ArticleAdapter.ISSUE_VIEW_TYPE) {
+                Article article = mIssueArticleItem.article;
+                mAdapter.setArticleReadState(article);
+                Intent intent = ContentActivity.newIntent(getActivity(), article.getAlready_known(),
+                        article.getAdded_by_report(), article.getImplications());
+                startActivity(intent);
+            }
 
         }
 
