@@ -21,7 +21,7 @@ import android.widget.Toast;
 public class BaseActivity extends AppCompatActivity {
 
     protected ActionBarDrawerToggle mDrawerToggle;
-    private DrawerLayout mDrawerLayout;
+    protected DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
 
 
@@ -48,7 +48,7 @@ public class BaseActivity extends AppCompatActivity {
     /**
      * In case if you require to handle drawer open and close states
      */
-    private void setupActionBarDrawerToogle() {
+    protected void setupActionBarDrawerToogle() {
 
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
