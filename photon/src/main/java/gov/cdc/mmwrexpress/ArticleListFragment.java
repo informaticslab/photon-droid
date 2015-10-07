@@ -148,8 +148,8 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
                 //refreshFromStoredArticles();
                 mAdapter.dataSetChanged();
             } else {
-                Toast.makeText(getActivity(), "An error occurred while accessing the CDC feed.",
-                        Toast.LENGTH_LONG).show();
+                //Toast.makeText(getActivity(), "An error occurred while accessing the CDC feed.",
+                        //Toast.LENGTH_LONG).show();
             }
 
             swipeLayout.setRefreshing(false);

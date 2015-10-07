@@ -193,5 +193,10 @@ public class BaseActivity extends AppCompatActivity {
         return "";
     }
 
+    protected void setActionBarTitle(String title)
+    {
+        getSupportActionBar().setTitle(title);
+    }
+
 
 }

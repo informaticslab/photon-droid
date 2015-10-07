@@ -16,6 +16,7 @@ public class WebViewActivity extends BaseActivity {
 
     private String mWebPage;
     private WebView mWebView;
+    private String toolbarTitle;
 
     public static Intent newIntent(Context packageContext, String webPage) {
 
@@ -38,6 +39,8 @@ public class WebViewActivity extends BaseActivity {
         Intent intent = getIntent();
         mWebPage = intent.getStringExtra(WEB_VIEW_PAGE);
         mWebView = (WebView)findViewById(R.id.webview);
+        String toolbarTitle = intent.getStringExtra("toolbarTitle");
+        setActionBarTitle(toolbarTitle);
 
         mWebView.loadUrl("file:///android_asset/" + mWebPage);
 

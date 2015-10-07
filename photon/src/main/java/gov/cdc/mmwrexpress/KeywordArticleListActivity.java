@@ -34,6 +34,7 @@ public class KeywordArticleListActivity extends BaseActivity {
         // get the message from the intent
         Intent intent = getIntent();
         mKeywordText = intent.getStringExtra(KEYWORD_TEXT);
+        setActionBarTitle("Subject: " +mKeywordText);
 
 
         if (savedInstanceState == null) {
