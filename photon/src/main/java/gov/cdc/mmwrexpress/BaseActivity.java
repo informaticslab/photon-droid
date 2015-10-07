@@ -96,16 +96,19 @@ public class BaseActivity extends AppCompatActivity {
                         }
                         if (menuItem.getItemId() == R.id.nav_help_fragment) {
                             Intent intent = WebViewActivity.newIntent(BaseActivity.this, "help.html");
+                            intent.putExtra("toolbarTitle", "Help");
                             intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                             startActivity(intent);
                         }
                         if (menuItem.getItemId() == R.id.nav_eula_fragment) {
                             Intent intent = WebViewActivity.newIntent(BaseActivity.this, "eula.html");
+                            intent.putExtra("toolbarTitle", "User License Agreement");
                             intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                             startActivity(intent);
                         }
                         if (menuItem.getItemId() == R.id.nav_about_fragment) {
                             Intent intent = WebViewActivity.newIntent(BaseActivity.this, "about.html");
+                            intent.putExtra("toolbarTitle", "About");
                             intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                             startActivity(intent);
                         }
