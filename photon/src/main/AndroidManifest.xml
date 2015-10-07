@@ -17,19 +17,19 @@
         </activity>
         <activity
             android:name=".ContentActivity"
-            android:label="Article"
+            android:label="Summary"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".KeywordSearchActivity"
-            android:label="Search By Subject"
+            android:label="Search"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".KeywordArticleListActivity"
-            android:label="Search By Subject"
+            android:label="Search"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
         </activity>
