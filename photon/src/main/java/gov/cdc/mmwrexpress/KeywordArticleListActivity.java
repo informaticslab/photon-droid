@@ -57,16 +57,4 @@ public class KeywordArticleListActivity extends BaseActivity {
         super.onSaveInstanceState(outState);
         outState.putBoolean("fragment_added", true);
     }
-
-    @Override
-    public void onBackPressed() {
-        if (isNavDrawerOpen()) {
-            closeNavDrawer();
-        } else {
-            Intent intent = new Intent(getApplicationContext(), KeywordSearchActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            startActivity(intent);
-            finish();
-        }
-    }
 }
