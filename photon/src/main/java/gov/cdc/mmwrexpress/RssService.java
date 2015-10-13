@@ -58,3 +58,4 @@ public class RssService extends IntentService {
         }
     }
 }
+

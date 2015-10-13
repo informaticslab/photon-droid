@@ -41,4 +41,6 @@
     <string name="content_page_3">Page 3 of 3, swipe right for previous.</string>
     <string name="title_activity_eula">EulaActivity</string>
 
+    <string name="gcm_defaultSenderId">104460978602</string>
+
 </resources>

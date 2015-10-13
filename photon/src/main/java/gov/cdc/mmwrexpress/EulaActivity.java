@@ -25,10 +25,10 @@ public class EulaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eula);
 
-        pref = getApplicationContext().getSharedPreferences(ArticleListActivity.PREFS_NAME, 0);
+        pref = getApplicationContext().getSharedPreferences(MmwrPreferences.PREFS_NAME, 0);
 
         //If EULA was already accepted, launch Article List
-        if(pref.getBoolean("agreedToEula", false) == true)
+        if(pref.getBoolean(MmwrPreferences.AGREED_TO_EULA, false) == true)
         {
             Intent intent = new Intent(getApplicationContext(), ArticleListActivity.class);
             startActivity(intent);
@@ -45,10 +45,9 @@ public class EulaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 SharedPreferences.Editor editor = pref.edit();
-                editor.putBoolean("agreedToEula", true);
-                editor.putString("versionName", getApplicationVersionName());
-
-                        editor.commit();
+                editor.putBoolean(MmwrPreferences.AGREED_TO_EULA, true);
+                editor.putString(MmwrPreferences.APP_VERSION, getApplicationVersionName());
+                editor.commit();
                 Intent intent = new Intent(getApplicationContext(), ArticleListActivity.class);
                 startActivity(intent);
                 finish();
