@@ -3,7 +3,9 @@ package gov.cdc.mmwrexpress;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.view.ViewPager;
+import android.view.MenuItem;
 import android.webkit.WebView;
 
 /**
@@ -16,7 +18,7 @@ public class WebViewActivity extends BaseActivity {
 
     private String mWebPage;
     private WebView mWebView;
-    private String toolbarTitle;
+    private String toolbarTitle = "";
 
     public static Intent newIntent(Context packageContext, String webPage) {
 
@@ -39,7 +41,7 @@ public class WebViewActivity extends BaseActivity {
         Intent intent = getIntent();
         mWebPage = intent.getStringExtra(WEB_VIEW_PAGE);
         mWebView = (WebView)findViewById(R.id.webview);
-        String toolbarTitle = intent.getStringExtra("toolbarTitle");
+        toolbarTitle = intent.getStringExtra("toolbarTitle");
         setActionBarTitle(toolbarTitle);
 
         mWebView.loadUrl("file:///android_asset/" + mWebPage);
@@ -47,5 +49,77 @@ public class WebViewActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        if(toolbarTitle.equals("Help"))
+                mNavigationView.setCheckedItem(R.id.nav_help_fragment);
+        else if(toolbarTitle.equals("About"))
+                mNavigationView.setCheckedItem(R.id.nav_about_fragment);
+        else if(toolbarTitle.equals("User License Agreement"))
+                mNavigationView.setCheckedItem(R.id.nav_eula_fragment);
 
+        super.onResume();
+    }
+
+    @Override
+    protected void setupDrawerContent(final NavigationView navigationView) {
+
+        //setting up selected item listener
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        menuItem.setChecked(true);
+                        if (menuItem.getItemId() == R.id.nav_articles_list_fragment) {
+                            Intent intent = new Intent(getApplicationContext(), ArticleListActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        }
+
+                        if (menuItem.getItemId() == R.id.nav_search_fragment) {
+                            Intent intent = new Intent(getApplicationContext(), KeywordSearchActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        }
+                        if (menuItem.getItemId() == R.id.nav_help_fragment) {
+                            if(toolbarTitle.equals("Help"))
+                            {
+                                mDrawerLayout.closeDrawers();
+                            }
+                            else {
+                                Intent intent = WebViewActivity.newIntent(getApplicationContext(), "help.html");
+                                intent.putExtra("toolbarTitle", "Help");
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                            }
+                        }
+                        if (menuItem.getItemId() == R.id.nav_eula_fragment) {
+                            if(toolbarTitle.equals("User License Agreement"))
+                            {
+                                mDrawerLayout.closeDrawers();
+                            }
+                            else {
+                                Intent intent = WebViewActivity.newIntent(getApplicationContext(), "eula.html");
+                                intent.putExtra("toolbarTitle", "User License Agreement");
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                            }
+                        }
+                        if (menuItem.getItemId() == R.id.nav_about_fragment) {
+                            if(toolbarTitle.equals("About"))
+                            {
+                                mDrawerLayout.closeDrawers();
+                            }
+                            else {
+                                Intent intent = WebViewActivity.newIntent(getApplicationContext(), "about.html");
+                                intent.putExtra("toolbarTitle", "About");
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                            }
+                        }
+                        mDrawerLayout.closeDrawers();
+                        return true;
+                    }
+                });
+    }
 }

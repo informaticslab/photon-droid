@@ -8,9 +8,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.design.widget.NavigationView;
 import android.util.Log;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.MenuItem;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -53,6 +55,8 @@ public class ArticleListActivity extends BaseActivity {
         super.onResume();
         LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
                 new IntentFilter(MmwrPreferences.REGISTRATION_COMPLETE));
+        mNavigationView.setCheckedItem(R.id.nav_articles_list_fragment);
+
     }
 
     @Override
@@ -60,7 +64,6 @@ public class ArticleListActivity extends BaseActivity {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
         super.onPause();
     }
-
 
 
     private void testPersistence() {
@@ -101,6 +104,54 @@ public class ArticleListActivity extends BaseActivity {
             return;
         }
         return;
+    }
+
+
+    @Override
+    protected void setupDrawerContent(final NavigationView navigationView) {
+        //setting up selected item listener
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        menuItem.setChecked(true);
+                        if (menuItem.getItemId() == R.id.nav_articles_list_fragment) {
+                            mDrawerLayout.closeDrawers();
+                        }
+
+                        if (menuItem.getItemId() == R.id.nav_search_fragment) {
+                            Intent intent = new Intent(getApplicationContext(), KeywordSearchActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        }
+                        if (menuItem.getItemId() == R.id.nav_help_fragment) {
+                            Intent intent = WebViewActivity.newIntent(getApplicationContext(), "help.html");
+                            intent.putExtra("toolbarTitle", "Help");
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        }
+                        if (menuItem.getItemId() == R.id.nav_eula_fragment) {
+                            Intent intent = WebViewActivity.newIntent(getApplicationContext(), "eula.html");
+                            intent.putExtra("toolbarTitle", "User License Agreement");
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        }
+                        if (menuItem.getItemId() == R.id.nav_about_fragment) {
+                            Intent intent = WebViewActivity.newIntent(getApplicationContext(), "about.html");
+                            intent.putExtra("toolbarTitle", "About");
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        }
+                        mDrawerLayout.closeDrawers();
+                        return true;
+                    }
+                });
+    }
+
+    @Override
+    protected void onStop() {
+        mDrawerLayout.closeDrawers();
+        super.onStop();
     }
 
     /**
@@ -149,9 +200,6 @@ public class ArticleListActivity extends BaseActivity {
             startService(intent);
         }
 
-
     }
-
-
 }
 

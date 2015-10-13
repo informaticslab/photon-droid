@@ -100,6 +100,7 @@ public class JsonArticleParser {
 
                 } catch (JSONException ex) {
                     ex.printStackTrace();
+                    Log.d("JsonArticleParser", "JSON Article title = " + jsonObject.getString(TAG_TITLE));
                     realm.cancelTransaction();
                 }
 

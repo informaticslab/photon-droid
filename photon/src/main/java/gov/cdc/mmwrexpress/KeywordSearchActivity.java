@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
@@ -118,5 +119,53 @@ public class KeywordSearchActivity extends BaseActivity {
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+    }
+
+    @Override
+    protected void onResume() {
+        mNavigationView.setCheckedItem(R.id.nav_search_fragment);
+        super.onResume();
+    }
+
+    @Override
+    protected void setupDrawerContent(final NavigationView navigationView) {
+
+        //setting up selected item listener
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        menuItem.setChecked(true);
+                        if (menuItem.getItemId() == R.id.nav_articles_list_fragment) {
+                            Intent intent = new Intent(getApplicationContext(), ArticleListActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        }
+
+                        if (menuItem.getItemId() == R.id.nav_search_fragment) {
+                            mDrawerLayout.closeDrawers();
+                        }
+                        if (menuItem.getItemId() == R.id.nav_help_fragment) {
+                            Intent intent = WebViewActivity.newIntent(getApplicationContext(), "help.html");
+                            intent.putExtra("toolbarTitle", "Help");
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        }
+                        if (menuItem.getItemId() == R.id.nav_eula_fragment) {
+                            Intent intent = WebViewActivity.newIntent(getApplicationContext(), "eula.html");
+                            intent.putExtra("toolbarTitle", "User License Agreement");
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        }
+                        if (menuItem.getItemId() == R.id.nav_about_fragment) {
+                            Intent intent = WebViewActivity.newIntent(getApplicationContext(), "about.html");
+                            intent.putExtra("toolbarTitle", "About");
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        }
+                        mDrawerLayout.closeDrawers();
+                        return true;
+                    }
+                });
     }
 }

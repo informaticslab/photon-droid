@@ -28,7 +28,7 @@ public class BaseActivity extends AppCompatActivity {
 
     protected ActionBarDrawerToggle mDrawerToggle;
     protected DrawerLayout mDrawerLayout;
-    private NavigationView mNavigationView;
+    protected NavigationView mNavigationView;
 
 
 
@@ -82,8 +82,7 @@ public class BaseActivity extends AppCompatActivity {
 
     }
 
-    private void setupDrawerContent(final NavigationView navigationView) {
-
+    protected void setupDrawerContent(final NavigationView navigationView) {
         //setting up selected item listener
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -91,32 +90,32 @@ public class BaseActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         menuItem.setChecked(true);
                         if (menuItem.getItemId() == R.id.nav_articles_list_fragment) {
-                            Intent intent = new Intent(BaseActivity.this, ArticleListActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            Intent intent = new Intent(getApplicationContext(), ArticleListActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
                         }
 
                         if (menuItem.getItemId() == R.id.nav_search_fragment) {
-                            Intent intent = new Intent(BaseActivity.this, KeywordSearchActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            Intent intent = new Intent(getApplicationContext(), KeywordSearchActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
                         }
                         if (menuItem.getItemId() == R.id.nav_help_fragment) {
-                            Intent intent = WebViewActivity.newIntent(BaseActivity.this, "help.html");
+                            Intent intent = WebViewActivity.newIntent(getApplicationContext(), "help.html");
                             intent.putExtra("toolbarTitle", "Help");
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
                         }
                         if (menuItem.getItemId() == R.id.nav_eula_fragment) {
-                            Intent intent = WebViewActivity.newIntent(BaseActivity.this, "eula.html");
+                            Intent intent = WebViewActivity.newIntent(getApplicationContext(), "eula.html");
                             intent.putExtra("toolbarTitle", "User License Agreement");
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
                         }
                         if (menuItem.getItemId() == R.id.nav_about_fragment) {
-                            Intent intent = WebViewActivity.newIntent(BaseActivity.this, "about.html");
+                            Intent intent = WebViewActivity.newIntent(getApplicationContext(), "about.html");
                             intent.putExtra("toolbarTitle", "About");
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
                         }
                         mDrawerLayout.closeDrawers();
@@ -207,6 +206,5 @@ public class BaseActivity extends AppCompatActivity {
     {
         getSupportActionBar().setTitle(title);
     }
-
 
 }
