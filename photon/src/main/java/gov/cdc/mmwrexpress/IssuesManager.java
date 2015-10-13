@@ -124,7 +124,7 @@ public class IssuesManager {
 
         for (Keyword currKeyword : this.keywords) {
 
-            if (currKeyword.getText().equals(text))
+            if (currKeyword.getText().equalsIgnoreCase(text))
                 return currKeyword;
         }
 

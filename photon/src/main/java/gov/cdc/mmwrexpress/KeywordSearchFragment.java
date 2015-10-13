@@ -191,7 +191,7 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
             //constraint = constraint.toString().toLowerCase();
             for (Keyword keyword: realmKeywords) {
                 item = new KeywordItem(keyword);
-                if (keyword.getText().toLowerCase().contains(queryText.toLowerCase()))
+                if (keyword.getText().toLowerCase().startsWith(queryText.toLowerCase()))
                     listItems.add(item);
             }
             notifyDataSetChanged();
