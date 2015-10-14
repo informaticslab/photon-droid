@@ -14,7 +14,7 @@ public class Article extends RealmObject {
 
     private String title;
     private String url;
-    @Ignore Issue issue;
+    private Issue issue;
     private String already_known;
     private String added_by_report;
     private String implications;

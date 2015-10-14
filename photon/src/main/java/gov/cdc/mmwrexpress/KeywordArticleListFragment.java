@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import io.realm.Realm;
@@ -122,18 +123,26 @@ public class KeywordArticleListFragment extends Fragment {
     };
 
 
-    private class KeywordArticleItem {
+    private class KeywordArticleItem implements Comparable<KeywordArticleItem>{
 
         private String text;
         private Article article;
+        private Issue issue;
 
         private KeywordArticleItem(Article article) {
 
             this.text = article.getTitle();
             this.article = article;
+            this.issue = article.getIssue();
 
         }
 
+        @Override
+        public int compareTo(KeywordArticleItem another) {
+            int last = this.issue.getDate().compareTo(another.issue.getDate());
+            return last == 0 ? last: this.issue.getDate().compareTo(another.issue.getDate()) ;
+
+        }
     }
 
 
@@ -195,7 +204,7 @@ public class KeywordArticleListFragment extends Fragment {
                 item = new KeywordArticleItem(article);
                 listItems.add(item);
             }
-
+            Collections.sort(listItems, Collections.reverseOrder());
         }
 
         public void setArticleReadState(Article article) {

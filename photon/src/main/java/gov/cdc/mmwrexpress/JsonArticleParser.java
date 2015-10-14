@@ -87,6 +87,7 @@ public class JsonArticleParser {
                 article.setAdded_by_report(jsonObject.getString(TAG_ADDED_BY_REPORT));
                 article.setImplications(jsonObject.getString(TAG_IMPLICATIONS));
                 article.setUrl(jsonObject.getString(TAG_URL));
+                article.setIssue(issue);
 
                 try {
                     JSONArray keywordJsonArray = jsonObject.getJSONArray(TAG_TAGS);
@@ -97,6 +98,7 @@ public class JsonArticleParser {
                         keywords[i] = keywordJson.getString(TAG_TAG);
                     }
                     issuesManager.addArticleKeywords(keywords, article);
+                    article.setTags(keywords);
 
                 } catch (JSONException ex) {
                     ex.printStackTrace();
@@ -153,6 +155,7 @@ public class JsonArticleParser {
                     article.setAdded_by_report(jsonObject.getString(TAG_ADDED_BY_REPORT));
                     article.setImplications(jsonObject.getString(TAG_IMPLICATIONS));
                     article.setUrl(jsonObject.getString(TAG_URL));
+                    article.setIssue(issue);
 
                     try {
                         JSONArray keywordJsonArray = jsonObject.getJSONArray(TAG_TAGS);
@@ -163,6 +166,7 @@ public class JsonArticleParser {
                             keywords[i] = keywordJson.getString(TAG_TAG);
                         }
                         issuesManager.addArticleKeywords(keywords, article);
+                        article.setTags(keywords);
 
                     } catch (JSONException ex) {
                         ex.printStackTrace();

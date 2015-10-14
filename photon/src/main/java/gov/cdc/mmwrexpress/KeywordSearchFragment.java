@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -96,7 +97,7 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
 
     }
 
-    private class KeywordItem {
+    private class KeywordItem implements Comparable<KeywordItem>{
 
         private String text;
         private Keyword keyword;
@@ -109,6 +110,11 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
 
         }
 
+        @Override
+        public int compareTo(KeywordItem another) {
+            int last = this.text.toLowerCase().compareTo(another.text.toLowerCase());
+            return last == 0 ? this.text.toLowerCase().compareTo(another.text.toLowerCase()) : last;
+        }
     }
 
     @Override
@@ -168,7 +174,8 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
 
             KeywordItem item;
 
-            realmKeywords = realm.where(Keyword.class).findAllSorted("text");
+            realmKeywords = realm.where(Keyword.class).findAllSorted("text".toLowerCase(), RealmResults.SORT_ORDER_ASCENDING);
+
             Log.d(TAG, "Keywords size = " + String.valueOf(realmKeywords.size()));
             this.mKeywords = new ArrayList<Keyword>();
             this.listItems = new ArrayList<KeywordItem>();
@@ -179,6 +186,7 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
                 listItems.add(item);
                     Log.d(TAG, "Keyword: " + keyword.getText());
             }
+            Collections.sort(listItems);
 
         }
 
@@ -194,6 +202,7 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
                 if (keyword.getText().toLowerCase().startsWith(queryText.toLowerCase()))
                     listItems.add(item);
             }
+            Collections.sort(listItems);
             notifyDataSetChanged();
         }
 
