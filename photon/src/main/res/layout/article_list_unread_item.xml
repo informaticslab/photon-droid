@@ -36,7 +36,7 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="12dp"
         android:id="@+id/articleInfoButton"
-        android:src="@drawable/ic_about"/>
+        android:src="@drawable/ic_versions"/>
 </RelativeLayout>
 
 
