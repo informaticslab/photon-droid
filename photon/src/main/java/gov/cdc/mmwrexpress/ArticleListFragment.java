@@ -25,6 +25,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -303,6 +304,7 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
         private IssueArticleItem mIssueArticleItem;
         private int mViewType;
         private TextView mArticleTitleTextView;
+        private ImageButton mArticleInfoButton;
         private ArticleAdapter mAdapter;
 
 
@@ -312,18 +314,32 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
             mViewType = viewType;
             mAdapter = adapter;
 
-            if (viewType == ArticleAdapter.UNREAD_ARTICLE_VIEW_TYPE)
+            if (viewType == ArticleAdapter.UNREAD_ARTICLE_VIEW_TYPE) {
                 mArticleTitleTextView = (TextView) itemView.findViewById(R.id.unreadArticleTitle);
-            else if (viewType == ArticleAdapter.READ_ARTICLE_VIEW_TYPE)
+                mArticleInfoButton = (ImageButton) itemView.findViewById(R.id.articleInfoButton);
+            }
+            else if (viewType == ArticleAdapter.READ_ARTICLE_VIEW_TYPE) {
                 mArticleTitleTextView = (TextView) itemView.findViewById(R.id.readArticleTitle);
+                mArticleInfoButton = (ImageButton) itemView.findViewById(R.id.articleInfoButton);
+            }
             else if (viewType == ArticleAdapter.ISSUE_VIEW_TYPE)
                 mArticleTitleTextView = (TextView) itemView.findViewById(R.id.issueTitle);
 
         }
 
-        public void bindArticle(IssueArticleItem item) {
+        public void bindArticle(final IssueArticleItem item) {
             mIssueArticleItem = item;
             mArticleTitleTextView.setText(mIssueArticleItem.text);
+            if(getItemViewType() == ArticleAdapter.READ_ARTICLE_VIEW_TYPE || getItemViewType() == ArticleAdapter.UNREAD_ARTICLE_VIEW_TYPE) {
+                mArticleInfoButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        DateFormat df = DateFormat.getDateInstance();
+                        Toast.makeText(getActivity().getApplicationContext(), "Publication date: " + df.format(item.article.getIssue().getDate()), Toast.LENGTH_LONG).show();
+
+                    }
+                });
+            }
         }
 
         @Override

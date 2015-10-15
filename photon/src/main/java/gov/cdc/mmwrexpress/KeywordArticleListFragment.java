@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -229,6 +230,7 @@ public class KeywordArticleListFragment extends Fragment {
 
         private KeywordArticleItem mKeywordArticleItem;
         private int mViewType;
+        private ImageButton mArticleInfoButton;
         private TextView mArticleTitleTextView;
         private KeywordArticleAdapter mAdapter;
 
@@ -240,12 +242,20 @@ public class KeywordArticleListFragment extends Fragment {
             mAdapter = adapter;
 
             mArticleTitleTextView = (TextView) itemView.findViewById(R.id.readArticleTitle);
-
+            mArticleInfoButton = (ImageButton) itemView.findViewById(R.id.articleInfoButton);
         }
 
-        public void bindArticle(KeywordArticleItem item) {
+        public void bindArticle(final KeywordArticleItem item) {
             mKeywordArticleItem = item;
             mArticleTitleTextView.setText(mKeywordArticleItem.text);
+            mArticleInfoButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DateFormat df = DateFormat.getDateInstance();
+                    Toast.makeText(getActivity().getApplicationContext(), "Publication date: " + df.format(item.article.getIssue().getDate()), Toast.LENGTH_LONG).show();
+
+                }
+            });
         }
 
         @Override
