@@ -10,4 +10,15 @@
         <item name="colorAccent">#E040FB</item>
         <item name="android:windowBackground">@color/window_background</item>
     </style>
+    <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@color/mmwr_blue</item>
+        <item name="tabTextAppearance">@style/MyCustomTabTextAppearance</item>
+        <item name="android:background">@color/mmwr_blue</item>
+        <item name="tabSelectedTextColor">@android:color/white</item>
+    </style>
+    <style name="MyCustomTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
 </resources>
