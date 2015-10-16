@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTabHost;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -40,6 +42,7 @@ public class ContentActivity extends BaseActivity {
 
     // pager adapter provides pages view pager widget
     private PagerAdapter mPagerAdapter;
+    private FragmentTabHost mTabHost;
 
     public static Intent newIntent(Context packageContext, String known, String added, String implications) {
 
@@ -67,15 +70,22 @@ public class ContentActivity extends BaseActivity {
         implications = intent.getStringExtra(Constants.ARTICLE_IMPLICATIONS_MSG);
 
 
+
+
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ContentPagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_host);
+        tabLayout.setupWithViewPager(mPager);
+
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
             public void onPageSelected(int position) {
                 invalidateOptionsMenu();
-                showSwipeHelpSnackbar(position);
+                //showSwipeHelpSnackbar(position);
 
             }
 
@@ -88,7 +98,7 @@ public class ContentActivity extends BaseActivity {
             }
 
         });
-        showSnackbar(R.string.content_page_1);
+        //showSnackbar(R.string.content_page_1);
 
 
     }
@@ -168,6 +178,7 @@ public class ContentActivity extends BaseActivity {
      * A pager adapter that represents the blue boxes in MMWR Weekly
      */
     private class ContentPagerAdapter extends FragmentStatePagerAdapter {
+        private String [] tabTitles = new String [] {"Known", "Added", "Implications"};
         public ContentPagerAdapter(android.support.v4.app.FragmentManager fm) {
             super(fm);
         }
@@ -191,6 +202,10 @@ public class ContentActivity extends BaseActivity {
             return NUM_PAGES;
         }
 
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return tabTitles[position];
+        }
 
         public void o(int pageNumber) {
             // Just define a callback method in your fragment and call it like this!

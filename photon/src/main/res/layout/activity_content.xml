@@ -29,23 +29,33 @@
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
         </android.support.design.widget.AppBarLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|enterAlways|exitUntilCollapsed"
+            android:elevation="4dp"
+            android:orientation="vertical"
+            android:paddingTop="?attr/actionBarSize">
 
-        <android.support.design.widget.CoordinatorLayout android:id="@+id/pager_coordinator"
-                                                         xmlns:android="http://schemas.android.com/apk/res/android"
-                                                         xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                         android:layout_width="match_parent"
-                                                         android:layout_height="match_parent"
-                                                         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                                                         >
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tab_host"
+                style="@style/MyCustomTabLayout"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                app:layout_scrollFlags="scroll|enterAlways|exitUntilCollapsed"
+                app:tabMode="fixed"
+                app:tabGravity="fill"/>
 
+            <android.support.v4.view.ViewPager
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/pager"
+                app:layout_scrollFlags="scroll|enterAlways|exitUntilCollapsed"
+                android:layout_width="match_parent"
+                android:layout_height="0px"
+                android:layout_weight="1"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-            <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-                                           android:id="@+id/pager"
-                                           android:layout_width="match_parent"
-                                           android:layout_height="match_parent"
-                                           app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-        </android.support.design.widget.CoordinatorLayout>
-
+        </LinearLayout>
     </android.support.design.widget.CoordinatorLayout>
 
     <!-- Navigation view -->
