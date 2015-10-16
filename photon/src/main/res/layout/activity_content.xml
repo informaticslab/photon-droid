@@ -33,6 +33,7 @@
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|enterAlways|exitUntilCollapsed"
+            android:elevation="4dp"
             android:orientation="vertical"
             android:paddingTop="?attr/actionBarSize">
 
