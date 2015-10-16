@@ -165,10 +165,11 @@ public class KeywordArticleListFragment extends Fragment {
             this.realm = Realm.getInstance(context);
             Keyword firstKeyword  = realm.where(Keyword.class).equalTo("text", keywordText).findFirst();
             mKeywordArticles = firstKeyword.getArticles();
-            Log.d(TAG, "realm path: " + realm.getPath());
+            //Log.d(TAG, "realm path: " + realm.getPath());
 
             // refresh data from database
             this.refreshData();
+            realm.close();
         }
 
         @Override
@@ -197,7 +198,7 @@ public class KeywordArticleListFragment extends Fragment {
 
             KeywordArticleItem item;
 
-            Log.d(TAG, "Keyword articles[] size = " + String.valueOf(mKeywordArticles.size()));
+            //Log.d(TAG, "Keyword articles[] size = " + String.valueOf(mKeywordArticles.size()));
             this.listItems = new ArrayList<KeywordArticleItem>();
 
             // use sorted articles for list view
@@ -209,13 +210,13 @@ public class KeywordArticleListFragment extends Fragment {
         }
 
         public void setArticleReadState(Article article) {
-
+            this.realm = Realm.getInstance(context);
             realm.beginTransaction();
 
             article.setUnread(false);
 
             realm.commitTransaction();
-
+            realm.close();
         }
 
 

@@ -205,8 +205,8 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
 
             this.context = context;
             //Realm.deleteRealmFile(context);
-            this.realm = Realm.getInstance(context);
-            Log.d(TAG, "realm path: " + realm.getPath());
+
+            //Log.d(TAG, "realm path: " + realm.getPath());
 
             // refresh data from database
             this.refreshData();
@@ -257,7 +257,7 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
         public void refreshData() {
 
             IssueArticleItem item;
-
+            this.realm = Realm.getInstance(context);
             issues = realm.where(Issue.class).findAllSorted("date", RealmResults.SORT_ORDER_DESCENDING);
             Log.d(TAG, "Issues size = " + String.valueOf(issues.size()));
             this.articles = new ArrayList<Article>();
@@ -270,24 +270,24 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
                 for (Article article: issue.getArticles()) {
                     item = new IssueArticleItem(article);
                     listItems.add(item);
-                    if (article.isUnread())
-                        Log.d(TAG, "Unread article: " + article.getTitle());
-                    else
-                        Log.d(TAG, "Read article: " + article.getTitle());
+                    //if (article.isUnread())
+                        //Log.d(TAG, "Unread article: " + article.getTitle());
+                    //else
+                        //Log.d(TAG, "Read article: " + article.getTitle());
 
                 }
             }
-
+            realm.close();
         }
 
         public void setArticleReadState(Article article) {
-
+            this.realm = Realm.getInstance(context);
             realm.beginTransaction();
 
             article.setUnread(false);
 
             realm.commitTransaction();
-
+            realm.close();
         }
 
 

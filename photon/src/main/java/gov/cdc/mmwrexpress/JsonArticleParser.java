@@ -98,7 +98,6 @@ public class JsonArticleParser {
                         keywords[i] = keywordJson.getString(TAG_TAG);
                     }
                     issuesManager.addArticleKeywords(keywords, article);
-                    article.setTags(keywords);
 
                 } catch (JSONException ex) {
                     ex.printStackTrace();
@@ -166,7 +165,6 @@ public class JsonArticleParser {
                             keywords[i] = keywordJson.getString(TAG_TAG);
                         }
                         issuesManager.addArticleKeywords(keywords, article);
-                        article.setTags(keywords);
 
                     } catch (JSONException ex) {
                         ex.printStackTrace();

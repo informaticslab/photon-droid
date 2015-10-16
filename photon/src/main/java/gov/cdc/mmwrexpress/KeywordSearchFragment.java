@@ -137,14 +137,15 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
         private ArrayList<Keyword> mKeywords;
         private ArrayList<KeywordItem> listItems;
         private Realm realm;
+        private Context context;
         private RealmResults<Keyword> realmKeywords;
 
 
 
         public KeywordAdapter(Context context) {
 
-            this.realm = Realm.getInstance(context);
-            Log.d(TAG, "realm path: " + realm.getPath());
+            this.context = context;
+            //Log.d(TAG, "realm path: " + realm.getPath());
 
             // refresh data from database
             this.refreshData();
@@ -173,10 +174,10 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
         public void refreshData() {
 
             KeywordItem item;
-
+            this.realm = Realm.getInstance(context);
             realmKeywords = realm.where(Keyword.class).findAllSorted("text".toLowerCase(), RealmResults.SORT_ORDER_ASCENDING);
 
-            Log.d(TAG, "Keywords size = " + String.valueOf(realmKeywords.size()));
+            //Log.d(TAG, "Keywords size = " + String.valueOf(realmKeywords.size()));
             this.mKeywords = new ArrayList<Keyword>();
             this.listItems = new ArrayList<KeywordItem>();
 
@@ -184,16 +185,19 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
             for (Keyword keyword : realmKeywords) {
                 item = new KeywordItem(keyword);
                 listItems.add(item);
-                    Log.d(TAG, "Keyword: " + keyword.getText());
+                    //Log.d(TAG, "Keyword: " + keyword.getText());
             }
             Collections.sort(listItems);
-
+            realm.close();
         }
 
 
         public void setFilter(String queryText) {
 
             KeywordItem item;
+
+            this.realm = Realm.getInstance(context);
+            realmKeywords = realm.where(Keyword.class).findAllSorted("text".toLowerCase(), RealmResults.SORT_ORDER_ASCENDING);
 
             listItems = new ArrayList<>();
             //constraint = constraint.toString().toLowerCase();
@@ -204,6 +208,7 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
             }
             Collections.sort(listItems);
             notifyDataSetChanged();
+            realm.close();
         }
 
         @UiThread

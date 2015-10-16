@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
+import java.security.Key;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
@@ -101,6 +103,7 @@ public class IssuesManager {
 
                     // delete stored article and create new one
                     article.removeFromRealm();
+                    removeUnusedKeywords();
                     return createArticleInIssue(issue, title, version);
 
                 }
@@ -138,6 +141,7 @@ public class IssuesManager {
         Keyword newKeyword = realm.createObject(Keyword.class);
         newKeyword.setText(text);
         newKeyword.getArticles().add(article);
+        //article.getKeywords().add(newKeyword);
         return newKeyword;
     }
 
@@ -161,6 +165,19 @@ public class IssuesManager {
 
     }
 
+    public void removeUnusedKeywords(){
+        ArrayList<Keyword> k = new ArrayList<Keyword>();
+        for(Keyword keyword : keywords)
+        {
+            k.add(keyword);
+        }
+        for(Keyword keyword : k){
+            if(keyword.getArticles().size()==0){
+                Log.d("Remove keyword: ", " " +keyword.getText());
+                keyword.removeFromRealm();
+            }
+        }
+    }
     public static Date getIssueDateFromString(String dateAsString)
     {
         Date date = null;
