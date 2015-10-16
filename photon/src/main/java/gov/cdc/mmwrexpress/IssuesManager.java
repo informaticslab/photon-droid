@@ -27,13 +27,10 @@ public class IssuesManager {
     RealmResults<Issue> issues;
     RealmResults<Keyword> keywords;
     boolean hasIssues;
-    private Realm realm;
 
-    public IssuesManager(Realm realm) {
+    public IssuesManager() {
 
         this.hasIssues = false;
-        this.realm = realm;
-
     }
 
 
@@ -53,32 +50,34 @@ public class IssuesManager {
 
     public Issue processRssIssue(String dateAsString, Integer volume, Integer number) {
 
-
+        Realm realm = Realm.getDefaultInstance();
         Date date = getIssueDateFromString(dateAsString);
         RealmQuery<Issue> query = realm.where(Issue.class).equalTo("volume",volume).equalTo("number",number);
         Issue foundIssue = query.findFirst();
-
+        Issue results;
         if (foundIssue != null) {
-            return foundIssue;
+            results = foundIssue;
         } else {
             Issue newIssue = realm.createObject(Issue.class);
             newIssue.setDate(date);
             newIssue.setVolume(volume);
             newIssue.setNumber(number);
 
-            return newIssue;
+            results = newIssue;
         }
-
+        realm.close();
+        return results;
     }
 
 
     public Article createArticleInIssue(Issue issue, String title, int version) {
-
+        Realm realm = Realm.getDefaultInstance();
         Article newArticle = realm.createObject(Article.class);
         newArticle.setTitle(title);
         newArticle.setVersion(version);
         newArticle.setUnread(true);
         issue.getArticles().add(newArticle);
+        realm.close();
         return newArticle;
 
     }
@@ -122,14 +121,17 @@ public class IssuesManager {
     }
 
     private Keyword getKeywordWithText(String text) {
-
+        Realm realm = Realm.getDefaultInstance();
         this.keywords = realm.allObjects(Keyword.class);
 
         for (Keyword currKeyword : this.keywords) {
 
-            if (currKeyword.getText().equalsIgnoreCase(text))
+            if (currKeyword.getText().equalsIgnoreCase(text)) {
+                realm.close();
                 return currKeyword;
+            }
         }
+        realm.close();
 
         return null;
 
@@ -137,11 +139,11 @@ public class IssuesManager {
 
 
     private Keyword createNewKeywordInArticle(String text, Article article) {
-
+        Realm realm = Realm.getDefaultInstance();
         Keyword newKeyword = realm.createObject(Keyword.class);
         newKeyword.setText(text);
         newKeyword.getArticles().add(article);
-        //article.getKeywords().add(newKeyword);
+        realm.close();
         return newKeyword;
     }
 

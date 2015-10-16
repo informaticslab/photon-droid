@@ -18,13 +18,11 @@ public class CdcRssParser {
     // don't use namespaces
     private final String ns = null;
     private JsonArticleParser jsonArticleParser;
-    private Realm realm;
 
-    public CdcRssParser (Context ctx) {
+    public CdcRssParser () {
 
         // uncomment this line and run once when data model changes
-        this.realm = Realm.getInstance(ctx);
-        this.jsonArticleParser = new JsonArticleParser(this.realm);
+        this.jsonArticleParser = new JsonArticleParser();
     }
 
     public List<ArticleListItem> parse(InputStream inputStream) throws XmlPullParserException, IOException {

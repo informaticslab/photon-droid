@@ -18,7 +18,6 @@ public class JsonArticleParser {
 
     String json;
     Article article;
-    private Realm realm;
     private IssuesManager issuesManager;
 
     // JSON Node names
@@ -35,10 +34,9 @@ public class JsonArticleParser {
     private static final String TAG_CONTENT_VER = "content-ver";
     private static final String TAG_SCHEMA_VER = "schema-ver";
 
-    public JsonArticleParser(Realm realm) {
+    public JsonArticleParser() {
 
-        this.realm = realm;
-        this.issuesManager = new IssuesManager(realm);
+        this.issuesManager = new IssuesManager();
     }
 
     public boolean isJSONValid(String test) {
@@ -57,12 +55,13 @@ public class JsonArticleParser {
 
     public Article parseJsonArticle(String jsonArticle) {
 
+
         if (jsonArticle == null)
             return null;
 
         if (isJSONValid(jsonArticle) == false)
             return null;
-
+        Realm realm = Realm.getDefaultInstance();
         // create new JSON object from string
         try {
 
@@ -114,11 +113,12 @@ public class JsonArticleParser {
 
             //Log.d("JsonArticleParser", "JSON Article size = " + String.valueOf(size));
             //Log.d("JsonArticleParser", "JSON issue date  = " + jsonObject.getString(TAG_ISSUE_DATE));
-
+            realm.close();
             return article;
 
         } catch (JSONException ex) {
             ex.printStackTrace();
+            realm.close();
             return null;
         }
 
@@ -127,7 +127,7 @@ public class JsonArticleParser {
 
 
     public void parseEmbeddedArticles(String articles) {
-
+        Realm realm = Realm.getDefaultInstance();
         // create new JSON object from string
         try {
             JSONArray articleArray = new JSONArray(articles);
@@ -186,7 +186,9 @@ public class JsonArticleParser {
 
         } catch (JSONException ex) {
             ex.printStackTrace();
-            return;
+        }
+        finally {
+            realm.close();
         }
     }
 

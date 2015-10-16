@@ -32,7 +32,7 @@ public class RssService extends IntentService {
         ctx = this;
         List<ArticleListItem> articleListItems = null;
         try {
-            CdcRssParser parser = new CdcRssParser(ctx);
+            CdcRssParser parser = new CdcRssParser();
             InputStream inputStream = getInputStream(RSS_LINK);
             if (inputStream != null)
                 articleListItems = parser.parse(getInputStream(RSS_LINK));

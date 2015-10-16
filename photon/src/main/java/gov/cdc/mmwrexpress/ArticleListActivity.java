@@ -31,6 +31,7 @@ public class ArticleListActivity extends BaseActivity {
     private BroadcastReceiver mRegistrationBroadcastReceiver;
 
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,8 +97,7 @@ public class ArticleListActivity extends BaseActivity {
             is.read(buffer);
             is.close();
             json = new String(buffer, "UTF-8");
-            Realm realm = Realm.getInstance(this);
-            JsonArticleParser jsonArticleParser = new JsonArticleParser(realm);
+            JsonArticleParser jsonArticleParser = new JsonArticleParser();
             jsonArticleParser.parseEmbeddedArticles(json);
         } catch (IOException ex) {
             ex.printStackTrace();

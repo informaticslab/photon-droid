@@ -37,6 +37,7 @@ public class KeywordArticleListFragment extends Fragment {
     private View view;
     private KeywordArticleAdapter mAdapter;
     private String mKeywordText;
+    private Realm realm;
 
     // Factory method for this fragment class. Constructs a new fragment for the given page number.
     public static KeywordArticleListFragment create(String keywordText) {
@@ -53,6 +54,7 @@ public class KeywordArticleListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mKeywordText = getArguments().getString(KEYWORD_TEXT);
+        realm = Realm.getDefaultInstance();
         setRetainInstance(true);
     }
 
@@ -85,6 +87,12 @@ public class KeywordArticleListFragment extends Fragment {
     public void onResume() {
         super.onResume();
         updateUI();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        realm.close();
     }
 
     private void updateUI() {
@@ -151,7 +159,6 @@ public class KeywordArticleListFragment extends Fragment {
 
         private static final String TAG = "KeywordArticleAdapter";
         private ArrayList<KeywordArticleItem> listItems;
-        private Realm realm;
         private RealmList<Article> mKeywordArticles;
         private Keyword mKeyword;
 
@@ -162,14 +169,12 @@ public class KeywordArticleListFragment extends Fragment {
 
             this.context = context;
             //Realm.deleteRealmFile(context);
-            this.realm = Realm.getInstance(context);
             Keyword firstKeyword  = realm.where(Keyword.class).equalTo("text", keywordText).findFirst();
             mKeywordArticles = firstKeyword.getArticles();
             //Log.d(TAG, "realm path: " + realm.getPath());
 
             // refresh data from database
             this.refreshData();
-            realm.close();
         }
 
         @Override
@@ -210,15 +215,12 @@ public class KeywordArticleListFragment extends Fragment {
         }
 
         public void setArticleReadState(Article article) {
-            this.realm = Realm.getInstance(context);
             realm.beginTransaction();
 
             article.setUnread(false);
 
             realm.commitTransaction();
-            realm.close();
         }
-
 
         @UiThread
         protected void dataSetChanged() {

@@ -34,6 +34,7 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
     private RecyclerView mKeywordsRV;
     private View view;
     private KeywordAdapter mAdapter;
+    private Realm realm;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        realm = Realm.getDefaultInstance();
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_keyword_list, container, false);
             mKeywordsRV = (RecyclerView) view.findViewById(R.id.keywords_rv);
@@ -82,6 +84,12 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
     public void onResume() {
         super.onResume();
         updateUI();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        realm.close();
     }
 
     private void updateUI() {
@@ -136,7 +144,6 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
         private static final String TAG = "KeywordAdapter";
         private ArrayList<Keyword> mKeywords;
         private ArrayList<KeywordItem> listItems;
-        private Realm realm;
         private Context context;
         private RealmResults<Keyword> realmKeywords;
 
@@ -174,7 +181,6 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
         public void refreshData() {
 
             KeywordItem item;
-            this.realm = Realm.getInstance(context);
             realmKeywords = realm.where(Keyword.class).findAllSorted("text".toLowerCase(), RealmResults.SORT_ORDER_ASCENDING);
 
             //Log.d(TAG, "Keywords size = " + String.valueOf(realmKeywords.size()));
@@ -188,7 +194,6 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
                     //Log.d(TAG, "Keyword: " + keyword.getText());
             }
             Collections.sort(listItems);
-            realm.close();
         }
 
 
@@ -196,7 +201,6 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
 
             KeywordItem item;
 
-            this.realm = Realm.getInstance(context);
             realmKeywords = realm.where(Keyword.class).findAllSorted("text".toLowerCase(), RealmResults.SORT_ORDER_ASCENDING);
 
             listItems = new ArrayList<>();
@@ -208,7 +212,6 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
             }
             Collections.sort(listItems);
             notifyDataSetChanged();
-            realm.close();
         }
 
         @UiThread

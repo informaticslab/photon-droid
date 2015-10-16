@@ -61,7 +61,7 @@ public class ArticleListAdapter extends BaseAdapter {
 
         this.context = context;
         //Realm.deleteRealmFile(context);
-        this.realm = Realm.getInstance(context);
+        this.realm = Realm.getDefaultInstance();
         Log.d("ArticleListAdapter", "realm path: " + realm.getPath());
 
         // refresh data from database
