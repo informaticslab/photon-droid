@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
 /**
@@ -41,6 +42,8 @@ public class WebViewActivity extends BaseActivity {
         Intent intent = getIntent();
         mWebPage = intent.getStringExtra(WEB_VIEW_PAGE);
         mWebView = (WebView)findViewById(R.id.webview);
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.addJavascriptInterface(new WebAppInterface(this), "Android");
         toolbarTitle = intent.getStringExtra("toolbarTitle");
         setActionBarTitle(toolbarTitle);
 
@@ -59,6 +62,20 @@ public class WebViewActivity extends BaseActivity {
                 mNavigationView.setCheckedItem(R.id.nav_eula_fragment);
 
         super.onResume();
+    }
+
+    public class WebAppInterface{
+        Context context;
+
+        WebAppInterface(Context c){
+            context = c;
+        }
+        String version = getApplicationVersionName();
+
+        @JavascriptInterface
+        public String getVersion(){
+            return version;
+        }
     }
 
     @Override
