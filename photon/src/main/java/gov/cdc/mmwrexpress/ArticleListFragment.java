@@ -48,7 +48,6 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         realm = Realm.getDefaultInstance();
-        startService();
     }
 
     @Override
@@ -62,11 +61,20 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
             ));
 //            listView.setOnItemClickListener(this);
             swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+            swipeLayout.setColorSchemeResources(R.color.mmwr_blue);
             swipeLayout.setOnRefreshListener(new OnRefreshListener() {
                 @Override
                 public void onRefresh() {
                     swipeLayout.setRefreshing(true);
                     startService();
+                }
+            });
+            //Added to display refreshing when fragment starts
+            swipeLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    startService();
+                    swipeLayout.setRefreshing(true);
                 }
             });
 

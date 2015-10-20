@@ -200,6 +200,8 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
         public void setFilter(String queryText) {
 
             KeywordItem item;
+            //Text view from layout that is initially set as non-visible. Visibility is changed dynamically below.
+            TextView noResults = (TextView) view.findViewById(R.id.no_results);
 
             realmKeywords = realm.where(Keyword.class).findAllSorted("text".toLowerCase(), RealmResults.SORT_ORDER_ASCENDING);
 
@@ -211,6 +213,16 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
                     listItems.add(item);
             }
             Collections.sort(listItems);
+            //code displays TextView "No results found" if query returns no results
+            if(listItems.size() == 0){
+                    mKeywordsRV.setVisibility(View.GONE);
+                    noResults.setVisibility(View.VISIBLE);
+            }
+            else{
+                mKeywordsRV.setVisibility(View.VISIBLE);
+                noResults.setVisibility(View.GONE);
+            }
+
             notifyDataSetChanged();
         }
 

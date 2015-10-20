@@ -101,7 +101,9 @@ public class JsonArticleParser {
                 } catch (JSONException ex) {
                     ex.printStackTrace();
                     Log.d("JsonArticleParser", "JSON Article title = " + jsonObject.getString(TAG_TITLE));
-                    realm.cancelTransaction();
+                    //if article had no tags, add empty string as tag
+                    String[] keywords = {""};
+                    issuesManager.addArticleKeywords( keywords, article);
                 }
 
             }
@@ -168,7 +170,9 @@ public class JsonArticleParser {
 
                     } catch (JSONException ex) {
                         ex.printStackTrace();
-                        realm.cancelTransaction();
+                        //if article had no tags, add empty string as tag
+                        String [] keywords = {""};
+                        issuesManager.addArticleKeywords( keywords, article);
                     }
 
                 }
