@@ -262,26 +262,31 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
         }
 
         public void refreshData() {
+            try {
+                IssueArticleItem item;
+                issues = realm.where(Issue.class).findAllSorted("date", RealmResults.SORT_ORDER_DESCENDING);
+                Log.d(TAG, "Issues size = " + String.valueOf(issues.size()));
+                this.articles = new ArrayList<Article>();
+                this.listItems = new ArrayList<IssueArticleItem>();
 
-            IssueArticleItem item;
-            issues = realm.where(Issue.class).findAllSorted("date", RealmResults.SORT_ORDER_DESCENDING);
-            Log.d(TAG, "Issues size = " + String.valueOf(issues.size()));
-            this.articles = new ArrayList<Article>();
-            this.listItems = new ArrayList<IssueArticleItem>();
-
-            // use sorted articles for list view
-            for (Issue issue: issues) {
-                item = new IssueArticleItem(issue);
-                listItems.add(item);
-                for (Article article: issue.getArticles()) {
-                    item = new IssueArticleItem(article);
+                // use sorted articles for list view
+                for (Issue issue : issues) {
+                    item = new IssueArticleItem(issue);
                     listItems.add(item);
-                    //if (article.isUnread())
+                    for (Article article : issue.getArticles()) {
+                        item = new IssueArticleItem(article);
+                        listItems.add(item);
+                        //if (article.isUnread())
                         //Log.d(TAG, "Unread article: " + article.getTitle());
-                    //else
+                        //else
                         //Log.d(TAG, "Read article: " + article.getTitle());
 
+                    }
                 }
+            }
+            //IllegalStateException is thrown if application closed while refreshing.
+            catch (IllegalStateException ise){
+                ise.printStackTrace();
             }
         }
 
@@ -533,8 +538,16 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
                     @Override
                     public void onClick(View v) {
                         DateFormat df = DateFormat.getDateInstance();
-                        Toast.makeText(getActivity().getApplicationContext(), "Publication date: " + df.format(item.article.getIssue().getDate()), Toast.LENGTH_LONG).show();
 
+                        String title = item.article.getTitle();
+                        String date = df.format(item.article.getIssue().getDate());
+                        int volume = item.article.getIssue().getVolume();
+                        int number = item.article.getIssue().getNumber();
+                        String link = item.article.getUrl();
+
+                        //Toast.makeText(getActivity().getApplicationContext(), "Publication date: " + df.format(item.article.getIssue().getDate()), Toast.LENGTH_LONG).show();
+                        Intent intent = ArticleDetailActivity.newIntent(getActivity(), title, date, volume, number, link );
+                        startActivity(intent);
                     }
                 });
             }

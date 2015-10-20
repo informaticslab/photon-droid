@@ -160,21 +160,6 @@ public class BaseActivity extends AppCompatActivity {
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
 
-            case R.id.action_settings:
-                return true;
-            case R.id.version:
-                String versionName = getApplicationVersionName();
-                Snackbar.make(mNavigationView, "MMWR Express Version " + versionName, Snackbar.LENGTH_SHORT).show();
-
-                //Toast.makeText(this, versionName, Toast.LENGTH_LONG).show();
-                return true;
-            case R.id.help:
-                //Toast.makeText(this, "Help content coming soon!", Toast.LENGTH_LONG).show();
-                return true;
-            case R.id.about_us:
-                //.makeText(this, "About Us content coming soon!", Toast.LENGTH_LONG).show();
-                return true;
-
         }
 
         return super.onOptionsItemSelected(item);

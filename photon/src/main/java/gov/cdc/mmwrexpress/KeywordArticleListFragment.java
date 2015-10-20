@@ -255,8 +255,16 @@ public class KeywordArticleListFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     DateFormat df = DateFormat.getDateInstance();
-                    Toast.makeText(getActivity().getApplicationContext(), "Publication date: " + df.format(item.article.getIssue().getDate()), Toast.LENGTH_LONG).show();
 
+                    String title = item.article.getTitle();
+                    String date = df.format(item.article.getIssue().getDate());
+                    int volume = item.article.getIssue().getVolume();
+                    int number = item.article.getIssue().getNumber();
+                    String link = item.article.getUrl();
+
+                    //Toast.makeText(getActivity().getApplicationContext(), "Publication date: " + df.format(item.article.getIssue().getDate()), Toast.LENGTH_LONG).show();
+                    Intent intent = ArticleDetailActivity.newIntent(getActivity(), title, date, volume, number, link);
+                    startActivity(intent);
                 }
             });
         }

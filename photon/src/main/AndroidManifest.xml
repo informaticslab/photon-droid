@@ -92,8 +92,11 @@
             android:exported="false">
         </service>
 
-
-
+        <activity
+            android:name=".ArticleDetailActivity"
+            android:label="Article Details"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>
