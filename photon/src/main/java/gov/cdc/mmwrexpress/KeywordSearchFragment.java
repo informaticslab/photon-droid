@@ -190,7 +190,8 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
             // use sorted articles for list view
             for (Keyword keyword : realmKeywords) {
                 item = new KeywordItem(keyword);
-                listItems.add(item);
+                if(!keyword.getText().equals(""))
+                    listItems.add(item);
                     //Log.d(TAG, "Keyword: " + keyword.getText());
             }
             Collections.sort(listItems);
@@ -209,8 +210,10 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
             //constraint = constraint.toString().toLowerCase();
             for (Keyword keyword: realmKeywords) {
                 item = new KeywordItem(keyword);
-                if (keyword.getText().toLowerCase().startsWith(queryText.toLowerCase()))
-                    listItems.add(item);
+                if (keyword.getText().toLowerCase().startsWith(queryText.toLowerCase())){
+                    if(!keyword.getText().equals(""))
+                        listItems.add(item);
+                }
             }
             Collections.sort(listItems);
             //code displays TextView "No results found" if query returns no results

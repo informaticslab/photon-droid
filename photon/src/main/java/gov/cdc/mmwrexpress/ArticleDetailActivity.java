@@ -83,4 +83,13 @@ public class ArticleDetailActivity extends BaseActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        for(int i = 0; i < mNavigationView.getMenu().size(); i++){
+            if(mNavigationView.getMenu().getItem(i).isChecked()){
+                mNavigationView.getMenu().getItem(i).setChecked(false);
+            }
+        }
+    }
 }

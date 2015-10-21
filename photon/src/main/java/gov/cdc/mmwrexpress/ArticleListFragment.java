@@ -9,10 +9,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.support.annotation.UiThread;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
@@ -42,12 +45,17 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
     private View view;
     private ArticleAdapter mAdapter;
     private SwipeRefreshLayout swipeLayout;
+    private ConnectivityManager cm;
+    private NetworkInfo activeNetwork;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         realm = Realm.getDefaultInstance();
+        //Check connection
+        cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        activeNetwork = cm.getActiveNetworkInfo();
     }
 
     @Override
@@ -62,23 +70,23 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
 //            listView.setOnItemClickListener(this);
             swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
             swipeLayout.setColorSchemeResources(R.color.mmwr_blue);
-            swipeLayout.setOnRefreshListener(new OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    swipeLayout.setRefreshing(true);
-                    startService();
-                }
-            });
-            //Added to display refreshing when fragment starts
-            swipeLayout.post(new Runnable() {
-                @Override
-                public void run() {
-                    startService();
-                    swipeLayout.setRefreshing(true);
-                }
-            });
+            swipeLayout.setOnRefreshListener(this);
 
-            updateUI();
+            //Added to display refreshing when fragment starts
+
+            if(activeNetwork != null) {
+                swipeLayout.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        onRefresh();
+                        swipeLayout.setRefreshing(true);
+                    }
+                });
+            }
+            else
+            {
+                Snackbar.make(getActivity().findViewById(R.id.main_content), "No internet connection detected. Please check your connection and try again.", Snackbar.LENGTH_LONG).show();
+            }
         } else {
             // If we are returning from a configuration change:
             // "view" is still attached to the previous view hierarchy
@@ -91,10 +99,17 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
 
     @Override public void onStart() {
         super.onStart();
-
-
     }
     @Override public void onRefresh() {
+        if(activeNetwork != null)
+        {
+            startService();
+        }
+        else
+        {
+            Snackbar.make(getActivity().findViewById(R.id.main_content), "No internet connection detected. Please check your connection and try again.", Snackbar.LENGTH_LONG).show();
+            swipeLayout.setRefreshing(false);
+        }
     }
 
     @Override
@@ -105,6 +120,7 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
     @Override
     public void onResume() {
         super.onResume();
+        activeNetwork = cm.getActiveNetworkInfo();
         updateUI();
 
     }
@@ -159,18 +175,20 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
         @SuppressWarnings("unchecked")
         @Override
         protected void onReceiveResult(int resultCode, Bundle resultData) {
-            List<ArticleListItem> items = (List<ArticleListItem>) resultData.getSerializable(RssService.ITEMS);
-            if (items != null) {
-
-                //refreshFromStoredArticles();
-                mAdapter.dataSetChanged();
-            } else {
-                //Toast.makeText(getActivity(), "An error occurred while accessing the CDC feed.",
-                        //Toast.LENGTH_LONG).show();
+            if(resultCode == 0) {
+                List<ArticleListItem> items = (List<ArticleListItem>) resultData.getSerializable(RssService.ITEMS);
+                if (items != null) {
+                    //refreshFromStoredArticles();
+                    mAdapter.dataSetChanged();
+                    Snackbar.make(getActivity().findViewById(R.id.main_content), "Article list updated.", Snackbar.LENGTH_LONG).show();
+                }
+            }
+            else if(resultCode == 1){
+                Snackbar.make(view, "Unable to access CDC feed. Please try again later.", Snackbar.LENGTH_LONG).show();
             }
 
             swipeLayout.setRefreshing(false);
-        };
+        }
     };
 
 

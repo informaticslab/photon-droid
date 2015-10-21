@@ -21,6 +21,7 @@ public class RssService extends IntentService {
     public static final String ITEMS = "items";
     public static final String RECEIVER = "receiver";
     private Context ctx;
+    private ResultReceiver receiver;
 
     public RssService() {
         super("RssService");
@@ -30,21 +31,24 @@ public class RssService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         Log.d(Constants.RSS_SERVICE, "Service started");
         ctx = this;
+        receiver = intent.getParcelableExtra(RECEIVER);
         List<ArticleListItem> articleListItems = null;
         try {
             CdcRssParser parser = new CdcRssParser();
+
             InputStream inputStream = getInputStream(RSS_LINK);
             if (inputStream != null)
                 articleListItems = parser.parse(getInputStream(RSS_LINK));
+
 
         } catch (XmlPullParserException e) {
             Log.w(e.getMessage(), e);
         } catch (IOException e) {
             Log.w(e.getMessage(), e);
+
         }
         Bundle bundle = new Bundle();
         bundle.putSerializable(ITEMS, (Serializable) articleListItems);
-        ResultReceiver receiver = intent.getParcelableExtra(RECEIVER);
         receiver.send(0, bundle);
     }
 
@@ -54,6 +58,7 @@ public class RssService extends IntentService {
             return url.openConnection().getInputStream();
         } catch (IOException e) {
             Log.w(Constants.RSS_SERVICE, "Exception while retrieving the input stream", e);
+            receiver.send(1, new Bundle());
             return null;
         }
     }
