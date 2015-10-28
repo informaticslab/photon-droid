@@ -13,4 +13,28 @@ public class Constants {
     public static final String ARTICLE_ADDED_MSG = "gov.cdc.mmwrexpress.ARTICLE_ADDED";
     public static final String ARTICLE_IMPLICATIONS_MSG = "gov.cdc.mmwrexpress.ARTICLE_IMPLICATIONS";
 
+    //SiteCatalystController
+    public static final String SC_EVENT_APP_LAUNCH = "Application:Launch";
+    public static final String SC_EVENT_NAV_SECTION = "Navigation:Section";
+    public static final String SC_EVENT_SHARE_BUTTON = "Share:Button";
+    public static final String SC_EVENT_AGREE_TO_EULA = "Eula:Button";
+
+    public static final String SC_SECTION_ARTICLES = "Articles";
+    public static final String SC_SECTION_SEARCH = "Search";
+    public static final String SC_SECTION_ABOUT = "About";
+    public static final String SC_SECTION_HELP = "Help";
+    public static final String SC_SECTION_EULA = "EULA";
+    public static final String SC_SECTION_SUMMARY = "Summary";
+    public static final String SC_SECTION_DETAILS = "Article-Details";
+
+    public static final String SC_PAGE_TITLE_LAUNCH = "MMWR Express";
+    public static final String SC_PAGE_TITLE_ABOUT = "About";
+    public static final String SC_PAGE_TITLE_HELP = "Help";
+    public static final String SC_PAGE_TITLE_EULA = "EULA";
+    public static final String SC_PAGE_TITLE_SUMMARY = "Blue-Box-Summary";
+    public static final String SC_PAGE_TITLE_LIST = "Articles";
+    public static final String SC_PAGE_TITLE_DETAILS = "Article-Details";
+    public static final String SC_PAGE_TITLE_SEARCH_KEYWORDS = "Search-Keywords";
+    public static final String SC_PAGE_TITLE_SEARCH_KEYWORD_ARTICLES = "Search-Keyword-Articles";
+    public static final String SC_PAGE_TITLE_FULL = "View-Full-Article";
 }

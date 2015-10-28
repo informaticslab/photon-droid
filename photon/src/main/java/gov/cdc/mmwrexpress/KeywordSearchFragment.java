@@ -65,6 +65,12 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_SEARCH_KEYWORDS, Constants.SC_SECTION_SEARCH);
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu,inflater);
         inflater.inflate(R.menu.menu_keyword, menu);
@@ -190,8 +196,7 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
             // use sorted articles for list view
             for (Keyword keyword : realmKeywords) {
                 item = new KeywordItem(keyword);
-                if(!keyword.getText().equals(""))
-                    listItems.add(item);
+                listItems.add(item);
                     //Log.d(TAG, "Keyword: " + keyword.getText());
             }
             Collections.sort(listItems);
@@ -211,7 +216,6 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
             for (Keyword keyword: realmKeywords) {
                 item = new KeywordItem(keyword);
                 if (keyword.getText().toLowerCase().startsWith(queryText.toLowerCase())){
-                    if(!keyword.getText().equals(""))
                         listItems.add(item);
                 }
             }

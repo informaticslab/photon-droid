@@ -75,6 +75,7 @@ public class ArticleDetailFragment extends Fragment {
         articleLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_FULL, Constants.SC_SECTION_DETAILS);
                 Uri uri = Uri.parse(link);
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);
@@ -83,27 +84,10 @@ public class ArticleDetailFragment extends Fragment {
 
         return view;
     }
-    private void share(){
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, "Dummy text");
-        startActivity(shareIntent);
-    }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_share:
-                share();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_DETAILS, Constants.SC_SECTION_DETAILS);
     }
 }

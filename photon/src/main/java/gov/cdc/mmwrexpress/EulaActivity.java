@@ -1,16 +1,13 @@
 package gov.cdc.mmwrexpress;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
 
@@ -18,23 +15,11 @@ public class EulaActivity extends AppCompatActivity {
 
     private Button mAgreeButton;
     private WebView mWebView;
-    private SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eula);
-
-        pref = getApplicationContext().getSharedPreferences(MmwrPreferences.PREFS_NAME, 0);
-
-        //If EULA was already accepted, launch Article List
-        if(pref.getBoolean(MmwrPreferences.AGREED_TO_EULA, false) == true)
-        {
-            Intent intent = new Intent(getApplicationContext(), ArticleListActivity.class);
-            startActivity(intent);
-            finish();
-        }
-
 
         mWebView = (WebView) findViewById(R.id.webview);
 
@@ -44,10 +29,14 @@ public class EulaActivity extends AppCompatActivity {
         mAgreeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences.Editor editor = pref.edit();
-                editor.putBoolean(MmwrPreferences.AGREED_TO_EULA, true);
-                editor.putString(MmwrPreferences.APP_VERSION, getApplicationVersionName());
-                editor.commit();
+
+                AppManager.editor.putBoolean(MmwrPreferences.AGREED_TO_EULA, true);
+                AppManager.editor.putString(MmwrPreferences.APP_VERSION, getApplicationVersionName());
+                AppManager.editor.commit();
+
+                //Track event - Accepted EULA
+                AppManager.sc.trackEvent(Constants.SC_EVENT_AGREE_TO_EULA, Constants.SC_PAGE_TITLE_EULA, Constants.SC_SECTION_EULA);
+
                 Intent intent = new Intent(getApplicationContext(), ArticleListActivity.class);
                 startActivity(intent);
                 finish();
@@ -76,6 +65,14 @@ public class EulaActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        //Track navigation event - EULA Page Launched
+        AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_EULA, Constants.SC_SECTION_EULA);
     }
 
     public String getApplicationVersionName() {

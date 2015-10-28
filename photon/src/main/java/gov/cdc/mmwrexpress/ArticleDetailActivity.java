@@ -76,8 +76,8 @@ public class ArticleDetailActivity extends BaseActivity {
 
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_share) {
+            AppManager.sc.trackEvent(Constants.SC_EVENT_SHARE_BUTTON, Constants.SC_PAGE_TITLE_DETAILS, Constants.SC_SECTION_DETAILS);
             share();
         }
 

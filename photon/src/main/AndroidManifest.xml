@@ -7,52 +7,47 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <application
+        android:name=".AppManager"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:name=".MyApplication"
         android:theme="@style/AppTheme" >
         <activity
             android:name=".ArticleListActivity"
-            android:label="Articles"
             android:configChanges="orientation"
-            android:screenOrientation="portrait">
+            android:label="Articles"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ContentActivity"
-            android:label="Summary"
             android:configChanges="orientation"
-            android:screenOrientation="portrait">
+            android:label="Summary"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".KeywordSearchActivity"
-            android:label="Search"
             android:configChanges="orientation"
-            android:screenOrientation="portrait">
+            android:label="Search"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".KeywordArticleListActivity"
-            android:label="Search"
             android:configChanges="orientation"
-            android:screenOrientation="portrait">
+            android:label="Search"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".WebViewActivity"
-            android:label="@string/app_name"
             android:configChanges="orientation"
-            android:screenOrientation="portrait">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".EulaActivity"
-            android:label="@string/app_name"
             android:configChanges="orientation"
-            android:screenOrientation="portrait">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <service android:name=".RssService" />
@@ -95,7 +90,17 @@
         <activity
             android:name=".ArticleDetailActivity"
             android:label="Article Details"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".SplashScreen"
+            android:label="@string/app_name"
             android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

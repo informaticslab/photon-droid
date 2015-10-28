@@ -120,7 +120,7 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
     @Override
     public void onResume() {
         super.onResume();
-        activeNetwork = cm.getActiveNetworkInfo();
+       activeNetwork = cm.getActiveNetworkInfo();
         updateUI();
 
     }
@@ -144,6 +144,11 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
 
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_LIST, Constants.SC_SECTION_ARTICLES);
+    }
 
     private void startService() {
         Intent intent = new Intent(getActivity(), RssService.class);

@@ -78,6 +78,12 @@ public class KeywordArticleListFragment extends Fragment {
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_SEARCH_KEYWORD_ARTICLES, Constants.SC_SECTION_SEARCH);
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
 
@@ -262,7 +268,6 @@ public class KeywordArticleListFragment extends Fragment {
                     int number = item.article.getIssue().getNumber();
                     String link = item.article.getUrl();
 
-                    //Toast.makeText(getActivity().getApplicationContext(), "Publication date: " + df.format(item.article.getIssue().getDate()), Toast.LENGTH_LONG).show();
                     Intent intent = ArticleDetailActivity.newIntent(getActivity(), title, date, volume, number, link);
                     startActivity(intent);
                 }

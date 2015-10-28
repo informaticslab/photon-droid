@@ -1,3 +1,4 @@
+/*
 package gov.cdc.mmwrexpress;
 
 import java.text.DateFormat;
@@ -208,4 +209,4 @@ public class ArticleListAdapter extends BaseAdapter {
 
     }
 
-}
+}*/

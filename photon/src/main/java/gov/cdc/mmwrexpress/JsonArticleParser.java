@@ -87,6 +87,7 @@ public class JsonArticleParser {
                 article.setImplications(jsonObject.getString(TAG_IMPLICATIONS));
                 article.setUrl(jsonObject.getString(TAG_URL));
                 article.setIssue(issue);
+                //Log.d("Parser:", jsonObject.toString());
 
                 try {
                     JSONArray keywordJsonArray = jsonObject.getJSONArray(TAG_TAGS);
@@ -101,11 +102,7 @@ public class JsonArticleParser {
                 } catch (JSONException ex) {
                     ex.printStackTrace();
                     Log.d("JsonArticleParser", "JSON Article title = " + jsonObject.getString(TAG_TITLE));
-                    //if article had no tags, add empty string as tag
-                    String[] keywords = {""};
-                    issuesManager.addArticleKeywords( keywords, article);
                 }
-
             }
 
             realm.commitTransaction();
@@ -170,9 +167,7 @@ public class JsonArticleParser {
 
                     } catch (JSONException ex) {
                         ex.printStackTrace();
-                        //if article had no tags, add empty string as tag
-                        String [] keywords = {""};
-                        issuesManager.addArticleKeywords( keywords, article);
+                        Log.d("JsonArticleParser", "JSON Article title = " + jsonObject.getString(TAG_TITLE));
                     }
 
                 }

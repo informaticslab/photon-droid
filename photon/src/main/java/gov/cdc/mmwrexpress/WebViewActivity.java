@@ -53,6 +53,18 @@ public class WebViewActivity extends BaseActivity {
     }
 
     @Override
+    protected void onStart() {
+        if(toolbarTitle.equals("Help"))
+            AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_HELP, Constants.SC_SECTION_HELP);
+        else if(toolbarTitle.equals("About"))
+            AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_ABOUT, Constants.SC_SECTION_ABOUT);
+        else if(toolbarTitle.equals("User License Agreement"))
+            AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_EULA, Constants.SC_SECTION_EULA);
+        super.onStart();
+
+    }
+
+    @Override
     protected void onResume() {
         if(toolbarTitle.equals("Help"))
                 mNavigationView.setCheckedItem(R.id.nav_help_fragment);

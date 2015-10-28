@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -17,7 +19,10 @@ import android.util.Log;
 
 public class RssService extends IntentService {
 
-    private static final String RSS_LINK = "http://t.cdc.gov/feed.aspx?feedid=100&format=rss2";
+    private static final String RSS_LINK = "http://t.cdc.gov/feed.aspx?";
+    private static final String RSS_FEED_ID= "feedid=100";
+    private static final String RSS_FORMAT = "format=rss2";
+    private String fromDate;
     public static final String ITEMS = "items";
     public static final String RECEIVER = "receiver";
     private Context ctx;
@@ -29,6 +34,8 @@ public class RssService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        fromDate = AppManager.pref.getString(MmwrPreferences.LAST_UPDATE, "2015-05-31");
+        //Log.d("RSS: ", fromDate);
         Log.d(Constants.RSS_SERVICE, "Service started");
         ctx = this;
         receiver = intent.getParcelableExtra(RECEIVER);
@@ -36,9 +43,14 @@ public class RssService extends IntentService {
         try {
             CdcRssParser parser = new CdcRssParser();
 
-            InputStream inputStream = getInputStream(RSS_LINK);
-            if (inputStream != null)
-                articleListItems = parser.parse(getInputStream(RSS_LINK));
+            //Uncomment fromDate to pull by date.
+            InputStream inputStream = getInputStream(RSS_LINK + "&" +RSS_FEED_ID /*+"&" +fromDate*/ +"&" +RSS_FORMAT);
+            if (inputStream != null) {
+                articleListItems = parser.parse(inputStream);
+                Date currDate = new Date();
+                AppManager.editor.putString(MmwrPreferences.LAST_UPDATE, new SimpleDateFormat("yyyy-MM-dd").format(currDate));
+                AppManager.editor.commit();
+            }
 
 
         } catch (XmlPullParserException e) {

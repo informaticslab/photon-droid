@@ -12,6 +12,7 @@ import android.support.design.widget.NavigationView;
 import android.util.Log;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -45,10 +46,17 @@ public class ArticleListActivity extends BaseActivity {
 
         startGcmRegistration();
 
-        loadJsonArticlesFromAsset();
-
         if (savedInstanceState == null) {
             addArticleListFragment();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(AppManager.pref.getBoolean(MmwrPreferences.FIRST_LAUNCH, true)){
+            mDrawerLayout.openDrawer(Gravity.LEFT);
+            AppManager.editor.putBoolean(MmwrPreferences.FIRST_LAUNCH, false);
         }
     }
 
@@ -94,6 +102,7 @@ public class ArticleListActivity extends BaseActivity {
     }
 
     private void share(){
+        AppManager.sc.trackEvent(Constants.SC_EVENT_SHARE_BUTTON, Constants.SC_PAGE_TITLE_LIST, Constants.SC_SECTION_ARTICLES);
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
@@ -114,25 +123,6 @@ public class ArticleListActivity extends BaseActivity {
         super.onSaveInstanceState(outState);
         outState.putBoolean("fragment_added", true);
     }
-
-    public void loadJsonArticlesFromAsset() {
-        String json = null;
-        try {
-            InputStream is = this.getAssets().open("PreloadIssues.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-            JsonArticleParser jsonArticleParser = new JsonArticleParser();
-            jsonArticleParser.parseEmbeddedArticles(json);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return;
-        }
-        return;
-    }
-
 
     @Override
     protected void setupDrawerContent(final NavigationView navigationView) {
@@ -207,9 +197,9 @@ public class ArticleListActivity extends BaseActivity {
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                SharedPreferences sharedPreferences;
-                sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-                boolean sentToken = sharedPreferences
+                //SharedPreferences sharedPreferences;
+                //sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                boolean sentToken = AppManager.pref
                         .getBoolean(MmwrPreferences.SENT_TOKEN_TO_SERVER, false);
                 if (sentToken) {
                     //mInformationTextView.setText(getString(R.string.gcm_send_message));
