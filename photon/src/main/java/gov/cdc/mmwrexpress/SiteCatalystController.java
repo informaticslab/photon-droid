@@ -8,9 +8,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-/**
+/**SiteCatalystController.java
+ * photon-droid
+ *
  * Created by jason on 10/22/15.
+ * Copyright (c) 2015 Informatics Research and Development Lab. All rights reserved.
  */
+
 public class SiteCatalystController {
     private String cdcServer = "http://tools.cdc.gov/metrics.aspx?";
     private String localServer = "http://172.16.4.77:8080/metrics?";

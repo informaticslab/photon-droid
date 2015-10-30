@@ -12,11 +12,13 @@ import retrofit.http.POST;
 import android.app.Activity;
 import android.provider.Settings.Secure;
 
-
-
-/**
+/**NotificationRegistrationService.java
+ * photon-droid
+ *
  * Created by greg on 7/9/15.
+ * Copyright (c) 2015 Informatics Research and Development Lab. All rights reserved.
  */
+
 public class NotificationRegistrationService {
 
     public static final String BASE_URL = "http://mmwr.gsledbetter.webfactional.com";

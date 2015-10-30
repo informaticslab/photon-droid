@@ -5,8 +5,11 @@ import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.RealmClass;
 
-/**
+/**Article.java
+ * photon-droid
+ *
  * Created by jtq6 on 10/29/14.
+ * Copyright (c) 2015 Informatics Research and Development Lab. All rights reserved.
  */
 @RealmClass
 public class Article extends RealmObject {

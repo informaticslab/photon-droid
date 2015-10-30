@@ -15,7 +15,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import java.text.DateFormat;
 
-
+/**ArticleDetailFragment.java
+ * photon-droid
+ *
+ * Copyright (c) 2015 Informatics Research and Development Lab. All rights reserved.
+ */
 
 public class ArticleDetailFragment extends Fragment {
     private String title;

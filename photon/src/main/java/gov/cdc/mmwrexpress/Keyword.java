@@ -8,9 +8,13 @@ import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.RealmClass;
 
-/**
+/**Keyword.java
+ * photon-droid
+ *
  * Created by jtq6 on 10/29/14.
+ * Copyright (c) 2015 Informatics Research and Development Lab. All rights reserved.
  */
+
 @RealmClass
 public class Keyword extends RealmObject {
 

@@ -1,6 +1,5 @@
 package gov.cdc.mmwrexpress;
 
-
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +35,12 @@ import android.widget.Toast;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+
+/**ArticleListFragment
+ * photon-droid
+ *
+ * Copyright (c) 2015 Informatics Research and Development Lab. All rights reserved.
+ */
 
 public class ArticleListFragment extends Fragment implements OnRefreshListener {
 
@@ -101,6 +106,7 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
         super.onStart();
     }
     @Override public void onRefresh() {
+        activeNetwork = cm.getActiveNetworkInfo();
         if(activeNetwork != null)
         {
             startService();

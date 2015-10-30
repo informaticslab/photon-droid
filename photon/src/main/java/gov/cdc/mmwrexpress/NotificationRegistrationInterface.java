@@ -1,11 +1,15 @@
 package gov.cdc.mmwrexpress;
 
-import retrofit.Callback;
-import retrofit.http.Body;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.POST;
 import retrofit.http.Headers;
+
+/**NotificationRegistrationInterface.java
+ * photon-droid
+ *
+ * Copyright (c) 2015 Informatics Research and Development Lab. All rights reserved.
+ */
 
 public interface NotificationRegistrationInterface {
 

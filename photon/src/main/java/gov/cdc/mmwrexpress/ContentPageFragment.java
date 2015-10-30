@@ -15,6 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+/**ContentPageFragment.java
+ * photon-droid
+ *
+ * Copyright (c) 2015 Informatics Research and Development Lab. All rights reserved.
+ */
+
 public class ContentPageFragment extends Fragment {
 
     public static final String ARG_PAGE = "page";

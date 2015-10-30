@@ -3,6 +3,11 @@ package gov.cdc.mmwrexpress;
 import android.content.Intent;
 import com.google.android.gms.iid.InstanceIDListenerService;
 
+/**MmwrInstanceIDListenerService.java
+ * photon-droid
+ *
+ * Copyright (c) 2015 Informatics Research and Development Lab. All rights reserved.
+ */
 
 public class MmwrInstanceIDListenerService extends InstanceIDListenerService {
 

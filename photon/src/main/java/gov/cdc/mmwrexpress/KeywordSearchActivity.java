@@ -15,9 +15,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-/**
+/**KeywordSearchActivity.java
+ * photon-droid
+ *
  * Created by greg on 9/14/15.
+ * Copyright (c) 2015 Informatics Research and Development Lab. All rights reserved.
  */
+
 public class KeywordSearchActivity extends BaseActivity {
 
     private static final String TAG = "KeywordSearchActivity";

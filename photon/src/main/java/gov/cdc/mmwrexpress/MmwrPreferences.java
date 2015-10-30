@@ -1,5 +1,11 @@
 package gov.cdc.mmwrexpress;
 
+/**MmwrPreferences.java
+ * photon-droid
+ *
+ * Copyright (c) 2015 Informatics Research and Development Lab. All rights reserved.
+ */
+
 public class MmwrPreferences {
 
     public static final String SENT_TOKEN_TO_SERVER = "sentTokenToServer";

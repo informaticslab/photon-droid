@@ -7,6 +7,12 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+/**KeywordArticleListActivity.java
+ * photon-droid
+ *
+ * Copyright (c) 2015 Informatics Research and Development Lab. All rights reserved.
+ */
+
 public class KeywordArticleListActivity extends BaseActivity {
 
     private static final String TAG = "KeywordArticleListActivity";

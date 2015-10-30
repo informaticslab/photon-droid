@@ -7,6 +7,12 @@ import android.os.Bundle;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**SplashScreen.java
+ * photon-droid
+ *
+ * Copyright (c) 2015 Informatics Research and Development Lab. All rights reserved.
+ */
+
 public class SplashScreen extends AppCompatActivity {
     private Intent i;
     @Override

@@ -9,6 +9,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+/**ArticleDetailActivity.java
+ * photon-droid
+ *
+ * Copyright (c) 2015 Informatics Research and Development Lab. All rights reserved.
+ */
+
 public class ArticleDetailActivity extends BaseActivity {
     private String title;
     private String pubDate;

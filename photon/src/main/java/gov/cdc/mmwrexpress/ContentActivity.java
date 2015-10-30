@@ -17,7 +17,11 @@ import android.view.MenuItem;
 
 import java.util.UUID;
 
-/**
+/**ContentActivity.java
+ * photon-droid
+ *
+ * Copyright (c) 2015 Informatics Research and Development Lab. All rights reserved.
+ *
  * Using a ViewPager to display "blue box" content from MMWR Weekly articles.
  *
  * Activity shows a "next" and "previous" button that can advance the user to the next page of

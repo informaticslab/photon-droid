@@ -9,9 +9,13 @@ import android.view.MenuItem;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
-/**
+/**WebViewActivity.java
+ * photon-droid
+ *
  * Created by greg on 9/18/15.
+ * Copyright (c) 2015 Informatics Research and Development Lab. All rights reserved.
  */
+
 public class WebViewActivity extends BaseActivity {
 
 

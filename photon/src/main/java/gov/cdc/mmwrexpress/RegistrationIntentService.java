@@ -14,6 +14,12 @@ import com.google.android.gms.iid.InstanceID;
 
 import java.io.IOException;
 
+/**RegistrationIntentService.java
+ * photon-droid
+ *
+ * Copyright (c) 2015 Informatics Research and Development Lab. All rights reserved.
+ */
+
 public class RegistrationIntentService extends IntentService {
 
     private static final String TAG = "RegIntentService";

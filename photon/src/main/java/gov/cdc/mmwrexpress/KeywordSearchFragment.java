@@ -25,6 +25,11 @@ import java.util.Collections;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
+/**KeywordSearchFragment.java
+ * photon-droid
+ *
+ * Copyright (c) 2015 Informatics Research and Development Lab. All rights reserved.
+ */
 
 public class KeywordSearchFragment extends Fragment implements SearchView.OnQueryTextListener {
 

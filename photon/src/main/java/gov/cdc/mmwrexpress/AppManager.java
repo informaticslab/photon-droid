@@ -6,8 +6,11 @@ import android.content.SharedPreferences;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
-/**
+/**AppManager.java
+ * photon-droid
+ *
  * Created by jason on 10/16/15.
+ * Copyright (c) 2015 Informatics Research and Development Lab. All rights reserved.
  */
 public class AppManager extends Application{
     public static SharedPreferences pref;

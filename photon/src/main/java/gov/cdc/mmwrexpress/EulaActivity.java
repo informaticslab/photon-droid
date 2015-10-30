@@ -11,6 +11,12 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
 
+/**EulaActivity.java
+ * photon-droid
+ *
+ * Copyright (c) 2015 Informatics Research and Development Lab. All rights reserved.
+ */
+
 public class EulaActivity extends AppCompatActivity {
 
     private Button mAgreeButton;

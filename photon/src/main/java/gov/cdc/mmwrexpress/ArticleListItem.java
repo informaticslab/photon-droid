@@ -1,5 +1,10 @@
 package gov.cdc.mmwrexpress;
 
+/**ArticleListItem.java
+ * photon-droid
+ *
+ * Copyright (c) 2015 Informatics Research and Development Lab. All rights reserved.
+ */
 
 public class ArticleListItem {
 

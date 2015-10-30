@@ -22,7 +22,11 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-
+/**BaseActivity.java
+ * photon-droid
+ *
+ * Copyright (c) 2015 Informatics Research and Development Lab. All rights reserved.
+ */
 
 public class BaseActivity extends AppCompatActivity {
 

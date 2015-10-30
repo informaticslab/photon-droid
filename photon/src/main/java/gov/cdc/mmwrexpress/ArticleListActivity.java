@@ -26,6 +26,12 @@ import io.realm.Realm;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
+/**ArticleListActivity.java
+ * photon-droid
+ *
+ * Copyright (c) 2015 Informatics Research and Development Lab. All rights reserved.
+ */
+
 public class ArticleListActivity extends BaseActivity {
 
     private static final String TAG = "ArticleListActivity";

@@ -12,6 +12,12 @@ import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
 
+/**MmwrGcmListenerService.java
+ * photon-droid
+ *
+ * Copyright (c) 2015 Informatics Research and Development Lab. All rights reserved.
+ */
+
 public class MmwrGcmListenerService extends GcmListenerService {
 
     private static final String TAG = "MmwrGcmListenerService";

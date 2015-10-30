@@ -12,12 +12,15 @@
     import io.realm.RealmObject;
     import io.realm.annotations.RealmClass;
 
-    /**
+    /**Issue.java
+     * photon-droid
+     *
      * Created by jtq6 on 10/29/14.
+     * Copyright (c) 2015 Informatics Research and Development Lab. All rights reserved.
      */
+
     @RealmClass
     public class Issue extends RealmObject {
-
 
         private Date date;
         private int number;
@@ -49,7 +52,6 @@
         public void setVolume(int volume) {
             this.volume = volume;
         }
-
 
         public boolean isUnread() {
             return unread;

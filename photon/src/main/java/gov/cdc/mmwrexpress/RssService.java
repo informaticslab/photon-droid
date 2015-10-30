@@ -17,6 +17,12 @@ import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.util.Log;
 
+/**RssService.java
+ * photon-droid
+ *
+ * Copyright (c) 2015 Informatics Research and Development Lab. All rights reserved.
+ */
+
 public class RssService extends IntentService {
 
     private static final String RSS_LINK = "http://t.cdc.gov/feed.aspx?";

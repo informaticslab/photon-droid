@@ -11,9 +11,13 @@ import java.util.ArrayList;
 import io.realm.Realm;
 
 
-/**
+/**JsonArticleParser
+ * photon-droid
+ *
  * Created by jtq6 on 10/28/14.
+ * Copyright (c) 2015 Informatics Research and Development Lab. All rights reserved.
  */
+
 public class JsonArticleParser {
 
     String json;
