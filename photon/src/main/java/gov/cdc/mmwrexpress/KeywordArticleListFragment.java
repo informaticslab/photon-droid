@@ -89,12 +89,6 @@ public class KeywordArticleListFragment extends Fragment {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         updateUI();
@@ -118,30 +112,6 @@ public class KeywordArticleListFragment extends Fragment {
         }
 
     }
-
-
-    /**
-     * Once the {@link RssService} finishes its task, the result is sent to this
-     * ResultReceiver.
-     */
-    private final ResultReceiver resultReceiver = new ResultReceiver(new Handler()) {
-        @SuppressWarnings("unchecked")
-        @Override
-        protected void onReceiveResult(int resultCode, Bundle resultData) {
-            List<ArticleListItem> items = (List<ArticleListItem>) resultData.getSerializable(RssService.ITEMS);
-            if (items != null) {
-
-                //refreshFromStoredArticles();
-                mAdapter.dataSetChanged();
-            } else {
-                Toast.makeText(getActivity(), "An error occurred while accessing the CDC feed.",
-                        Toast.LENGTH_LONG).show();
-            }
-        }
-
-        ;
-    };
-
 
     private class KeywordArticleItem implements Comparable<KeywordArticleItem>{
 
@@ -231,12 +201,6 @@ public class KeywordArticleListFragment extends Fragment {
             article.setUnread(false);
 
             realm.commitTransaction();
-        }
-
-        @UiThread
-        protected void dataSetChanged() {
-            refreshData();
-            notifyDataSetChanged();
         }
     }
 

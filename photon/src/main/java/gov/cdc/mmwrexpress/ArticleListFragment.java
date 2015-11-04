@@ -6,8 +6,6 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -22,17 +20,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -78,7 +69,6 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
             swipeLayout.setOnRefreshListener(this);
 
             //Added to display refreshing when fragment starts
-
             if(activeNetwork != null) {
                 swipeLayout.post(new Runnable() {
                     @Override
@@ -92,19 +82,10 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
             {
                 Snackbar.make(getActivity().findViewById(R.id.main_content), "No internet connection detected. Please check your connection and try again.", Snackbar.LENGTH_LONG).show();
             }
-        } else {
-            // If we are returning from a configuration change:
-            // "view" is still attached to the previous view hierarchy
-            // so we need to remove it and re-attach it to the current one
-//            ViewGroup parent = (ViewGroup) view.getParent();
-//            parent.removeView(view);
         }
         return view;
     }
 
-    @Override public void onStart() {
-        super.onStart();
-    }
     @Override public void onRefresh() {
         activeNetwork = cm.getActiveNetworkInfo();
         if(activeNetwork != null)
@@ -118,11 +99,6 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
         }
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-
-    }
     @Override
     public void onResume() {
         super.onResume();
@@ -162,22 +138,6 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
         getActivity().startService(intent);
     }
 
-    private void readStoredArticles() {
-
-        // read stored articles
-        mAdapter = new ArticleAdapter(getActivity());
-        mArticlesRV.setAdapter(mAdapter);
-
-    }
-
-
-    private void refreshFromStoredArticles() {
-
-        // reread stored articles
-        mAdapter.refreshData();
-
-    }
-
     /**
      * Once the {@link RssService} finishes its task, the result is sent to this
      * ResultReceiver.
@@ -186,19 +146,27 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
         @SuppressWarnings("unchecked")
         @Override
         protected void onReceiveResult(int resultCode, Bundle resultData) {
+            String message = null;
             if(resultCode == 0) {
                 List<ArticleListItem> items = (List<ArticleListItem>) resultData.getSerializable(RssService.ITEMS);
                 if (items != null) {
                     //refreshFromStoredArticles();
                     mAdapter.dataSetChanged();
-                    Snackbar.make(getActivity().findViewById(R.id.main_content), "Article list updated.", Snackbar.LENGTH_LONG).show();
+                    message = "Article list updated.";
                 }
             }
             else if(resultCode == 1){
-                Snackbar.make(view, "Unable to access CDC feed. Please try again later.", Snackbar.LENGTH_LONG).show();
+                message = "Unable to access CDC feed. Please try again later.";
             }
 
-            swipeLayout.setRefreshing(false);
+            //display Snackbar message if view has not been destroyed.
+            try {
+                Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
+                swipeLayout.setRefreshing(false);
+            }
+            catch (NullPointerException npe){
+
+            }
         }
     };
 
@@ -343,201 +311,6 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
         }
     }
 
-    public class ArticleListAdapter extends BaseAdapter {
-
-
-        //    private final RealmList<Article> articles ;
-        private final Context context;
-        private ArrayList<Article> articles;
-        private ArrayList<IssueArticleItem> listItems;
-        private RealmResults<Issue> issues;
-
-        private int ISSUE_VIEW_TYPE = 0;
-        private int READ_ARTICLE_VIEW_TYPE = 1;
-        private int UNREAD_ARTICLE_VIEW_TYPE = 2;
-
-        private class IssueArticleItem {
-
-            private static final int ISSUE = 0;
-            private static final int ARTICLE = 1;
-
-            private int type;
-            private String text;
-            private Article article;
-
-
-            private IssueArticleItem(Issue issue) {
-
-                this.type = ISSUE;
-                this.article = null;
-                DateFormat df = DateFormat.getDateInstance();
-                this.text = df.format(issue.getDate()) + "                       VOL " + String.valueOf(issue.getVolume())
-                        + " NO " + String.valueOf(issue.getNumber());
-
-            }
-
-            private IssueArticleItem(Article article) {
-
-                this.type = ARTICLE;
-                this.text = article.getTitle();
-                this.article = article;
-
-            }
-
-        }
-
-        public ArticleListAdapter(Context context) {
-
-            this.context = context;
-            //Realm.deleteRealmFile(context);
-            Log.d("ArticleListAdapter", "realm path: " + realm.getPath());
-
-            // refresh data from database
-            this.refreshData();
-        }
-
-        public void refreshData() {
-
-            IssueArticleItem item;
-
-            issues = realm.where(Issue.class).findAllSorted("date", RealmResults.SORT_ORDER_DESCENDING);
-            Log.d("ArticleListAdapter", "Issues size = " + String.valueOf(issues.size()));
-            this.articles = new ArrayList<Article>();
-            this.listItems = new ArrayList<IssueArticleItem>();
-
-            // use sorted articles for list view
-            for (Issue issue: issues) {
-                item = new IssueArticleItem(issue);
-                listItems.add(item);
-                for (Article article: issue.getArticles()) {
-                    item = new IssueArticleItem(article);
-                    listItems.add(item);
-                    if (article.isUnread())
-                        Log.d("ArticleListAdapter", "Unread article: " + article.getTitle());
-                    else
-                        Log.d("ArticleListAdapter", "Read article: " + article.getTitle());
-
-                }
-            }
-
-        }
-
-
-        @Override
-        public boolean isEnabled (int position) {
-
-            if (itemIsArticle(position))
-                return true;
-            else
-                return false;
-
-        }
-
-        @Override
-        public int getCount() {
-            return listItems.size();
-        }
-
-
-        @Override
-        public int getItemViewType(int position) {
-            IssueArticleItem item = listItems.get(position);
-            if (item.type == IssueArticleItem.ISSUE)
-                return ISSUE_VIEW_TYPE;
-            else if ((item.type == IssueArticleItem.ARTICLE) && item.article.isUnread())
-                return UNREAD_ARTICLE_VIEW_TYPE;
-            else
-                return READ_ARTICLE_VIEW_TYPE;
-        }
-
-        @Override
-        public int getViewTypeCount() {
-            return 3;
-        }
-
-
-        @Override
-        public Object getItem(int position) {
-            return listItems.get(position);
-        }
-
-        @Override
-        public long getItemId(int id) {
-            return id;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            ViewHolder holder = null;
-            IssueArticleItem item = listItems.get(position);
-
-            if (getItemViewType(position) == UNREAD_ARTICLE_VIEW_TYPE) { // Folder
-                if (convertView == null) {
-                    holder = new ViewHolder();
-                    convertView = View.inflate(context, R.layout.article_list_unread_item, null);
-                    holder.itemTitle = (TextView) convertView.findViewById(R.id.unreadArticleTitle);
-                    convertView.setTag(holder);
-                } else
-                    holder = (ViewHolder) convertView.getTag();
-
-            } else if (getItemViewType(position) == READ_ARTICLE_VIEW_TYPE) { // Folder
-                if (convertView == null) {
-                    holder = new ViewHolder();
-                    convertView = View.inflate(context, R.layout.article_list_read_item, null);
-                    holder.itemTitle = (TextView) convertView.findViewById(R.id.readArticleTitle);
-                    convertView.setTag(holder);
-                } else
-                    holder = (ViewHolder) convertView.getTag();
-
-            } else if (getItemViewType(position) == ISSUE_VIEW_TYPE) {
-                if (convertView == null) {
-                    holder = new ViewHolder();
-                    convertView = View.inflate(context, R.layout.issue_list_item, null);
-                    holder.itemTitle = (TextView) convertView.findViewById(R.id.issueTitle);
-                    convertView.setTag(holder);
-                } else
-                    holder = (ViewHolder) convertView.getTag();
-            }
-
-            holder.itemTitle.setText(listItems.get(position).text);
-            return convertView;
-        }
-
-        private class ViewHolder {
-            TextView itemTitle;
-        }
-
-        public boolean itemIsArticle(int position) {
-            if (listItems.get(position).type == IssueArticleItem.ARTICLE)
-                return true;
-            else
-                return false;
-        }
-
-        public Article getArticle(int position) {
-
-            IssueArticleItem selectedItem = listItems.get(position);
-            // Log.d("ArticleListAdapter", "Selected article at position issue " + String.valueOf(position));
-            if (selectedItem.type == IssueArticleItem.ARTICLE)
-                return selectedItem.article;
-            else
-                return null;
-
-        }
-
-        public void setArticleReadState(Article article) {
-
-            realm.beginTransaction();
-
-            article.setUnread(false);
-
-            realm.commitTransaction();
-
-        }
-
-    }
-
     private class IssueArticleHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
 
@@ -603,6 +376,4 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
         }
 
     }
-
-
 }
