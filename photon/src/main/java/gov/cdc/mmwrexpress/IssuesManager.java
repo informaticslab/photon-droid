@@ -1,21 +1,11 @@
 package gov.cdc.mmwrexpress;
 
-import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
-
-import java.security.Key;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
-
 import io.realm.Realm;
-import io.realm.RealmList;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
@@ -36,21 +26,6 @@ public class IssuesManager {
 
         this.hasIssues = false;
     }
-
-
-    public void getAllKeywords() {
-
- //       this.keywords = Keyword.listAll(Keyword.class);
-
-    }
-
-
-    public Issue addNewIssue(Issue newIssue) {
-
-        this.issues.add(newIssue);
-        return newIssue;
-    }
-
 
     public Issue processRssIssue(String dateAsString, Integer volume, Integer number) {
 
@@ -199,33 +174,4 @@ public class IssuesManager {
         return date;
 
     }
-
-
-
-    public void storeTest() {
-
-//        Realm realm = Realm.getInstance();
-//
-//        realm.beginTransaction();
-//
-//        Log.d(Constants.ISSUE_MGR,"Starting store test.");
-//
-//        Issue testIssue = new Issue("2014-11-02",64,32);
-//        testIssue.save();
-//
-//        Article testArticle = new Article("Test Article title");
-//
-//        String testKeywords[] = {"keyword1", "keyword2"};
-//
-//        Integer version = 1;
-//
-//        this.newArticleInIssueWithKeywordsAndVersion(testArticle, testIssue, testKeywords, version);
-//
-//        realm.commitTransaction();
-//
-//        Log.d(Constants.ISSUE_MGR,"End of store test.");
-
-    }
-
-
 }

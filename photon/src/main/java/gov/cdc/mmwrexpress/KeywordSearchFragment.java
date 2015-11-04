@@ -86,12 +86,6 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         updateUI();
@@ -237,13 +231,6 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
 
             notifyDataSetChanged();
         }
-
-        @UiThread
-        protected void dataSetChanged() {
-            refreshData();
-            notifyDataSetChanged();
-        }
-
     }
 
     private class KeywordHolder extends RecyclerView.ViewHolder implements View.OnClickListener

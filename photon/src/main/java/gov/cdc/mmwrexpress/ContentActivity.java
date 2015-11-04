@@ -169,18 +169,6 @@ public class ContentActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void showSwipeHelpSnackbar(int position) {
-
-        if (position == 0)
-            showSnackbar(R.string.content_page_1);
-        else if (position == 1)
-            showSnackbar(R.string.content_page_2);
-        else if (position == 2)
-            showSnackbar(R.string.content_page_3);
-
-    }
-
-
     /**
      * A pager adapter that represents the blue boxes in MMWR Weekly
      */

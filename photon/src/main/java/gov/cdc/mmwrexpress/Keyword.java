@@ -1,9 +1,5 @@
 package gov.cdc.mmwrexpress;
 
-
-import java.util.ArrayList;
-import java.util.List;
-
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.RealmClass;
@@ -25,18 +21,7 @@ public class Keyword extends RealmObject {
 
 
     }
-//    public Keyword(String text) {
-//
-//        this();
-//
-//        this.text = text;
-//    }
-//
-//    public void foundInArticle(Article article) {
-//
-//        this.articles.add(article);
-//    }
-//
+
     public String getText() {
         return text;
     }

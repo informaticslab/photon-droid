@@ -63,6 +63,7 @@ public class ArticleListActivity extends BaseActivity {
         if(AppManager.pref.getBoolean(MmwrPreferences.FIRST_LAUNCH, true)){
             mDrawerLayout.openDrawer(Gravity.LEFT);
             AppManager.editor.putBoolean(MmwrPreferences.FIRST_LAUNCH, false);
+            AppManager.editor.commit();
         }
     }
 

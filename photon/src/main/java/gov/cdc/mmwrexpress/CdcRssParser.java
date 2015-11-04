@@ -27,7 +27,6 @@ public class CdcRssParser {
 
     public CdcRssParser () {
 
-        // uncomment this line and run once when data model changes
         this.jsonArticleParser = new JsonArticleParser();
     }
 
