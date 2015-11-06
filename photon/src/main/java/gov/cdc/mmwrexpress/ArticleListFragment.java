@@ -68,19 +68,11 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
             swipeLayout.setColorSchemeResources(R.color.mmwr_blue);
             swipeLayout.setOnRefreshListener(this);
 
-            //Added to display refreshing when fragment starts
-            if(activeNetwork != null) {
-                swipeLayout.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        onRefresh();
-                        swipeLayout.setRefreshing(true);
-                    }
-                });
-            }
-            else
-            {
-                Snackbar.make(getActivity().findViewById(R.id.main_content), "No internet connection detected. Please check your connection and try again.", Snackbar.LENGTH_LONG).show();
+            //update content on first launch
+            if(!AppManager.pref.getBoolean(MmwrPreferences.REFRESHED_ARTICLE_LIST_ON_FIRST_LAUNCH, false)) {
+                forceRefresh();
+                AppManager.editor.putBoolean(MmwrPreferences.REFRESHED_ARTICLE_LIST_ON_FIRST_LAUNCH, true);
+                AppManager.editor.commit();
             }
         }
         return view;
@@ -130,6 +122,23 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_LIST, Constants.SC_SECTION_ARTICLES);
+    }
+
+    //use to force refresh data AND force swipe layout to display progress notification
+    public void forceRefresh(){
+        if(activeNetwork != null) {
+            swipeLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    onRefresh();
+                    swipeLayout.setRefreshing(true);
+                }
+            });
+        }
+        else
+        {
+            Snackbar.make(getActivity().findViewById(R.id.main_content), "No internet connection detected. Please check your connection and try again.", Snackbar.LENGTH_LONG).show();
+        }
     }
 
     private void startService() {

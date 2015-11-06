@@ -4,23 +4,22 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!--
   Creates a custom permission so only this app can receive its messages.
 
   NOTE: the permission *must* be called PACKAGE.permission.C2D_MESSAGE,
         where PACKAGE is the application's package name.
- -->
+    -->
     <permission
         android:name="gov.cdc.mmwrexpress.permission.C2D_MESSAGE"
-        android:protectionLevel="signature"/>
-    <uses-permission
-        android:name="gov.cdc.mmwrexpress.permission.C2D_MESSAGE"/>
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="gov.cdc.mmwrexpress.permission.C2D_MESSAGE" />
 
     <!-- This app has permission to register and receive data message. -->
-    <uses-permission
-        android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <application
         android:name=".AppManager"
@@ -28,7 +27,6 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-
         <activity
             android:name=".ArticleListActivity"
             android:configChanges="orientation"
@@ -64,14 +62,18 @@
             android:configChanges="orientation"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
-
         </activity>
 
         <service android:name=".RssService" />
 
-        <!-- Pushwoosh-->
-        <meta-data android:name="PW_APPID" android:value="75B48-4972A" />
-        <meta-data android:name="PW_PROJECT_ID" android:value="A104460978602" />
+        <!-- Pushwoosh -->
+        <meta-data
+            android:name="PW_APPID"
+            android:value="75B48-4972A" />
+        <meta-data
+            android:name="PW_PROJECT_ID"
+            android:value="A104460978602" />
+
         <activity android:name="com.pushwoosh.richpages.RichPageActivity" />
         <activity android:name="com.pushwoosh.MessageActivity" />
         <activity android:name="com.pushwoosh.PushHandlerActivity" />
@@ -82,32 +84,30 @@
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
                 <category android:name="gov.cdc.mmwrexpress" />
             </intent-filter>
         </receiver>
 
         <service
             android:name="com.pushwoosh.GCMListenerService"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
-
         <service
             android:name="com.pushwoosh.GCMInstanceIDListenerService"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID"/>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
-
         <service
             android:name="com.pushwoosh.GCMRegistrationService"
-            android:exported="false">
+            android:exported="false" >
         </service>
-        <!-- end Pushwoosh-->
-
+        <!-- end Pushwoosh -->
 
         <activity
             android:name=".ArticleDetailActivity"
@@ -117,12 +117,17 @@
         <activity
             android:name=".SplashScreen"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:theme="@style/AppTheme" >
         </activity>
     </application>
 

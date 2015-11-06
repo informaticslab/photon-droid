@@ -47,7 +47,7 @@ public class SplashScreen extends AppCompatActivity {
             }
             else{
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(750);
                 }
                 catch (InterruptedException ie){
                     ie.printStackTrace();

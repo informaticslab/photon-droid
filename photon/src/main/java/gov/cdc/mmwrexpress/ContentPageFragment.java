@@ -59,15 +59,6 @@ public class ContentPageFragment extends Fragment {
         text = getArguments().getString(BLUE_BOX_TEXT);
         imageId = getArguments().getInt(BLUE_BOX_IMAGE_ID);
 
-        if (pageNumber == 0)
-            mSnackbarStringId = R.string.content_page_1;
-        else if (pageNumber == 1)
-            mSnackbarStringId = R.string.content_page_2;
-        else if (pageNumber == 2)
-            mSnackbarStringId = R.string.content_page_3;
-
-
-
     }
 
     @Override
