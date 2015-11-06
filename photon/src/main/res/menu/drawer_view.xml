@@ -22,6 +22,7 @@
             android:title="User License Agreement" />
         <item
             android:id="@+id/nav_settings_fragment"
+            android:icon="@drawable/ic_settings"
             android:title="Settings"
             />
     </group>
