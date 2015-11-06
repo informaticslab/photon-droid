@@ -1,30 +1,12 @@
 package gov.cdc.mmwrexpress;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.design.widget.NavigationView;
-import android.util.Log;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-
-import java.io.IOException;
-import java.io.InputStream;
-
-import io.realm.Realm;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 
 /**ArticleListActivity.java
  * photon-droid
@@ -35,10 +17,6 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 public class ArticleListActivity extends BaseActivity {
 
     private static final String TAG = "ArticleListActivity";
-    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-    private BroadcastReceiver mRegistrationBroadcastReceiver;
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,8 +28,6 @@ public class ArticleListActivity extends BaseActivity {
         setupToolbar();
         initNavigationDrawer();
 
-        startGcmRegistration();
-
         if (savedInstanceState == null) {
             addArticleListFragment();
         }
@@ -60,23 +36,21 @@ public class ArticleListActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if(AppManager.pref.getBoolean(MmwrPreferences.FIRST_LAUNCH, true)){
+        if (!AppManager.pref.getBoolean(MmwrPreferences.PRELOAD_ARTICLES_LOADED, false)) {
             mDrawerLayout.openDrawer(Gravity.LEFT);
-            AppManager.editor.putBoolean(MmwrPreferences.FIRST_LAUNCH, false);
-            AppManager.editor.commit();
+            AppManager.editor.putBoolean(MmwrPreferences.PRELOAD_ARTICLES_LOADED, true).commit();
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.activity_list, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_share:
                 share();
                 return true;
@@ -88,27 +62,10 @@ public class ArticleListActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
-                new IntentFilter(MmwrPreferences.REGISTRATION_COMPLETE));
         mNavigationView.setCheckedItem(R.id.nav_articles_list_fragment);
-
     }
 
-    @Override
-    protected void onPause() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
-        super.onPause();
-    }
-
-
-    private void testPersistence() {
-        //IssuesManager issueMgr = new IssuesManager();
-        //issueMgr.storeTest();
-
-        Log.d(TAG, "Done with persistence tests.");
-    }
-
-    private void share(){
+    private void share() {
         AppManager.sc.trackEvent(Constants.SC_EVENT_SHARE_BUTTON, Constants.SC_PAGE_TITLE_LIST, Constants.SC_SECTION_ARTICLES);
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setAction(Intent.ACTION_SEND);
@@ -117,6 +74,7 @@ public class ArticleListActivity extends BaseActivity {
                 + "Learn more about it here: \nhttp://www.cdc.gov/mmwr/mmwr_expresspage.html");
         startActivity(shareIntent);
     }
+
     private void addArticleListFragment() {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -132,98 +90,10 @@ public class ArticleListActivity extends BaseActivity {
     }
 
     @Override
-    protected void setupDrawerContent(final NavigationView navigationView) {
-        //setting up selected item listener
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        menuItem.setChecked(true);
-                        if (menuItem.getItemId() == R.id.nav_articles_list_fragment) {
-                            mDrawerLayout.closeDrawers();
-                        }
-
-                        if (menuItem.getItemId() == R.id.nav_search_fragment) {
-                            Intent intent = new Intent(getApplicationContext(), KeywordSearchActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-                        }
-                        if (menuItem.getItemId() == R.id.nav_help_fragment) {
-                            Intent intent = WebViewActivity.newIntent(getApplicationContext(), "help.html");
-                            intent.putExtra("toolbarTitle", "Help");
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-                        }
-                        if (menuItem.getItemId() == R.id.nav_eula_fragment) {
-                            Intent intent = WebViewActivity.newIntent(getApplicationContext(), "eula.html");
-                            intent.putExtra("toolbarTitle", "User License Agreement");
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-                        }
-                        if (menuItem.getItemId() == R.id.nav_about_fragment) {
-                            Intent intent = WebViewActivity.newIntent(getApplicationContext(), "about.html");
-                            intent.putExtra("toolbarTitle", "About");
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-                        }
-                        mDrawerLayout.closeDrawers();
-                        return true;
-                    }
-                });
-    }
-
-    @Override
     protected void onStop() {
         mDrawerLayout.closeDrawers();
         super.onStop();
     }
-
-    /**
-     * Check the device to make sure it has the Google Play Services APK. If
-     * it doesn't, display a dialog that allows users to download the APK from
-     * the Google Play Store or enable it in the device's system settings.
-     */
-    private boolean checkPlayServices() {
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
-                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
-            } else {
-                Log.i("GCM Registration", "This device is not supported.");
-//                finish();
-            }
-            return false;
-        }
-        return true;
-    }
-
-
-    protected void startGcmRegistration() {
-
-        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                //SharedPreferences sharedPreferences;
-                //sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-                boolean sentToken = AppManager.pref
-                        .getBoolean(MmwrPreferences.SENT_TOKEN_TO_SERVER, false);
-                if (sentToken) {
-                    //mInformationTextView.setText(getString(R.string.gcm_send_message));
-                } else {
-                    //mInformationTextView.setText(getString(R.string.token_error_message));
-                }
-            }
-        };
-
-        //mInformationTextView = (TextView) findViewById(R.id.informationTextView);
-
-        if (checkPlayServices()) {
-            /* Start IntentService to register this application with GCM. */
-            Intent intent = new Intent(this, gov.cdc.mmwrexpress.RegistrationIntentService.class);
-            startService(intent);
-        }
-
-    }
 }
+
 
