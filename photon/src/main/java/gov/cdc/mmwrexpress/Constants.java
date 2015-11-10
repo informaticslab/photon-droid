@@ -24,6 +24,8 @@ public class Constants {
     public static final String SC_EVENT_NAV_SECTION = "Navigation:Section";
     public static final String SC_EVENT_SHARE_BUTTON = "Share:Button";
     public static final String SC_EVENT_AGREE_TO_EULA = "Eula:Button";
+    public static final String SC_EVENT_DISABLE_PUSH_NOTIFICATIONS = "Settings:Disable-Push-Notifications";
+    public static final String SC_EVENT_ENABLE_PUSH_NOTIFICATIONS = "Settings:Enable-Push-Notifications";
 
     public static final String SC_SECTION_ARTICLES = "Articles";
     public static final String SC_SECTION_SEARCH = "Search";
@@ -32,6 +34,7 @@ public class Constants {
     public static final String SC_SECTION_EULA = "EULA";
     public static final String SC_SECTION_SUMMARY = "Summary";
     public static final String SC_SECTION_DETAILS = "Article-Details";
+    public static final String SC_SECTION_SETTINGS = "Settings";
 
     public static final String SC_PAGE_TITLE_LAUNCH = "MMWR Express";
     public static final String SC_PAGE_TITLE_ABOUT = "About";
@@ -43,4 +46,5 @@ public class Constants {
     public static final String SC_PAGE_TITLE_SEARCH_KEYWORDS = "Search-Keywords";
     public static final String SC_PAGE_TITLE_SEARCH_KEYWORD_ARTICLES = "Search-Keyword-Articles";
     public static final String SC_PAGE_TITLE_FULL = "View-Full-Article";
+    public static final String SC_PAGE_TITLE_SETTINGS = "Settings";
 }

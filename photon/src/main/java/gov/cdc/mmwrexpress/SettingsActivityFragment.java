@@ -34,17 +34,27 @@ public class SettingsActivityFragment extends Fragment {
                         if (!AppManager.pref.getBoolean(MmwrPreferences.ALLOW_PUSH_NOTIFICATIONS, true)) {
                             AppManager.editor.putBoolean(MmwrPreferences.ALLOW_PUSH_NOTIFICATIONS, true).commit();
                             AppManager.pushManager.registerForPushNotifications();
+                            AppManager.sc.trackEvent(Constants.SC_EVENT_ENABLE_PUSH_NOTIFICATIONS,
+                                    Constants.SC_PAGE_TITLE_SETTINGS, Constants.SC_SECTION_SETTINGS);
                         }
                     }
                     else {
                         if (AppManager.pref.getBoolean(MmwrPreferences.ALLOW_PUSH_NOTIFICATIONS, true)) {
                             AppManager.editor.putBoolean(MmwrPreferences.ALLOW_PUSH_NOTIFICATIONS, false).commit();
                             AppManager.pushManager.unregisterForPushNotifications();
+                            AppManager.sc.trackEvent(Constants.SC_EVENT_DISABLE_PUSH_NOTIFICATIONS,
+                                    Constants.SC_PAGE_TITLE_SETTINGS, Constants.SC_SECTION_SETTINGS);
                         }
                     }
                 }
             });
         }
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_SETTINGS, Constants.SC_SECTION_SETTINGS);
     }
 }

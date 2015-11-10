@@ -28,7 +28,7 @@ public class SiteCatalystController {
         String sectionInfo, appVersion, server, appInfoParams, pageName;
         String deviceOnline, constParams, metricUrl, eventInfo;
 
-        Boolean debug = true;
+        Boolean debug = false;
         Boolean debugLocal = false;
 
         server =debugLocal ? localServer : cdcServer;
