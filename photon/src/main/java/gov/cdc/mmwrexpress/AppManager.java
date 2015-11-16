@@ -2,6 +2,9 @@ package gov.cdc.mmwrexpress;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+
 import com.pushwoosh.PushManager;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -25,6 +28,8 @@ public class AppManager extends Application{
         //set global instance of Shared Prefs and instantiate global editor
         pref = getApplicationContext().getSharedPreferences(MmwrPreferences.PREFS_NAME, 0);
         editor =  pref.edit();
+
+        editor.putString(MmwrPreferences.APP_VERSION, getApplicationVersionName());
 
         if(pref.getBoolean(MmwrPreferences.FIRST_LAUNCH, true)){
             setDefaultPrefs();
@@ -59,6 +64,15 @@ public class AppManager extends Application{
         editor.putBoolean(MmwrPreferences.PRELOAD_ARTICLES_LOADED, false);
         editor.putBoolean(MmwrPreferences.REFRESHED_ARTICLE_LIST_ON_FIRST_LAUNCH, false);
         editor.commit();
+    }
+
+    public String getApplicationVersionName() {
+        PackageManager packageManager = getPackageManager();
+        try {
+            PackageInfo packageInfo = packageManager.getPackageInfo(getPackageName(), 0);
+            return packageInfo.versionName;
+        } catch (PackageManager.NameNotFoundException ex) {} catch(Exception e){}
+        return "";
     }
 }
 

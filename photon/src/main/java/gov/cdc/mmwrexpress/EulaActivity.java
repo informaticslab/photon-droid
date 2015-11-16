@@ -37,7 +37,6 @@ public class EulaActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 AppManager.editor.putBoolean(MmwrPreferences.AGREED_TO_EULA, true);
-                AppManager.editor.putString(MmwrPreferences.APP_VERSION, getApplicationVersionName());
                 AppManager.editor.commit();
 
                 //Track event - Accepted EULA
@@ -79,14 +78,5 @@ public class EulaActivity extends AppCompatActivity {
 
         //Track navigation event - EULA Page Launched
         AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_EULA, Constants.SC_SECTION_EULA);
-    }
-
-    public String getApplicationVersionName() {
-        PackageManager packageManager = getPackageManager();
-        try {
-            PackageInfo packageInfo = packageManager.getPackageInfo(getPackageName(), 0);
-            return packageInfo.versionName;
-        } catch (PackageManager.NameNotFoundException ex) {} catch(Exception e){}
-        return "";
     }
 }

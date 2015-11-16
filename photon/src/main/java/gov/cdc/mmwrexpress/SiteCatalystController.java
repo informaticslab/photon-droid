@@ -61,7 +61,7 @@ public class SiteCatalystController {
                 +"&" +eventInfo +"&" +sectionInfo +"&" + pageName;
 
         postSCEvent(metricUrl);
-        Log.d("SCController:", "metric URL =" +metricUrl);
+        //Log.d("SCController:", "metric URL =" +metricUrl);
 
 
     }
@@ -69,7 +69,7 @@ public class SiteCatalystController {
         String encodedString = null;
         try{
             encodedString = URLEncoder.encode(str, "utf-8");
-            Log.d("encode: ", encodedString);
+            //Log.d("encode: ", encodedString);
         }
         catch(IOException ioe){
             ioe.printStackTrace();
@@ -96,7 +96,7 @@ public class SiteCatalystController {
             try {
                 /* forming th java.net.URL object */
                 URL url = new URL(params[0]);
-                Log.d("SC: ", "Received URL: " +url);
+                //Log.d("SC: ", "Received URL: " +url);
 
                 urlConnection = (HttpURLConnection) url.openConnection();
                 //Log.d("SC: ", "urlCon status: " +urlConnection);
@@ -104,7 +104,7 @@ public class SiteCatalystController {
                  /* optional request header */
                 urlConnection.setRequestProperty("Content-Type", "application/xml; charset=utf-8");
                 //urlConnection.connect();
-                Log.d("SC response: ", "" +urlConnection.getResponseCode());
+                //Log.d("SC response: ", "" +urlConnection.getResponseCode());
 
                 /* for Get request */
                 //urlConnection.setRequestMethod("GET");

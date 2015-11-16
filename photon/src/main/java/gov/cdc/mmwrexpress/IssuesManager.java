@@ -128,6 +128,7 @@ public class IssuesManager {
 
 
     public void addArticleKeywords(String[] foundKeywords, Article article) {
+        Realm realm = Realm.getDefaultInstance();
         Keyword keyword;
 
         for (String currKeyword : foundKeywords) {
@@ -138,15 +139,17 @@ public class IssuesManager {
             } else {
                 if (article == null)
                     Log.d("IssueManager", "Attempt to add null article to keyword " + keyword.getText());
-
-                    keyword.getArticles().add(article);
+                keyword.setText(currKeyword);
+                keyword.getArticles().add(article);
 
             }
         }
-
+        realm.close();
     }
 
     public void removeUnusedKeywords(){
+        Realm realm = Realm.getDefaultInstance();
+        this.keywords = realm.allObjects(Keyword.class);
         ArrayList<Keyword> k = new ArrayList<Keyword>();
         for(Keyword keyword : keywords)
         {
@@ -158,6 +161,7 @@ public class IssuesManager {
                 keyword.removeFromRealm();
             }
         }
+        realm.close();
     }
     public static Date getIssueDateFromString(String dateAsString)
     {
