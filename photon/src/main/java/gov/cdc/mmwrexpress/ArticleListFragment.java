@@ -22,7 +22,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -63,7 +63,7 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
             mArticlesRV.addItemDecoration(new SimpleDividerItemDecoration(
                     getActivity()
             ));
-//            listView.setOnItemClickListener(this);
+
             swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
             swipeLayout.setColorSchemeResources(R.color.mmwr_blue);
             swipeLayout.setOnRefreshListener(this);
@@ -326,8 +326,14 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
         private IssueArticleItem mIssueArticleItem;
         private int mViewType;
         private TextView mArticleTitleTextView;
-        private ImageButton mArticleInfoButton;
+        private ImageView mArticleInfoButton;
         private ArticleAdapter mAdapter;
+
+        private String title;
+        private String date;
+        private int volume;
+        private int number;
+        private String link;
 
 
         public IssueArticleHolder(View itemView, int viewType, ArticleAdapter adapter) {
@@ -338,11 +344,12 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
 
             if (viewType == ArticleAdapter.UNREAD_ARTICLE_VIEW_TYPE) {
                 mArticleTitleTextView = (TextView) itemView.findViewById(R.id.unreadArticleTitle);
-                mArticleInfoButton = (ImageButton) itemView.findViewById(R.id.articleInfoButton);
+                mArticleInfoButton = (ImageView) itemView.findViewById(R.id.articleInfoButton);
             }
             else if (viewType == ArticleAdapter.READ_ARTICLE_VIEW_TYPE) {
                 mArticleTitleTextView = (TextView) itemView.findViewById(R.id.readArticleTitle);
-                mArticleInfoButton = (ImageButton) itemView.findViewById(R.id.articleInfoButton);
+                mArticleInfoButton = (ImageView) itemView.findViewById(R.id.articleInfoButton);
+
             }
             else if (viewType == ArticleAdapter.ISSUE_VIEW_TYPE)
                 mArticleTitleTextView = (TextView) itemView.findViewById(R.id.issueTitle);
@@ -353,17 +360,18 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
             mIssueArticleItem = item;
             mArticleTitleTextView.setText(mIssueArticleItem.text);
             if(getItemViewType() == ArticleAdapter.READ_ARTICLE_VIEW_TYPE || getItemViewType() == ArticleAdapter.UNREAD_ARTICLE_VIEW_TYPE) {
+
+                DateFormat df = DateFormat.getDateInstance();
+
+                title = item.article.getTitle();
+                date = df.format(item.article.getIssue().getDate());
+                volume = item.article.getIssue().getVolume();
+                number = item.article.getIssue().getNumber();
+                link = item.article.getUrl();
+
                 mArticleInfoButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        DateFormat df = DateFormat.getDateInstance();
-
-                        String title = item.article.getTitle();
-                        String date = df.format(item.article.getIssue().getDate());
-                        int volume = item.article.getIssue().getVolume();
-                        int number = item.article.getIssue().getNumber();
-                        String link = item.article.getUrl();
-
                         //Toast.makeText(getActivity().getApplicationContext(), "Publication date: " + df.format(item.article.getIssue().getDate()), Toast.LENGTH_LONG).show();
                         Intent intent = ArticleDetailActivity.newIntent(getActivity(), title, date, volume, number, link );
                         startActivity(intent);
@@ -378,7 +386,7 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
                 Article article = mIssueArticleItem.article;
                 mAdapter.setArticleReadState(article);
                 Intent intent = ContentActivity.newIntent(getActivity(), article.getAlready_known(),
-                        article.getAdded_by_report(), article.getImplications());
+                        article.getAdded_by_report(), article.getImplications(), title, date, volume, number, link);
                 startActivity(intent);
             }
 

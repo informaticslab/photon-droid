@@ -3,29 +3,21 @@ package gov.cdc.mmwrexpress;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.ResultReceiver;
-import android.support.annotation.UiThread;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmList;
-import io.realm.RealmResults;
+
 
 /**KeywordArticleListFragment.java
  * photon-droid
@@ -208,9 +200,15 @@ public class KeywordArticleListFragment extends Fragment {
 
         private KeywordArticleItem mKeywordArticleItem;
         private int mViewType;
-        private ImageButton mArticleInfoButton;
+        private ImageView mArticleInfoButton;
         private TextView mArticleTitleTextView;
         private KeywordArticleAdapter mAdapter;
+
+        private String title;
+        private String date;
+        private int volume;
+        private int number;
+        private String link;
 
 
         public KeywordArticleHolder(View itemView, int viewType, KeywordArticleAdapter adapter) {
@@ -220,23 +218,23 @@ public class KeywordArticleListFragment extends Fragment {
             mAdapter = adapter;
 
             mArticleTitleTextView = (TextView) itemView.findViewById(R.id.readArticleTitle);
-            mArticleInfoButton = (ImageButton) itemView.findViewById(R.id.articleInfoButton);
+            mArticleInfoButton = (ImageView) itemView.findViewById(R.id.articleInfoButton);
         }
 
         public void bindArticle(final KeywordArticleItem item) {
             mKeywordArticleItem = item;
             mArticleTitleTextView.setText(mKeywordArticleItem.text);
+            DateFormat df = DateFormat.getDateInstance();
+
+            title = item.article.getTitle();
+            date = df.format(item.article.getIssue().getDate());
+            volume = item.article.getIssue().getVolume();
+            number = item.article.getIssue().getNumber();
+            link = item.article.getUrl();
+
             mArticleInfoButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DateFormat df = DateFormat.getDateInstance();
-
-                    String title = item.article.getTitle();
-                    String date = df.format(item.article.getIssue().getDate());
-                    int volume = item.article.getIssue().getVolume();
-                    int number = item.article.getIssue().getNumber();
-                    String link = item.article.getUrl();
-
                     Intent intent = ArticleDetailActivity.newIntent(getActivity(), title, date, volume, number, link);
                     startActivity(intent);
                 }
@@ -249,7 +247,7 @@ public class KeywordArticleListFragment extends Fragment {
             Article article = mKeywordArticleItem.article;
             mAdapter.setArticleReadState(article);
             Intent intent = ContentActivity.newIntent(getActivity(), article.getAlready_known(),
-                    article.getAdded_by_report(), article.getImplications());
+                    article.getAdded_by_report(), article.getImplications(), title, date, volume, number, link);
             startActivity(intent);
 
         }

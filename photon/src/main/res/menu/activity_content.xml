@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
     <!-- Adds an item to the list. -->
-
+    <item
+        android:id="@+id/article_details"
+        android:title="Article Details"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_versions_white"/>
+    <item
+        android:id="@+id/action_share"
+        android:title="Share"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_share"/>
 </menu>

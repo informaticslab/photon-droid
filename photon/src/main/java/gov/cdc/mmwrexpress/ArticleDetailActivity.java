@@ -53,6 +53,7 @@ public class ArticleDetailActivity extends BaseActivity {
     }
 
     private void share(){
+        AppManager.sc.trackEvent(Constants.SC_EVENT_SHARE_BUTTON, Constants.SC_PAGE_TITLE_DETAILS, Constants.SC_SECTION_DETAILS);
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");

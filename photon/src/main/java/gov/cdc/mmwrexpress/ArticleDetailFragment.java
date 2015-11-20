@@ -4,10 +4,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 /**ArticleDetailFragment.java
@@ -65,7 +65,7 @@ public class ArticleDetailFragment extends Fragment {
         TextView published = (TextView) view.findViewById(R.id.article_date);
         TextView volumeText = (TextView) view.findViewById(R.id.volume);
         TextView numberText = (TextView) view.findViewById(R.id.number);
-        Button articleLink = (Button) view.findViewById(R.id.link);
+        CardView articleLink = (CardView) view.findViewById(R.id.link);
 
         titleText.setText(title);
         published.setText("Published on " +date);
