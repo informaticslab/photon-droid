@@ -1,8 +1,11 @@
 package gov.cdc.mmwrexpress;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
@@ -121,6 +124,23 @@ public class BaseActivity extends AppCompatActivity {
                                 Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
+                            }
+                            if (menuItem.getItemId() == R.id.nav_support_fragment) {
+                                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                                intent.setData(Uri.parse("mailto:informaticslab@cdc.gov"));
+                                intent.putExtra(Intent.EXTRA_SUBJECT, "App Support Request: MMWR Express for Android");
+                                intent.putExtra(Intent.EXTRA_TEXT, "Application Name: MMWR Express\n"
+                                        + "Application Version: " + getApplicationVersionName() + "\n"
+                                        + "OS: Android " + Build.VERSION.RELEASE + "\n"
+                                        + "Device Info: " + (Build.MODEL.toLowerCase().startsWith(Build.MANUFACTURER.toLowerCase()) ? Build.MODEL : Build.MANUFACTURER + "-" + Build.MODEL) + "\n"
+                                        + "\nPlease provide as much detail as possible for your request:"
+                                        + "\n");
+                                try {
+                                    startActivity(intent);
+                                } catch (ActivityNotFoundException e) {
+                                    Snackbar.make(getCurrentFocus(), "No Email Application detected.", Snackbar.LENGTH_LONG).show();
+                                }
+
                             }
                             mDrawerLayout.closeDrawers();
                         }

@@ -25,5 +25,9 @@
             android:icon="@drawable/ic_settings"
             android:title="Settings"
             />
+        <item
+            android:id="@+id/nav_support_fragment"
+            android:title="Support"
+            android:icon="@drawable/ic_support"/>
     </group>
 </menu>
