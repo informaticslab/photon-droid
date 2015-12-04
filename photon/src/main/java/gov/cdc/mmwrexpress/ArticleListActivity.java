@@ -36,9 +36,9 @@ public class ArticleListActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (!AppManager.pref.getBoolean(MmwrPreferences.PRELOAD_ARTICLES_LOADED, false)) {
+        if (!AppManager.pref.getBoolean(MmwrPreferences.DISPLAY_NAV_DRAWER_ON_FIRST_LAUNCH, false)) {
             mDrawerLayout.openDrawer(Gravity.LEFT);
-            AppManager.editor.putBoolean(MmwrPreferences.PRELOAD_ARTICLES_LOADED, true).commit();
+            AppManager.editor.putBoolean(MmwrPreferences.DISPLAY_NAV_DRAWER_ON_FIRST_LAUNCH, true).commit();
         }
     }
 

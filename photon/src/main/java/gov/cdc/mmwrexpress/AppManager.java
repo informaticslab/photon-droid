@@ -31,9 +31,9 @@ public class AppManager extends Application{
 
         editor.putString(MmwrPreferences.APP_VERSION, getApplicationVersionName());
 
-        if(pref.getBoolean(MmwrPreferences.FIRST_LAUNCH, true)){
+        if(!pref.getBoolean(MmwrPreferences.SET_INITIAL_SETTINGS, false)){
             setDefaultPrefs();
-            editor.putBoolean(MmwrPreferences.FIRST_LAUNCH, false).commit();
+            editor.putBoolean(MmwrPreferences.SET_INITIAL_SETTINGS, true).commit();
         }
 
         //Setup default Realm instance. All classes should call Realm.getDefaultInstance() when using Realm objects.
