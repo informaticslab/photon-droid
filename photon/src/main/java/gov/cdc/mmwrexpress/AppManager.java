@@ -29,7 +29,7 @@ public class AppManager extends Application{
         pref = getApplicationContext().getSharedPreferences(MmwrPreferences.PREFS_NAME, 0);
         editor =  pref.edit();
 
-        editor.putString(MmwrPreferences.APP_VERSION, getApplicationVersionName());
+        editor.putString(MmwrPreferences.APP_VERSION, getApplicationVersionName()).commit();
 
         if(!pref.getBoolean(MmwrPreferences.SET_INITIAL_SETTINGS, false)){
             setDefaultPrefs();
