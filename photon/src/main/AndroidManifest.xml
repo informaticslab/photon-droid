@@ -32,6 +32,10 @@
             android:configChanges="orientation"
             android:label="Articles"
             android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="gov.cdc.mmwrexpress.MESSAGE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </activity>
         <activity
             android:name=".ContentActivity"

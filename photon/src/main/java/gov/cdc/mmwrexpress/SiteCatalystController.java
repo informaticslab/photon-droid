@@ -96,19 +96,19 @@ public class SiteCatalystController {
             try {
                 /* forming th java.net.URL object */
                 URL url = new URL(params[0]);
-                //Log.d("SC: ", "Received URL: " +url);
+                //Log.d("SC URL: ", ""+url);
 
                 urlConnection = (HttpURLConnection) url.openConnection();
                 //Log.d("SC: ", "urlCon status: " +urlConnection);
 
                  /* optional request header */
                 urlConnection.setRequestProperty("Content-Type", "application/xml; charset=utf-8");
-                //urlConnection.connect();
-                //Log.d("SC response: ", "" +urlConnection.getResponseCode());
 
-                /* for Get request */
-                //urlConnection.setRequestMethod("GET");
-                //int statusCode = urlConnection.getResponseCode();
+                //getResponseCode sends the request. Assigned to int for optional logging.
+                int responseCode = urlConnection.getResponseCode();
+
+                //Log response code
+                //Log.d("SC response: ", "" +responseCode);
 
             } catch (Exception e) {
                 Log.d("SC:", e.getLocalizedMessage());
