@@ -31,6 +31,13 @@ public class SiteCatalystController {
         Boolean debug = false;
         Boolean debugLocal = false;
 
+        //application info
+        appVersion = AppManager.pref.getString(MmwrPreferences.APP_VERSION, "0");
+        appInfoParams = "c53=" +encodeString(appVersion);
+
+        //Check if app is DEV version. "DEV" is added to version name in Gradle development product flavor
+        if(appVersion.contains("DEV")) debug = true;
+
         server =debugLocal ? localServer : cdcServer;
 
         //device info
@@ -38,10 +45,6 @@ public class SiteCatalystController {
         deviceOsName = "Android";
         deviceOsVers = "" +Build.VERSION.RELEASE;
         deviceParams = "c54=" +deviceOsName +"&c55=" +encodeString(deviceOsVers) +"&c56=" +encodeString(deviceModel);
-
-        //application info
-        appVersion = AppManager.pref.getString(MmwrPreferences.APP_VERSION, "0");
-        appInfoParams = "c53=" +encodeString(appVersion);
 
         //set event param
         eventInfo = "c58=" +event;
@@ -96,7 +99,7 @@ public class SiteCatalystController {
             try {
                 /* forming th java.net.URL object */
                 URL url = new URL(params[0]);
-                //Log.d("SC URL: ", ""+url);
+                Log.d("SC URL: ", ""+url);
 
                 urlConnection = (HttpURLConnection) url.openConnection();
                 //Log.d("SC: ", "urlCon status: " +urlConnection);
