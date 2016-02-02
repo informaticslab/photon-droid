@@ -8,7 +8,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0.0.9"
+        versionName "1.0.1.0"
     }
     buildTypes {
         release {
@@ -16,10 +16,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    productFlavors {
+        development {
+            applicationIdSuffix ".development"
+            versionName "1.0.1.0.DEV"
+        }
+        production {
+
+        }
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'io.realm:realm-android:0.84.1'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:recyclerview-v7:23.1.1'
@@ -28,5 +37,4 @@ dependencies {
     compile 'com.google.android.gms:play-services:8.4.0'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.pushwoosh:pushwoosh:3.2.3'
-
 }

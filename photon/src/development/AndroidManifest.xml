@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="gov.cdc.mmwrexpress" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!--
+  Creates a custom permission so only this app can receive its messages.
+
+  NOTE: the permission *must* be called PACKAGE.permission.C2D_MESSAGE,
+        where PACKAGE is the application's package name.
+    -->
+
+    <application
+        android:name=".AppManager"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher_debug"
+        android:label="@string/app_name_dev"
+        tools:replace="icon,label"
+        android:theme="@style/AppTheme" >
+
+        <!-- Pushwoosh -->
+        <meta-data
+            android:name="PW_APPID"
+            android:value="75B48-4972A"
+            tools:replace="value"/>
+        <meta-data
+            android:name="PW_PROJECT_ID"
+            android:value="A104460978602"
+            tools:replace="value"/>
+
+        <activity
+            android:name=".SplashScreen"
+            android:label="@string/app_name_dev"
+            tools:replace="label"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
