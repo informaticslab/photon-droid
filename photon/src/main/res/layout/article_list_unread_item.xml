@@ -26,24 +26,9 @@
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
         android:layout_toRightOf="@id/blueDot"
-        android:layout_toLeftOf="@id/articleInfoButton"
         android:text="@+id/label"
         android:textSize="18dp" >
     </TextView>
-
-    <ImageView
-        android:id="@+id/articleInfoButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="?attr/selectableItemBackground"
-        android:layout_alignParentRight="true"
-        android:padding="12dp"
-        android:contentDescription="Article Details"
-        android:src="@drawable/ic_versions_blue"
-        android:layout_centerVertical="true"/>
-
 
 </RelativeLayout>
 

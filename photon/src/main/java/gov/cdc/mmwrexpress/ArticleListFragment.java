@@ -326,7 +326,6 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
         private IssueArticleItem mIssueArticleItem;
         private int mViewType;
         private TextView mArticleTitleTextView;
-        private ImageView mArticleInfoButton;
         private ArticleAdapter mAdapter;
 
         private String title;
@@ -344,11 +343,9 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
 
             if (viewType == ArticleAdapter.UNREAD_ARTICLE_VIEW_TYPE) {
                 mArticleTitleTextView = (TextView) itemView.findViewById(R.id.unreadArticleTitle);
-                mArticleInfoButton = (ImageView) itemView.findViewById(R.id.articleInfoButton);
             }
             else if (viewType == ArticleAdapter.READ_ARTICLE_VIEW_TYPE) {
                 mArticleTitleTextView = (TextView) itemView.findViewById(R.id.readArticleTitle);
-                mArticleInfoButton = (ImageView) itemView.findViewById(R.id.articleInfoButton);
 
             }
             else if (viewType == ArticleAdapter.ISSUE_VIEW_TYPE)
@@ -368,15 +365,6 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
                 volume = item.article.getIssue().getVolume();
                 number = item.article.getIssue().getNumber();
                 link = item.article.getUrl();
-
-                mArticleInfoButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //Toast.makeText(getActivity().getApplicationContext(), "Publication date: " + df.format(item.article.getIssue().getDate()), Toast.LENGTH_LONG).show();
-                        Intent intent = ArticleDetailActivity.newIntent(getActivity(), title, date, volume, number, link );
-                        startActivity(intent);
-                    }
-                });
             }
         }
 

@@ -200,7 +200,6 @@ public class KeywordArticleListFragment extends Fragment {
 
         private KeywordArticleItem mKeywordArticleItem;
         private int mViewType;
-        private ImageView mArticleInfoButton;
         private TextView mArticleTitleTextView;
         private KeywordArticleAdapter mAdapter;
 
@@ -218,7 +217,6 @@ public class KeywordArticleListFragment extends Fragment {
             mAdapter = adapter;
 
             mArticleTitleTextView = (TextView) itemView.findViewById(R.id.readArticleTitle);
-            mArticleInfoButton = (ImageView) itemView.findViewById(R.id.articleInfoButton);
         }
 
         public void bindArticle(final KeywordArticleItem item) {
@@ -232,13 +230,6 @@ public class KeywordArticleListFragment extends Fragment {
             number = item.article.getIssue().getNumber();
             link = item.article.getUrl();
 
-            mArticleInfoButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = ArticleDetailActivity.newIntent(getActivity(), title, date, volume, number, link);
-                    startActivity(intent);
-                }
-            });
         }
 
         @Override
