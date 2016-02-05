@@ -8,7 +8,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0.1.0"
+        versionName "1.0.1.1"
     }
     buildTypes {
         release {
@@ -19,7 +19,6 @@ android {
     productFlavors {
         development {
             applicationIdSuffix ".development"
-            versionName "1.0.1.0.DEV"
         }
         production {
 
