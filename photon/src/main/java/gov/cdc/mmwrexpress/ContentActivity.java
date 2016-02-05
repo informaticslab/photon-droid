@@ -12,6 +12,9 @@ import android.support.v4.app.FragmentTabHost;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -28,7 +31,7 @@ import java.util.UUID;
  * content, as well as swiping.
  */
 //public class ContentActivity extends FragmentActivity {
-public class ContentActivity extends BaseActivity {
+public class ContentActivity extends AppCompatActivity {
 
     // number of content pages
     private static final int NUM_PAGES = 3;
@@ -74,9 +77,12 @@ public class ContentActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content);
 
-        // navigationview setup
-        setupToolbar();
-        initNavigationDrawer();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        final ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+
 
         // Get the message from the intent
         Intent intent = getIntent();
@@ -203,16 +209,6 @@ public class ContentActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        for(int i = 0; i < mNavigationView.getMenu().size(); i++){
-            if(mNavigationView.getMenu().getItem(i).isChecked()){
-                mNavigationView.getMenu().getItem(i).setChecked(false);
-            }
-        }
-
-    }
     private void share(){
         AppManager.sc.trackEvent(Constants.SC_EVENT_SHARE_BUTTON, Constants.SC_PAGE_TITLE_SUMMARY, Constants.SC_SECTION_SUMMARY);
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
