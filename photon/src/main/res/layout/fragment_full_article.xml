@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:background="@color/mmwr_blue"
         style="?android:attr/progressBarStyleHorizontal"
         android:visibility="gone"/>
     <WebView

@@ -26,14 +26,7 @@ android:fitsSystemWindows="true">
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/mmwr_blue"
                 app:layout_scrollFlags="scroll|enterAlways|exitUntilCollapsed"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-                <ProgressBar
-                    android:id="@+id/progress_bar"
-                    android:visibility="gone"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:foregroundGravity="center_vertical|center_horizontal"/>
-                </android.support.v7.widget.Toolbar>
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
         </android.support.design.widget.AppBarLayout>
 
@@ -43,12 +36,21 @@ android:fitsSystemWindows="true">
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            <ProgressBar
+                android:id="@+id/web_view_progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:background="@color/mmwr_blue"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:visibility="gone"/>
 
             <WebView
                 android:id="@+id/webview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
+                android:layout_below="@id/web_view_progress_bar"
+                android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"/>
 
 
