@@ -2,12 +2,22 @@ package gov.cdc.mmwrexpress;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 /**WebViewActivity.java
  * photon-droid
@@ -24,6 +34,7 @@ public class WebViewActivity extends BaseActivity {
     private String mWebPage;
     private WebView mWebView;
     private String toolbarTitle = "";
+    private ProgressBar progressBar;
 
     public static Intent newIntent(Context packageContext, String webPage) {
 
@@ -37,6 +48,8 @@ public class WebViewActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.VISIBLE);
 
         // navigationview setup
         setupToolbar();
@@ -46,6 +59,27 @@ public class WebViewActivity extends BaseActivity {
         Intent intent = getIntent();
         mWebPage = intent.getStringExtra(WEB_VIEW_PAGE);
         mWebView = (WebView)findViewById(R.id.webview);
+        mWebView.setWebViewClient(new WebViewClient(){
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(intent);
+                return true;
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                progressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                progressBar.setVisibility(View.GONE);
+            }
+        });
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.addJavascriptInterface(new WebAppInterface(this), "Android");
         toolbarTitle = intent.getStringExtra("toolbarTitle");
@@ -53,11 +87,12 @@ public class WebViewActivity extends BaseActivity {
 
         mWebView.loadUrl("file:///android_asset/" + mWebPage);
 
-
     }
 
     @Override
     protected void onStart() {
+
+
         if(toolbarTitle.equals("Help"))
             AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_HELP, Constants.SC_SECTION_HELP);
         else if(toolbarTitle.equals("About"))
@@ -94,3 +129,4 @@ public class WebViewActivity extends BaseActivity {
         }
     }
 }
+

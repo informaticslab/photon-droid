@@ -34,7 +34,7 @@ import java.util.UUID;
 public class ContentActivity extends AppCompatActivity {
 
     // number of content pages
-    private static final int NUM_PAGES = 3;
+    private static final int NUM_PAGES = 4;
 
     //pager widget handles animation and swiping to other pages of content
     private ViewPager mPager;
@@ -98,6 +98,7 @@ public class ContentActivity extends AppCompatActivity {
 
 
         mPager = (ViewPager) findViewById(R.id.pager);
+        mPager.setOffscreenPageLimit(1);
         mPagerAdapter = new ContentPagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
@@ -174,7 +175,7 @@ public class ContentActivity extends AppCompatActivity {
      * A pager adapter that represents the blue boxes in MMWR Weekly
      */
     private class ContentPagerAdapter extends FragmentStatePagerAdapter {
-        private String [] tabTitles = new String [] {"Known", "Added", "Implications"};
+        private String [] tabTitles = new String [] {"Known", "Added", "Implications", "Full Article"};
         public ContentPagerAdapter(android.support.v4.app.FragmentManager fm) {
             super(fm);
         }
@@ -189,6 +190,9 @@ public class ContentActivity extends AppCompatActivity {
             }
             if (position == 2 ) {
                 return ContentPageFragment.create(position, "What are the implications for public health practice?", implications, implications_image_id);
+            }
+            if (position == 3) {
+                return FullArticleFragment.create(position, link);
             }
             return null;
         }

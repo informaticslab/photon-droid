@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="fill_parent"
                 app:layout_scrollFlags="scroll|enterAlways|exitUntilCollapsed"
-                app:tabMode="fixed"
+                app:tabMode="scrollable"
                 app:tabGravity="fill"/>
 
             <android.support.v4.view.ViewPager
