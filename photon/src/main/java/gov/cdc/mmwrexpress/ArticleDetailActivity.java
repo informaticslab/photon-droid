@@ -2,9 +2,13 @@ package gov.cdc.mmwrexpress;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -14,7 +18,7 @@ import android.view.MenuItem;
  * Copyright (c) 2015 Informatics Research and Development Lab. All rights reserved.
  */
 
-public class ArticleDetailActivity extends BaseActivity {
+public class ArticleDetailActivity extends AppCompatActivity{
     private String title;
     private String pubDate;
     private int volume;
@@ -36,9 +40,11 @@ public class ArticleDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_detail);
 
-        // navigation view setup
-        setupToolbar();
-        initNavigationDrawer();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        final ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
         title = intent.getStringExtra("title");
@@ -58,7 +64,7 @@ public class ArticleDetailActivity extends BaseActivity {
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_TEXT, "MMWR Weekly article via CDC's MMWR Express "
-                + "mobile app.\n" +link);
+                + "mobile app.\n" + link);
         startActivity(shareIntent);
     }
 
@@ -88,14 +94,5 @@ public class ArticleDetailActivity extends BaseActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-    @Override
-    protected void onResume() {
-        super.onResume();
-        for(int i = 0; i < mNavigationView.getMenu().size(); i++){
-            if(mNavigationView.getMenu().getItem(i).isChecked()){
-                mNavigationView.getMenu().getItem(i).setChecked(false);
-            }
-        }
     }
 }

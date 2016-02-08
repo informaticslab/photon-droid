@@ -41,6 +41,7 @@
             android:name=".ContentActivity"
             android:configChanges="orientation"
             android:label="Summary"
+            android:parentActivityName=".ContentActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -53,6 +54,7 @@
             android:name=".KeywordArticleListActivity"
             android:configChanges="orientation"
             android:label="Search"
+            android:parentActivityName=".KeywordArticleListActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -119,6 +121,7 @@
         <activity
             android:name=".ArticleDetailActivity"
             android:label="Article Details"
+            android:parentActivityName=".ArticleDetailActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
