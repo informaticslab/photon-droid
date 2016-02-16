@@ -36,21 +36,12 @@ android:fitsSystemWindows="true">
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-            <ProgressBar
-                android:id="@+id/web_view_progress_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:background="@color/mmwr_blue"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:visibility="gone"/>
 
             <WebView
                 android:id="@+id/webview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/web_view_progress_bar"
-                android:layout_alignParentBottom="true"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"/>
 
 

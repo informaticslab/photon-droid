@@ -35,8 +35,8 @@ public class SiteCatalystController {
         appVersion = AppManager.pref.getString(MmwrPreferences.APP_VERSION, "0");
         appInfoParams = "c53=" +encodeString(appVersion);
 
-        //Check if app is DEV version. "DEV" is added to version name in Gradle development product flavor
-        if(appVersion.contains("DEV")) debug = true;
+        //Check if app is development version. "development" is added to Application ID in Gradle development product flavor
+        if(BuildConfig.APPLICATION_ID.contains("development")) debug = true;
 
         server =debugLocal ? localServer : cdcServer;
 

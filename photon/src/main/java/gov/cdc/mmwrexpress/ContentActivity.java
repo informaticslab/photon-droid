@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentActivity;
@@ -30,7 +31,7 @@ import java.util.UUID;
  * Activity shows a "next" and "previous" button that can advance the user to the next page of
  * content, as well as swiping.
  */
-//public class ContentActivity extends FragmentActivity {
+
 public class ContentActivity extends AppCompatActivity {
 
     // number of content pages
@@ -95,13 +96,12 @@ public class ContentActivity extends AppCompatActivity {
         number = intent.getIntExtra("number", -1);
         link = intent.getStringExtra("link");
 
-
+        // Set toolbar title to Article title
+        ab.setTitle(title);
 
         mPager = (ViewPager) findViewById(R.id.pager);
-        mPager.setOffscreenPageLimit(1);
         mPagerAdapter = new ContentPagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
-
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_host);
         tabLayout.setupWithViewPager(mPager);
@@ -117,16 +117,15 @@ public class ContentActivity extends AppCompatActivity {
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
+
             }
 
         });
-        //showSnackbar(R.string.content_page_1);
-
-
     }
 
     @Override
@@ -163,9 +162,6 @@ public class ContentActivity extends AppCompatActivity {
             case R.id.action_share:
                 share();
                 return true;
-            case R.id.article_details:
-                Intent intent = ArticleDetailActivity.newIntent(this, title, pubDate, volume, number, link);
-                startActivity(intent);
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -175,7 +171,7 @@ public class ContentActivity extends AppCompatActivity {
      * A pager adapter that represents the blue boxes in MMWR Weekly
      */
     private class ContentPagerAdapter extends FragmentStatePagerAdapter {
-        private String [] tabTitles = new String [] {"Known", "Added", "Implications", "Full Article"};
+        private String [] tabTitles = new String [] {"Full Article", "Known", "Added", "Implications"};
         public ContentPagerAdapter(android.support.v4.app.FragmentManager fm) {
             super(fm);
         }
@@ -183,16 +179,20 @@ public class ContentActivity extends AppCompatActivity {
         @Override
         public android.support.v4.app.Fragment getItem(int position) {
             if (position == 0 ) {
-                return ContentPageFragment.create(position, "What is already known?", known, known_image_id);
+
+                return FullArticleFragment.create(position, link);
+
             }
             if (position == 1 ) {
-                return ContentPageFragment.create(position, "What is added by this report?", added, added_image_id);
+                return ContentPageFragment.create(position, "What is already known?", known, known_image_id);
+
             }
             if (position == 2 ) {
-                return ContentPageFragment.create(position, "What are the implications for public health practice?", implications, implications_image_id);
+                return ContentPageFragment.create(position, "What is added by this report?", added, added_image_id);
+
             }
             if (position == 3) {
-                return FullArticleFragment.create(position, link);
+                return ContentPageFragment.create(position, "What are the implications for public health practice?", implications, implications_image_id);
             }
             return null;
         }

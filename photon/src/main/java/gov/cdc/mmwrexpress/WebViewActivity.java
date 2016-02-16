@@ -2,23 +2,11 @@ package gov.cdc.mmwrexpress;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.ContentLoadingProgressBar;
-import android.view.MenuItem;
-import android.view.View;
 import android.webkit.JavascriptInterface;
-import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ProgressBar;
 
 /**WebViewActivity.java
  * photon-droid
@@ -35,7 +23,6 @@ public class WebViewActivity extends BaseActivity {
     private String mWebPage;
     private WebView mWebView;
     private String toolbarTitle = "";
-    private ProgressBar progressBar;
 
     public static Intent newIntent(Context packageContext, String webPage) {
 
@@ -49,7 +36,6 @@ public class WebViewActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
-        progressBar = (ProgressBar) findViewById(R.id.web_view_progress_bar);
 
         // navigationview setup
         setupToolbar();
@@ -69,18 +55,6 @@ public class WebViewActivity extends BaseActivity {
             }
         });
 
-        mWebView.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public void onProgressChanged(WebView view, int newProgress) {
-                if (newProgress == 100) {
-                    progressBar.setVisibility(View.GONE);
-                } else {
-                    progressBar.setVisibility(View.VISIBLE);
-                    progressBar.setProgress(newProgress);
-                }
-            }
-
-        });
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.addJavascriptInterface(new WebAppInterface(this), "Android");
         toolbarTitle = intent.getStringExtra("toolbarTitle");
