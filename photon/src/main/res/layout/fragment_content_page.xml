@@ -15,7 +15,8 @@
   -->
 
 <!-- Dummy content. -->
-<LinearLayout
+
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/content"
@@ -25,38 +26,109 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:id="@+id/blue_box_image_view" />
-
-        <TextView android:id="@+id/blue_box_title"
-            style="?android:textAppearanceLarge"
-            android:textStyle="bold"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_gravity="center_vertical"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/known_icon"/>
+
+            <TextView
+                      style="?android:textAppearanceLarge"
+                      android:text="What is already known?"
+                      android:textStyle="bold"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginLeft="16dp"
+                      android:layout_gravity="center_vertical"
+                />
+        </LinearLayout>
+
+        <TextView android:id="@+id/known_text"
+                  style="?android:textAppearanceMedium"
+                  android:paddingLeft="16dp"
+                  android:paddingRight="16dp"
+                  android:paddingBottom="16dp"
+                  android:lineSpacingMultiplier="1.2"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+
+            />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/added_icon"/>
+
+            <TextView
+                style="?android:textAppearanceLarge"
+                android:text="What is added by this report?"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_gravity="center_vertical"
+                />
+        </LinearLayout>
+
+        <TextView android:id="@+id/added_text"
+                  style="?android:textAppearanceMedium"
+                  android:paddingLeft="16dp"
+                  android:paddingRight="16dp"
+                  android:paddingBottom="16dp"
+                  android:lineSpacingMultiplier="1.2"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+
+            />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/implications_icon"/>
+
+            <TextView
+                style="?android:textAppearanceLarge"
+                android:text="What are the implications for the public health practice?"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_gravity="center_vertical"
+                />
+        </LinearLayout>
+
+        <TextView android:id="@+id/implications_text"
+                  style="?android:textAppearanceMedium"
+                  android:paddingLeft="16dp"
+                  android:paddingRight="16dp"
+                  android:paddingBottom="16dp"
+                  android:lineSpacingMultiplier="1.2"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+
             />
     </LinearLayout>
-<ScrollView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-    <TextView android:id="@+id/blue_box_text"
-        style="?android:textAppearanceMedium"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingBottom="16dp"
-        android:lineSpacingMultiplier="1.2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        />
 </ScrollView>
-</LinearLayout>
+

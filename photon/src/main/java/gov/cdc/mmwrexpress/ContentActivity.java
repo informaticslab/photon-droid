@@ -35,7 +35,7 @@ import java.util.UUID;
 public class ContentActivity extends AppCompatActivity {
 
     // number of content pages
-    private static final int NUM_PAGES = 4;
+    private static final int NUM_PAGES = 2;
 
     //pager widget handles animation and swiping to other pages of content
     private ViewPager mPager;
@@ -47,11 +47,6 @@ public class ContentActivity extends AppCompatActivity {
     private int volume;
     private int number;
     private String link;
-
-    // Images for each content pages
-    private static int known_image_id = R.drawable.known_icon;
-    private static int added_image_id = R.drawable.added_icon;
-    private static int implications_image_id = R.drawable.implications_icon;
 
     // pager adapter provides pages view pager widget
     private PagerAdapter mPagerAdapter;
@@ -171,7 +166,7 @@ public class ContentActivity extends AppCompatActivity {
      * A pager adapter that represents the blue boxes in MMWR Weekly
      */
     private class ContentPagerAdapter extends FragmentStatePagerAdapter {
-        private String [] tabTitles = new String [] {"Full Article", "Known", "Added", "Implications"};
+        private String [] tabTitles = new String [] {"Full Article", "Summary"};
         public ContentPagerAdapter(android.support.v4.app.FragmentManager fm) {
             super(fm);
         }
@@ -184,15 +179,8 @@ public class ContentActivity extends AppCompatActivity {
 
             }
             if (position == 1 ) {
-                return ContentPageFragment.create(position, "What is already known?", known, known_image_id);
+                return ContentPageFragment.create(known, added, implications);
 
-            }
-            if (position == 2 ) {
-                return ContentPageFragment.create(position, "What is added by this report?", added, added_image_id);
-
-            }
-            if (position == 3) {
-                return ContentPageFragment.create(position, "What are the implications for public health practice?", implications, implications_image_id);
             }
             return null;
         }
