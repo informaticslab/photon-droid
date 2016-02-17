@@ -47,4 +47,8 @@ public class Constants {
     public static final String SC_PAGE_TITLE_SEARCH_KEYWORD_ARTICLES = "Search-Keyword-Articles";
     public static final String SC_PAGE_TITLE_FULL = "View-Full-Article";
     public static final String SC_PAGE_TITLE_SETTINGS = "Settings";
+
+    // Tab controller for Article Content page
+    public static final int SUMMARY_TAB = 0;
+    public static final int FULL_ARTICLE_TAB = 1;
 }

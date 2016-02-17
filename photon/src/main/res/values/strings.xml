@@ -38,6 +38,7 @@
 
     <string name="title_activity_settings">Settings</string>
     <string name="allow_push_notifications">Allow Push Notifications</string>
+    <string name="default_tab_label">Default to Full Article view</string>
 
 
 </resources>

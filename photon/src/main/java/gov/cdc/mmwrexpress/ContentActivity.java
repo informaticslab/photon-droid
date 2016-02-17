@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TabHost;
 
 import java.util.UUID;
 
@@ -79,7 +80,6 @@ public class ContentActivity extends AppCompatActivity {
         final ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
-
         // Get the message from the intent
         Intent intent = getIntent();
         known = intent.getStringExtra(Constants.ARTICLE_KNOWN_MSG);
@@ -101,13 +101,22 @@ public class ContentActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_host);
         tabLayout.setupWithViewPager(mPager);
 
+        int defaultTab = AppManager.pref.getInt(MmwrPreferences.DEFAULT_TAB, Constants.FULL_ARTICLE_TAB);
+
+        mPager.setCurrentItem(defaultTab);
+
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
             public void onPageSelected(int position) {
                 invalidateOptionsMenu();
                 //showSwipeHelpSnackbar(position);
-
+                if(position == 0){
+                    AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_SUMMARY, Constants.SC_SECTION_SUMMARY);
+                }
+                else if(position == 1){
+                    AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_FULL, Constants.SC_SECTION_DETAILS);
+                }
             }
 
             @Override
@@ -166,7 +175,7 @@ public class ContentActivity extends AppCompatActivity {
      * A pager adapter that represents the blue boxes in MMWR Weekly
      */
     private class ContentPagerAdapter extends FragmentStatePagerAdapter {
-        private String [] tabTitles = new String [] {"Full Article", "Summary"};
+        private String [] tabTitles = new String [] {"Summary", "Full Article"};
         public ContentPagerAdapter(android.support.v4.app.FragmentManager fm) {
             super(fm);
         }
@@ -174,13 +183,10 @@ public class ContentActivity extends AppCompatActivity {
         @Override
         public android.support.v4.app.Fragment getItem(int position) {
             if (position == 0 ) {
-
-                return FullArticleFragment.create(position, link);
-
+                return ContentPageFragment.create(known, added, implications);
             }
             if (position == 1 ) {
-                return ContentPageFragment.create(known, added, implications);
-
+                return FullArticleFragment.create(position, link);
             }
             return null;
         }

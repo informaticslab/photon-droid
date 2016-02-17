@@ -133,7 +133,6 @@ public class FullArticleFragment extends Fragment {
     public void onResume() {
         super.onResume();
         checkConnectionAndLoadPage(link);
-        AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_FULL, Constants.SC_SECTION_DETAILS);
     }
 
     private void checkConnectionAndLoadPage(final String link){
