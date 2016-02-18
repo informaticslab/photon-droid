@@ -1,0 +1,75 @@
+[
+  {
+    "issue-date":      "2014-01-03",
+    "issue-vol":       "62",
+    "issue-no":        "51",
+    "title":           "Outbreak of Salmonellosis Associated with Consumption of Pulled Pork at a Church Festival \u2014 Hamilton County, Ohio, 2010",
+    "already_known":   "Festivals and fairs have been implicated in foodborne outbreaks and might remain environments that place persons at risk for foodborne illness. In Ohio, church festivals generally are exempt from food service licensure and inspection.",
+    "added_by_report": "An outbreak of salmonellosis in southwest Ohio in June of 2010 was associated with consumption of pulled pork prepared in a private home and sold to attendees of a church festival. Salmonella isolates available from three of 38 reported cases had matching pulsed-field gel electrophoresis patterns identifying the outbreak pathogen as Salmonella Typhimurium variant Copenhagen.",
+    "implications":    "Food service operations at large-scale events, including church festivals and fairs, might place populations at risk for foodborne illness. In particular, environments without public health regulation might benefit from education of event organizers and food vendors regarding food safety practices.",
+    "tags":            [
+      {
+        "tag": "Outbreak"
+      },
+      {
+        "tag": "Salmonellosis"
+      },
+      {
+        "tag": "Ohio"
+      },
+      {
+        "tag": "Foodborne Illness"
+      }
+    ],
+    "url":             "http:\/\/www.cdc.gov\/mmwr\/preview\/mmwrhtml\/mm6251a2.htm?s_cid=mm6251a2_w",
+    "content-ver":     "1",
+    "schema-ver":      "1"
+  },
+  {
+    "issue-date":      "2014-01-03",
+    "issue-vol":       "62",
+    "issue-no":        "51",
+    "title":           "Histoplasmosis Outbreak Associated with the Renovation of an Old House \u2014 Quebec, Canada, 2013",
+    "already_known":   "Histoplasmosis outbreaks can occur when demolition work produces dust containing bird or bat droppings.",
+    "added_by_report": "During the renovation of an old house in Quebec, Canada, 14 of 30 workers and residents exposed to dust from bird or bat droppings experienced respiratory symptoms consistent with histoplasmosis. Of the four persons whose infection was laboratory-confirmed, two were hospitalized. Illness was highly correlated with exposure to dust during demolition of the exterior walls, and with the handling of contaminated debris away from the work site.",
+    "implications":    "Employers need to provide the appropriate protective equipment and reinforce to employees the necessity of applying protective measures during demolition work, including when handling debris away from the work site.",
+    "tags":            [
+      {
+        "tag": "Histoplasmosis"
+      },
+      {
+        "tag": "Dust Exposure"
+      },
+      {
+        "tag": "Outbreak"
+      },
+      {
+        "tag": "Canada"
+      },
+    ],
+    "url":             "http:\/\/www.cdc.gov\/mmwr\/preview\/mmwrhtml\/mm6251a1.htm?s_cid=mm6251a1_w",
+    "content-ver":     "1",
+    "schema-ver":      "1",
+    "command": "delete"
+  },
+  {
+    "issue-date":      "2015-05-29",
+    "issue-vol":       "64",
+    "issue-no":        "20",
+    "title":           "Acute Rheumatic Fever and Rheumatic Heart Disease Among Children \u2014 American Samoa, 2011\u20132012",
+    "already_known":   "Inadequately treated group A streptococcal pharyngitis can lead to development of acute rheumatic fever and subsequent rheumatic heart disease, both of which are found at high rates among children living in the South Pacific. Long-term penicillin injections are effective in preventing recurrent acute rheumatic fever attacks and subsequent development of rheumatic heart disease.",
+    "added_by_report": "This report describes a continued high incidence of acute rheumatic fever and prevalence of rheumatic heart disease in American Samoa. In August 2013, rheumatic heart disease point prevalence (3.2 per 1,000 children) was approximately 10 times that estimated for industrialized countries. The report also highlights the extent to which missed diagnoses, missed opportunities for treatment, and treatment noncompliance might contribute to the high rate of rheumatic heart disease.",
+    "implications":    "Efforts to improve pharyngitis diagnosis and treatment and compliance with penicillin prophylaxis might reduce the burden of acute rheumatic fever and rheumatic heart disease among children in American Samoa. These goals might be effectively met by establishment of a coordinated disease control program. ",
+    "tags":            [
+      {
+        "tag": "Rheumatic Fever"
+      },
+      {
+        "tag": "Rheumatic Heart Disease"
+      }
+    ],
+    "url":             "http:\/\/www.cdc.gov\/mmwr\/preview\/mmwrhtml\/mm6420a5.htm?s_cid=mm6420a5_w",
+    "content-ver":     "1",
+    "schema-ver":      "1"
+  }
+]

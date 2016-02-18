@@ -15,10 +15,16 @@ import java.io.InputStream;
 
 public class SplashScreen extends AppCompatActivity {
     private Intent i;
+    private String prodAsset = "PreloadIssues.json";
+    private String testAsset = "TESTPreloadIssues.json";
+    private boolean debug = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
+        if(BuildConfig.APPLICATION_ID.contains("development")) debug = true;
 
         if(!AppManager.pref.getBoolean(MmwrPreferences.AGREED_TO_EULA, false))
             i = new Intent(getApplicationContext(), EulaActivity.class);
@@ -40,17 +46,18 @@ public class SplashScreen extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... params) {
-            if (!AppManager.pref.getBoolean(MmwrPreferences.PRELOAD_ARTICLES_LOADED, false)) {
+
+         if ((!AppManager.pref.getBoolean(MmwrPreferences.PRELOAD_ARTICLES_LOADED, false)) || debug ) {
                 loadJsonArticlesFromAsset();
                 AppManager.editor.putBoolean(MmwrPreferences.PRELOAD_ARTICLES_LOADED, true);
                 AppManager.editor.commit();
-            }
+           }
             else{
                 try {
                     Thread.sleep(750);
                 }
                 catch (InterruptedException ie){
-                    ie.printStackTrace();
+                   ie.printStackTrace();
                 }
             }
             startActivity(i);
@@ -65,8 +72,11 @@ public class SplashScreen extends AppCompatActivity {
 
         public void loadJsonArticlesFromAsset() {
             String json = null;
+            String asset;
+            asset = debug ? testAsset : prodAsset;
+
             try {
-                InputStream is = getAssets().open("PreloadIssues.json");
+                InputStream is = getAssets().open(asset);
                 int size = is.available();
                 byte[] buffer = new byte[size];
                 is.read(buffer);

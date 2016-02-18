@@ -27,6 +27,7 @@ public class RssService extends IntentService {
 
     private static final String RSS_LINK = "http://t.cdc.gov/feed.aspx?";
     private static final String RSS_FEED_ID= "feedid=100";
+    private static final String DEV_FEED_ID = "feedid=105";
     private static final String RSS_FORMAT = "format=rss2";
     private String fromDate;
     public static final String ITEMS = "items";
@@ -49,8 +50,10 @@ public class RssService extends IntentService {
         try {
             CdcRssParser parser = new CdcRssParser();
 
+            boolean testFeed = true;
+
             //Uncomment fromDate to pull by date.
-            InputStream inputStream = getInputStream(RSS_LINK + "&" +RSS_FEED_ID /*+"&" +fromDate*/ +"&" +RSS_FORMAT);
+            InputStream inputStream = getInputStream(RSS_LINK + "&" +(testFeed ? DEV_FEED_ID : RSS_FEED_ID) /*+"&" +fromDate*/ +"&" +RSS_FORMAT);
             if (inputStream != null) {
                 articleListItems = parser.parse(inputStream);
                 Date currDate = new Date();

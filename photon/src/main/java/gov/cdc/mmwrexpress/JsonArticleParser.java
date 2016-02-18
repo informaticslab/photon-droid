@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.ArrayList;
 
 import io.realm.Realm;
+import io.realm.RealmQuery;
 
 
 /**JsonArticleParser
@@ -37,6 +38,8 @@ public class JsonArticleParser {
     private static final String TAG_URL = "url";
     private static final String TAG_CONTENT_VER = "content-ver";
     private static final String TAG_SCHEMA_VER = "schema-ver";
+    private static final String TAG_COMMAND = "command";
+    private static final String DELETE_COMMAND = "delete";
 
     public JsonArticleParser() {
 
@@ -84,6 +87,7 @@ public class JsonArticleParser {
             // process article found in RSS feed and find stored issue
             // or in not there create a new one
             Article article = issuesManager.processRssArticle(issue, jsonObject.getString(TAG_TITLE), jsonObject.getInt(TAG_CONTENT_VER));
+
             if (article != null) {
 
                 article.setAlready_known(jsonObject.getString(TAG_ALREADY_KNOWN));
@@ -108,6 +112,9 @@ public class JsonArticleParser {
                     Log.d("JsonArticleParser", "JSON Article title = " + jsonObject.getString(TAG_TITLE));
                 }
             }
+
+            RealmQuery<Article> query = realm.where(Article.class).equalTo("title", jsonObject.getString(TAG_TITLE));
+            article = deleteArticle(jsonObject, query.findFirst());
 
             realm.commitTransaction();
 
@@ -176,7 +183,7 @@ public class JsonArticleParser {
 
                 }
 
-
+                deleteArticle(jsonObject, article);
 
                 //Log.d("JsonArticleParser", "JSON Article title = " + jsonObject.getString(TAG_TITLE));
 
@@ -195,4 +202,18 @@ public class JsonArticleParser {
         }
     }
 
+    public Article deleteArticle(JSONObject jsonObject, Article article){
+        try {
+            if (jsonObject.has(TAG_COMMAND)) {
+                if (jsonObject.getString(TAG_COMMAND).equals(DELETE_COMMAND)) {
+                    if (article != null)
+                        issuesManager.deleteArticle(article);
+                        return null;
+                }
+            }
+        }catch (JSONException ex){
+            ex.printStackTrace();
+        }
+        return article;
+    }
 }
