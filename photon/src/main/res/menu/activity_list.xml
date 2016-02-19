@@ -2,9 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/action_search"
+        android:title="Search"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_search_white"/>
+    <item
         android:id="@+id/action_share"
         android:title="Share"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:icon="@drawable/ic_share">
 
     </item>

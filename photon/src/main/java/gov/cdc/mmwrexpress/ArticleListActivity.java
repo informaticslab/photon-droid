@@ -54,6 +54,10 @@ public class ArticleListActivity extends BaseActivity {
             case R.id.action_share:
                 share();
                 return true;
+            case R.id.action_search:
+                Intent i = new Intent(this, KeywordSearchActivity.class);
+                startActivity(i);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
