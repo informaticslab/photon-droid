@@ -73,7 +73,7 @@ public class JsonArticleParser {
         try {
 
             JSONObject jsonObject = new JSONObject(jsonArticle);
-
+            Log.d("JsonArticleParser", "FEED!" +jsonObject.toString());
             int size = jsonObject.length();
 
             realm.beginTransaction();
@@ -113,8 +113,15 @@ public class JsonArticleParser {
                 }
             }
 
-            RealmQuery<Article> query = realm.where(Article.class).equalTo("title", jsonObject.getString(TAG_TITLE));
-            article = deleteArticle(jsonObject, query.findFirst());
+            if(jsonObject.has(TAG_COMMAND)){
+                if(jsonObject.getString(TAG_COMMAND).equals(DELETE_COMMAND)){
+                    RealmQuery<Article> query = realm.where(Article.class).equalTo("title", jsonObject.getString(TAG_TITLE));
+                    Log.d("JsonArticleParser", "FEED! jsonObject: " +jsonObject.toString());
+                    Log.d("JsonArticleParser","FEED! Deleting article: " +query.findFirst().getTitle());
+                    issuesManager.deleteArticle(query.findFirst());
+                }
+            }
+
 
             realm.commitTransaction();
 
@@ -183,8 +190,14 @@ public class JsonArticleParser {
 
                 }
 
-                deleteArticle(jsonObject, article);
-
+                if(jsonObject.has(TAG_COMMAND)){
+                    if(jsonObject.getString(TAG_COMMAND).equals(DELETE_COMMAND)){
+                        RealmQuery<Article> query = realm.where(Article.class).equalTo("title", jsonObject.getString(TAG_TITLE));
+                        Log.d("JsonArticleParser", "PRELOAD! jsonObject: " +jsonObject.toString());
+                        Log.d("JsonArticleParser","PRELOAD! Deleting article: " +query.findFirst().getTitle());
+                        issuesManager.deleteArticle(query.findFirst());
+                    }
+                }
                 //Log.d("JsonArticleParser", "JSON Article title = " + jsonObject.getString(TAG_TITLE));
 
                 //Log.d("JsonArticleParser", "JSON Article size = " + String.valueOf(size));
@@ -200,20 +213,5 @@ public class JsonArticleParser {
         finally {
             realm.close();
         }
-    }
-
-    public Article deleteArticle(JSONObject jsonObject, Article article){
-        try {
-            if (jsonObject.has(TAG_COMMAND)) {
-                if (jsonObject.getString(TAG_COMMAND).equals(DELETE_COMMAND)) {
-                    if (article != null)
-                        issuesManager.deleteArticle(article);
-                        return null;
-                }
-            }
-        }catch (JSONException ex){
-            ex.printStackTrace();
-        }
-        return article;
     }
 }
