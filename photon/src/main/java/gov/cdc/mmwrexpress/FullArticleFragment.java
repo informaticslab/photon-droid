@@ -7,9 +7,11 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,10 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,9 +39,10 @@ public class FullArticleFragment extends Fragment {
     private ProgressBar progressBar;
     private ConnectivityManager cm;
     private NetworkInfo activeNetwork;
+    private HttpURLConnection httpURLConnection;
 
 
-    public static FullArticleFragment create(int pageNumber, String link){
+    public static FullArticleFragment create(int pageNumber, String link) {
         FullArticleFragment fragment = new FullArticleFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PAGE, pageNumber);
@@ -130,25 +137,49 @@ public class FullArticleFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        checkConnectionAndLoadPage(link);
+    public void onStart() {
+        super.onStart();
+        String[] params = {link};
+        new CheckConnectionAndLoadPage().execute(params);
     }
 
-    private void checkConnectionAndLoadPage(final String link){
-        activeNetwork = cm.getActiveNetworkInfo();
-        if(activeNetwork != null){
-            webView.loadUrl(link);
+    private class CheckConnectionAndLoadPage extends AsyncTask<String, Void, Integer> {
+
+        @Override
+        protected Integer doInBackground(String... params) {
+            try {
+                URL url = new URL(params[0]);
+                httpURLConnection = (HttpURLConnection) url.openConnection();
+
+
+                if (httpURLConnection.getResponseCode() == 200 && httpURLConnection.getURL().equals(url)) {
+                    return 1;
+                } else
+                    return 0;
+            } catch (IOException e) {
+                Log.w(Constants.RSS_SERVICE, "Exception while retrieving the input stream", e);
+                return 0;
+            } finally {
+                httpURLConnection.disconnect();
+            }
         }
-        else {
-            Snackbar.make(getActivity().findViewById(R.id.full_article_webview), "No internet connection detected", Snackbar.LENGTH_INDEFINITE)
-                    .setActionTextColor(getResources().getColor(R.color.light_yellow))
-                    .setAction("Retry", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            checkConnectionAndLoadPage(link);
-                        }
-                    }).show();
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            super.onPostExecute(integer);
+            if (integer.equals(0)) {
+                Snackbar.make(getView(), "Error loading article. Check internet connection.", Snackbar.LENGTH_INDEFINITE)
+                        .setActionTextColor(getResources().getColor(R.color.light_yellow))
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                new CheckConnectionAndLoadPage().execute(link);
+                            }
+                        }).show();
+            } else if (integer.equals(1)) {
+
+                webView.loadUrl(link);
+            }
         }
     }
 }
