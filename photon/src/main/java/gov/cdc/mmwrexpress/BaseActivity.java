@@ -18,6 +18,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.accessibility.AccessibilityEvent;
 
 /**BaseActivity.java
  * photon-droid
@@ -37,8 +38,9 @@ public class BaseActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final ActionBar ab = getSupportActionBar();
+        ActionBar ab = getSupportActionBar();
         ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+        ab.setHomeActionContentDescription(R.string.menu_button_description);
         ab.setDisplayHomeAsUpEnabled(true);
     }
 

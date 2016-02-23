@@ -1,13 +1,23 @@
 package gov.cdc.mmwrexpress;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import android.app.Application;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
@@ -24,6 +34,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.xmlpull.v1.XmlPullParserException;
+
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -43,6 +56,8 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
     private SwipeRefreshLayout swipeLayout;
     private ConnectivityManager cm;
     private NetworkInfo activeNetwork;
+    private HttpURLConnection httpURLConnection;
+    private UpdateArticleList updateArticleList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,17 +94,9 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
     }
 
     @Override public void onRefresh() {
-        activeNetwork = cm.getActiveNetworkInfo();
-        if(activeNetwork != null)
-        {
-            startService();
-        }
-        else
-        {
-            Snackbar.make(getActivity().findViewById(R.id.main_content), "No internet connection detected. Please check your connection and try again.", Snackbar.LENGTH_LONG).show();
-            swipeLayout.setRefreshing(false);
-        }
+        initiateRefresh();
     }
+
 
     @Override
     public void onResume() {
@@ -100,9 +107,21 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        if(updateArticleList != null){
+            updateArticleList.setSilent();
+        }
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         realm.close();
+        if(updateArticleList != null){
+            updateArticleList.setSilent();
+        }
+
     }
 
     private void updateUI() {
@@ -118,6 +137,7 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
 
     }
 
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -125,59 +145,144 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
     }
 
     //use to force refresh data AND force swipe layout to display progress notification
-    public void forceRefresh(){
-        if(activeNetwork != null) {
+    public void forceRefresh() {
+        if (swipeLayout.isRefreshing()) {
+            Log.d("forceRefresh", "Refreshing, skip refresh request.");
+        } else {
+            Log.d("forceRefresh", "Init refresh.");
             swipeLayout.post(new Runnable() {
                 @Override
                 public void run() {
-                    onRefresh();
+                    initiateRefresh();
                     swipeLayout.setRefreshing(true);
                 }
             });
         }
-        else
-        {
-            Snackbar.make(getActivity().findViewById(R.id.main_content), "No internet connection detected. Please check your connection and try again.", Snackbar.LENGTH_LONG).show();
+    }
+
+    private void initiateRefresh(){
+            updateArticleList = new UpdateArticleList();
+            updateArticleList.execute();
+        }
+    private void onRefreshComplete(int resultCode) {
+        swipeLayout.setRefreshing(false);
+
+        if (resultCode == 1) {
+            mAdapter.dataSetChanged();
+            Snackbar.make(view, "Article list updated.", Snackbar.LENGTH_LONG)
+                    .setCallback(new Snackbar.Callback() {
+                        @Override
+                        public void onShown(Snackbar snackbar) {
+                            super.onShown(snackbar);
+                            snackbar.getView().setContentDescription("Article list updated.");
+                        }
+                    }).show();
+        } else if (resultCode == 0) {
+            Snackbar.make(view, "Error accessing CDC Feed. Check internet connection.",
+                    Snackbar.LENGTH_INDEFINITE)
+                    .setCallback(new Snackbar.Callback() {
+                        @Override
+                        public void onShown(Snackbar snackbar) {
+                            super.onShown(snackbar);
+                            snackbar.getView().setContentDescription("Error accessing CDC Feed. " +
+                                    "Check internet connection.");
+                        }
+                    })
+                    .setActionTextColor(getResources().getColor(R.color.light_yellow))
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            forceRefresh();
+                        }
+                    }).show();
+        } else if(resultCode == 2){
+            Snackbar.make(view, "Cancelled.", Snackbar.LENGTH_LONG).show();
         }
     }
 
-    private void startService() {
-        Intent intent = new Intent(getActivity(), RssService.class);
-        intent.putExtra(RssService.RECEIVER, resultReceiver);
-        getActivity().startService(intent);
-    }
 
-    /**
-     * Once the {@link RssService} finishes its task, the result is sent to this
-     * ResultReceiver.
-     */
-    private final ResultReceiver resultReceiver = new ResultReceiver(new Handler()) {
-        @SuppressWarnings("unchecked")
+
+
+    private class UpdateArticleList extends AsyncTask<Void, Void, Integer>{
+
+        private static final String RSS_LINK = "http://t.cdc.gov/feed.aspx?";
+        private static final String RSS_FEED_ID= "feedid=100";
+        private static final String DEV_FEED_ID = "feedid=105";
+        private static final String RSS_FORMAT = "format=rss2";
+        private String fromDate;
+        private boolean cancelled;
+        private boolean silent;
+
         @Override
-        protected void onReceiveResult(int resultCode, Bundle resultData) {
-            String message = null;
-            if(resultCode == 0) {
-                List<ArticleListItem> items = (List<ArticleListItem>) resultData.getSerializable(RssService.ITEMS);
-                if (items != null) {
-                    //refreshFromStoredArticles();
-                    mAdapter.dataSetChanged();
-                    message = "Article list updated.";
-                }
-            }
-            else if(resultCode == 1){
-                message = "Unable to access CDC feed. Please try again later.";
-            }
+        protected void onPreExecute() {
+            super.onPreExecute();
+            cancelled = false;
+            silent = false;
+        }
 
-            //display Snackbar message if view has not been destroyed.
+        public InputStream getInputStream(String link) {
             try {
-                Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
-                swipeLayout.setRefreshing(false);
-            }
-            catch (NullPointerException npe){
+                URL url = new URL(link);
+                httpURLConnection = (HttpURLConnection) url.openConnection();
 
+                if(httpURLConnection.getResponseCode() == 200 && httpURLConnection.getURL().equals(url)) {
+                    return url.openConnection().getInputStream();
+                }
+                else
+                    return null;
+            } catch (IOException e) {
+                Log.w(Constants.RSS_SERVICE, "Exception while retrieving the input stream", e);
+                return null;
+            }
+            finally {
+                httpURLConnection.disconnect();
             }
         }
-    };
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            while (!cancelled) {
+                try {
+                    CdcRssParser parser = new CdcRssParser();
+                    boolean debug = false;
+
+                    //Uncomment fromDate to pull by date.
+                    InputStream inputStream = getInputStream(RSS_LINK + "&" + (debug ? DEV_FEED_ID : RSS_FEED_ID) /*+"&" +fromDate*/ + "&" + RSS_FORMAT);
+                    if (inputStream != null) {
+                        parser.parse(inputStream);
+                        Date currDate = new Date();
+                        AppManager.editor.putString(MmwrPreferences.LAST_UPDATE, new SimpleDateFormat("yyyy-MM-dd").format(currDate));
+                        AppManager.editor.commit();
+                        inputStream.close();
+                    } else
+                        return 0;
+                } catch (XmlPullParserException e) {
+                    Log.w(e.getMessage(), e);
+                } catch (IOException e) {
+                    Log.w(e.getMessage(), e);
+
+                }
+                return 1;
+            }
+            return 2;
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            super.onPostExecute(integer);
+            if(!silent)
+                onRefreshComplete(integer);
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            cancelled = true;
+        }
+        private void setSilent(){
+            silent = true;
+        }
+    }
 
 
     private class IssueArticleItem {
@@ -326,7 +431,6 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
         private IssueArticleItem mIssueArticleItem;
         private int mViewType;
         private TextView mArticleTitleTextView;
-        private ImageView mArticleInfoButton;
         private ArticleAdapter mAdapter;
 
         private String title;
@@ -344,11 +448,9 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
 
             if (viewType == ArticleAdapter.UNREAD_ARTICLE_VIEW_TYPE) {
                 mArticleTitleTextView = (TextView) itemView.findViewById(R.id.unreadArticleTitle);
-                mArticleInfoButton = (ImageView) itemView.findViewById(R.id.articleInfoButton);
             }
             else if (viewType == ArticleAdapter.READ_ARTICLE_VIEW_TYPE) {
                 mArticleTitleTextView = (TextView) itemView.findViewById(R.id.readArticleTitle);
-                mArticleInfoButton = (ImageView) itemView.findViewById(R.id.articleInfoButton);
 
             }
             else if (viewType == ArticleAdapter.ISSUE_VIEW_TYPE)
@@ -368,15 +470,6 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
                 volume = item.article.getIssue().getVolume();
                 number = item.article.getIssue().getNumber();
                 link = item.article.getUrl();
-
-                mArticleInfoButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //Toast.makeText(getActivity().getApplicationContext(), "Publication date: " + df.format(item.article.getIssue().getDate()), Toast.LENGTH_LONG).show();
-                        Intent intent = ArticleDetailActivity.newIntent(getActivity(), title, date, volume, number, link );
-                        startActivity(intent);
-                    }
-                });
             }
         }
 
