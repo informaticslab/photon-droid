@@ -40,7 +40,6 @@
         <activity
             android:name=".ContentActivity"
             android:configChanges="orientation"
-            android:label="Summary"
             android:parentActivityName=".ContentActivity"
             android:screenOrientation="portrait" >
         </activity>
@@ -60,7 +59,6 @@
         <activity
             android:name=".WebViewActivity"
             android:configChanges="orientation"
-            android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
         <activity

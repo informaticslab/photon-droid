@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.accessibility.AccessibilityEvent;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -45,7 +46,7 @@ public class WebViewActivity extends BaseActivity {
         Intent intent = getIntent();
         mWebPage = intent.getStringExtra(WEB_VIEW_PAGE);
         mWebView = (WebView)findViewById(R.id.webview);
-        mWebView.setWebViewClient(new WebViewClient(){
+        mWebView.setWebViewClient(new WebViewClient() {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -58,8 +59,9 @@ public class WebViewActivity extends BaseActivity {
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.addJavascriptInterface(new WebAppInterface(this), "Android");
         toolbarTitle = intent.getStringExtra("toolbarTitle");
-        setActionBarTitle(toolbarTitle);
+        //setActionBarTitle(toolbarTitle);
 
+        setTitle(toolbarTitle);
         mWebView.loadUrl("file:///android_asset/" + mWebPage);
 
     }
@@ -81,11 +83,12 @@ public class WebViewActivity extends BaseActivity {
     @Override
     protected void onResume() {
         if(toolbarTitle.equals("Help"))
-                mNavigationView.setCheckedItem(R.id.nav_help_fragment);
+            mNavigationView.setCheckedItem(R.id.nav_help_fragment);
         else if(toolbarTitle.equals("About"))
                 mNavigationView.setCheckedItem(R.id.nav_about_fragment);
         else if(toolbarTitle.equals("User License Agreement"))
                 mNavigationView.setCheckedItem(R.id.nav_eula_fragment);
+
 
         super.onResume();
     }

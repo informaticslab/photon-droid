@@ -10,7 +10,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
         <RelativeLayout
             android:id="@+id/notificationSetting"
             android:layout_width="match_parent"
@@ -20,6 +21,8 @@
                 android:id="@+id/notificationLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:nextFocusRight="@+id/allowNotificationsCheckBox"
+                android:nextFocusDown="@+id/defaultTabLabel"
                 android:textStyle="bold"
                 android:layout_centerVertical="true"
                 android:text="@string/allow_push_notifications" />
@@ -28,6 +31,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:nextFocusDown="@+id/defaultTabCheckbox"
+                android:nextFocusLeft="@+id/notificationLabel"
+                android:contentDescription="@string/allow_push_notifications_checkbox_description"
                 android:id="@+id/allowNotificationsCheckBox"
                 android:checked="true" />
         </RelativeLayout>
@@ -43,6 +49,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
+                android:nextFocusUp="@id/notificationLabel"
+                android:nextFocusRight="@id/defaultTabCheckbox"
                 android:layout_centerVertical="true"
                 android:text="@string/default_tab_label"/>
 
@@ -50,6 +58,9 @@
                 android:id="@+id/defaultTabCheckbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:nextFocusLeft="@id/defaultTabLabel"
+                android:nextFocusUp="@id/allowNotificationsCheckBox"
+                android:contentDescription="@string/default_tab_label_checkbox_description"
                 android:layout_alignParentRight="true"
                 android:checked="true" />
         </RelativeLayout>

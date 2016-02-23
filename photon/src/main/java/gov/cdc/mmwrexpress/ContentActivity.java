@@ -18,8 +18,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TabHost;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**ContentActivity.java
@@ -48,6 +51,7 @@ public class ContentActivity extends AppCompatActivity {
     private int volume;
     private int number;
     private String link;
+    TabLayout tabLayout;
 
     // pager adapter provides pages view pager widget
     private PagerAdapter mPagerAdapter;
@@ -98,9 +102,15 @@ public class ContentActivity extends AppCompatActivity {
         mPagerAdapter = new ContentPagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_host);
+        tabLayout = (TabLayout) findViewById(R.id.tab_host);
         tabLayout.setupWithViewPager(mPager);
 
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         int defaultTab = AppManager.pref.getInt(MmwrPreferences.DEFAULT_TAB, Constants.FULL_ARTICLE_TAB);
 
         mPager.setCurrentItem(defaultTab);
@@ -111,11 +121,15 @@ public class ContentActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 invalidateOptionsMenu();
                 //showSwipeHelpSnackbar(position);
-                if(position == 0){
+                if (position == 0) {
                     AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_SUMMARY, Constants.SC_SECTION_SUMMARY);
-                }
-                else if(position == 1){
+                    mPager.getChildAt(1).setVisibility(View.VISIBLE);
+                    mPager.getChildAt(0).setVisibility(View.INVISIBLE);
+                } else if (position == 1) {
                     AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_FULL, Constants.SC_SECTION_DETAILS);
+                    mPager.getChildAt(1).setVisibility(View.INVISIBLE);
+                    mPager.getChildAt(0).setVisibility(View.VISIBLE);
+
                 }
             }
 

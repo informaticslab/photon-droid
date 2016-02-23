@@ -36,15 +36,20 @@
             android:padding="16dp">
 
             <ImageView
+                android:id="@+id/known_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:contentDescription="@string/known_icon_description"
                 android:src="@drawable/known_icon"/>
 
             <TextView
+                    android:id="@+id/known_label"
                       style="?android:textAppearanceLarge"
                       android:text="What is already known?"
                       android:textStyle="bold"
+                    android:focusable="true"
+                      android:nextFocusDown="@+id/known_text"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:layout_marginLeft="16dp"
@@ -57,6 +62,9 @@
                   android:paddingLeft="16dp"
                   android:paddingRight="16dp"
                   android:paddingBottom="16dp"
+                  android:focusable="true"
+                  android:nextFocusUp="@+id/known_label"
+                  android:nextFocusDown="@+id/added_label"
                   android:lineSpacingMultiplier="1.2"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
@@ -70,15 +78,21 @@
             android:padding="16dp">
 
             <ImageView
+                android:id="@+id/added_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/added_icon_description"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/added_icon"/>
 
             <TextView
+                android:id="@+id/added_label"
                 style="?android:textAppearanceLarge"
                 android:text="What is added by this report?"
                 android:textStyle="bold"
+                android:focusable="true"
+                android:nextFocusUp="@+id/known_text"
+                android:nextFocusDown="@+id/added_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
@@ -91,6 +105,9 @@
                   android:paddingLeft="16dp"
                   android:paddingRight="16dp"
                   android:paddingBottom="16dp"
+                  android:focusable="true"
+                  android:nextFocusUp="@+id/added_label"
+                  android:nextFocusDown="@+id/implications_label"
                   android:lineSpacingMultiplier="1.2"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
@@ -103,17 +120,23 @@
             android:padding="16dp">
 
             <ImageView
+                android:id="@+id/implications_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="implications_icon_description"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/implications_icon"/>
 
             <TextView
+                android:id="@+id/implications_label"
                 style="?android:textAppearanceLarge"
                 android:text="What are the implications for the public health practice?"
                 android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusable="true"
+                android:nextFocusUp="@+id/added_text"
+                android:nextFocusDown="@+id/implications_text"
                 android:layout_marginLeft="16dp"
                 android:layout_gravity="center_vertical"
                 />
@@ -124,6 +147,8 @@
                   android:paddingLeft="16dp"
                   android:paddingRight="16dp"
                   android:paddingBottom="16dp"
+                  android:focusable="true"
+                  android:nextFocusUp="@+id/implications_label"
                   android:lineSpacingMultiplier="1.2"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"

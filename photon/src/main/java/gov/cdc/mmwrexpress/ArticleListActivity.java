@@ -17,6 +17,7 @@ import android.view.MenuItem;
 public class ArticleListActivity extends BaseActivity {
 
     private static final String TAG = "ArticleListActivity";
+    private ArticleListFragment fragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,9 @@ public class ArticleListActivity extends BaseActivity {
                 Intent i = new Intent(this, KeywordSearchActivity.class);
                 startActivity(i);
                 return true;
+            case R.id.action_refresh:
+                fragment.forceRefresh();
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -82,7 +86,7 @@ public class ArticleListActivity extends BaseActivity {
     private void addArticleListFragment() {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        ArticleListFragment fragment = new ArticleListFragment();
+        fragment = new ArticleListFragment();
         transaction.add(R.id.fragment_container, fragment);
         transaction.commit();
     }
