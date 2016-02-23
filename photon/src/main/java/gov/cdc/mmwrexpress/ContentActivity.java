@@ -16,6 +16,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,7 +52,8 @@ public class ContentActivity extends AppCompatActivity {
     private int volume;
     private int number;
     private String link;
-    TabLayout tabLayout;
+    private TabLayout tabLayout;
+    private int defaultTab;
 
     // pager adapter provides pages view pager widget
     private PagerAdapter mPagerAdapter;
@@ -105,13 +107,7 @@ public class ContentActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tab_host);
         tabLayout.setupWithViewPager(mPager);
 
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        int defaultTab = AppManager.pref.getInt(MmwrPreferences.DEFAULT_TAB, Constants.FULL_ARTICLE_TAB);
+        defaultTab = AppManager.pref.getInt(MmwrPreferences.DEFAULT_TAB, Constants.FULL_ARTICLE_TAB);
 
         mPager.setCurrentItem(defaultTab);
 
@@ -121,15 +117,11 @@ public class ContentActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 invalidateOptionsMenu();
                 //showSwipeHelpSnackbar(position);
-                if (position == 0) {
-                    AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_SUMMARY, Constants.SC_SECTION_SUMMARY);
-                    mPager.getChildAt(1).setVisibility(View.VISIBLE);
-                    mPager.getChildAt(0).setVisibility(View.INVISIBLE);
-                } else if (position == 1) {
-                    AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_FULL, Constants.SC_SECTION_DETAILS);
-                    mPager.getChildAt(1).setVisibility(View.INVISIBLE);
-                    mPager.getChildAt(0).setVisibility(View.VISIBLE);
 
+                if (mPagerAdapter.getPageTitle(position) == "Full Article") {
+                    AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_FULL, Constants.SC_SECTION_SUMMARY);
+                } else {
+                    AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_SUMMARY, Constants.SC_SECTION_SUMMARY);
                 }
             }
 
@@ -140,10 +132,18 @@ public class ContentActivity extends AppCompatActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
-
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mPagerAdapter.getPageTitle(mPager.getCurrentItem()) == "Full Article") {
+            AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_FULL, Constants.SC_SECTION_SUMMARY);
+        } else {
+            AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_SUMMARY, Constants.SC_SECTION_SUMMARY);
+        }
     }
 
     @Override
@@ -188,7 +188,7 @@ public class ContentActivity extends AppCompatActivity {
     /**
      * A pager adapter that represents the blue boxes in MMWR Weekly
      */
-    private class ContentPagerAdapter extends FragmentStatePagerAdapter {
+    private class ContentPagerAdapter extends FragmentPagerAdapter {
         private String [] tabTitles = new String [] {"Summary", "Full Article"};
         public ContentPagerAdapter(android.support.v4.app.FragmentManager fm) {
             super(fm);

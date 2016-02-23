@@ -151,13 +151,12 @@ public class FullArticleFragment extends Fragment {
                 URL url = new URL(params[0]);
                 httpURLConnection = (HttpURLConnection) url.openConnection();
 
-
-                if (httpURLConnection.getResponseCode() == 200 && httpURLConnection.getURL().equals(url)) {
+                if (httpURLConnection.getResponseCode()== 200 && httpURLConnection.getURL().equals(url)) {
                     return 1;
                 } else
                     return 0;
             } catch (IOException e) {
-                Log.w(Constants.RSS_SERVICE, "Exception while retrieving the input stream", e);
+                Log.w("Full Article", "Exception while retrieving the input stream", e);
                 return 0;
             } finally {
                 httpURLConnection.disconnect();
@@ -168,14 +167,24 @@ public class FullArticleFragment extends Fragment {
         protected void onPostExecute(Integer integer) {
             super.onPostExecute(integer);
             if (integer.equals(0)) {
-                Snackbar.make(getView(), "Error loading article. Check internet connection.", Snackbar.LENGTH_INDEFINITE)
-                        .setActionTextColor(getResources().getColor(R.color.light_yellow))
-                        .setAction("RETRY", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                new CheckConnectionAndLoadPage().execute(link);
-                            }
-                        }).show();
+                if(getView() != null) {
+                    Snackbar.make(getView(), "Error loading article. Check internet connection.", Snackbar.LENGTH_INDEFINITE)
+                            .setCallback(new Snackbar.Callback() {
+                                @Override
+                                public void onShown(Snackbar snackbar) {
+                                    super.onShown(snackbar);
+                                    snackbar.getView().setContentDescription("Error loading article. " +
+                                            "Check internet connection.");
+                                }
+                            })
+                            .setActionTextColor(getResources().getColor(R.color.light_yellow))
+                            .setAction("RETRY", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    new CheckConnectionAndLoadPage().execute(link);
+                                }
+                            }).show();
+                }
             } else if (integer.equals(1)) {
 
                 webView.loadUrl(link);

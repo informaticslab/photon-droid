@@ -107,6 +107,14 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        if(updateArticleList != null){
+            updateArticleList.setSilent();
+        }
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         realm.close();
@@ -137,7 +145,11 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
     }
 
     //use to force refresh data AND force swipe layout to display progress notification
-    public void forceRefresh(){
+    public void forceRefresh() {
+        if (swipeLayout.isRefreshing()) {
+            Log.d("forceRefresh", "Refreshing, skip refresh request.");
+        } else {
+            Log.d("forceRefresh", "Init refresh.");
             swipeLayout.post(new Runnable() {
                 @Override
                 public void run() {
@@ -145,21 +157,37 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
                     swipeLayout.setRefreshing(true);
                 }
             });
+        }
     }
 
     private void initiateRefresh(){
-        updateArticleList = new UpdateArticleList();
-        updateArticleList.execute();
-    }
+            updateArticleList = new UpdateArticleList();
+            updateArticleList.execute();
+        }
     private void onRefreshComplete(int resultCode) {
         swipeLayout.setRefreshing(false);
 
         if (resultCode == 1) {
             mAdapter.dataSetChanged();
-            Snackbar.make(view, "Article list updated.", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(view, "Article list updated.", Snackbar.LENGTH_LONG)
+                    .setCallback(new Snackbar.Callback() {
+                        @Override
+                        public void onShown(Snackbar snackbar) {
+                            super.onShown(snackbar);
+                            snackbar.getView().setContentDescription("Article list updated.");
+                        }
+                    }).show();
         } else if (resultCode == 0) {
             Snackbar.make(view, "Error accessing CDC Feed. Check internet connection.",
                     Snackbar.LENGTH_INDEFINITE)
+                    .setCallback(new Snackbar.Callback() {
+                        @Override
+                        public void onShown(Snackbar snackbar) {
+                            super.onShown(snackbar);
+                            snackbar.getView().setContentDescription("Error accessing CDC Feed. " +
+                                    "Check internet connection.");
+                        }
+                    })
                     .setActionTextColor(getResources().getColor(R.color.light_yellow))
                     .setAction("RETRY", new View.OnClickListener() {
                         @Override
@@ -216,9 +244,10 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
             while (!cancelled) {
                 try {
                     CdcRssParser parser = new CdcRssParser();
+                    boolean debug = false;
 
                     //Uncomment fromDate to pull by date.
-                    InputStream inputStream = getInputStream(RSS_LINK + "&" + ((BuildConfig.APPLICATION_ID.contains("development")) ? DEV_FEED_ID : RSS_FEED_ID) /*+"&" +fromDate*/ + "&" + RSS_FORMAT);
+                    InputStream inputStream = getInputStream(RSS_LINK + "&" + (debug ? DEV_FEED_ID : RSS_FEED_ID) /*+"&" +fromDate*/ + "&" + RSS_FORMAT);
                     if (inputStream != null) {
                         parser.parse(inputStream);
                         Date currDate = new Date();
