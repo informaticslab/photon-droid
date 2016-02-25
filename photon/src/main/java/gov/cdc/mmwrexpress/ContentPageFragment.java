@@ -23,26 +23,28 @@ import android.widget.TextView;
 
 public class ContentPageFragment extends Fragment {
 
-    public static final String ARG_PAGE = "page";
-    public static final String BLUE_BOX_TITLE = "BLUE_BOX_TITLE";
-    public static final String BLUE_BOX_TEXT = "BLUE_BOX_TEXT";
-    public static final String BLUE_BOX_IMAGE_ID = "BLUE_BOX_IMAGE_ID";
+    public static final String KNOWN_TEXT = "KNOWN_TEXT";
+    public static final String ADDED_TEXT = "ADDED_TEXT";
+    public static final String IMPLICATIONS_TEXT = "IMPLICATIONS_TEXT";
 
-    private int pageNumber;
-    private String title;
-    private String text;
-    private int mSnackbarStringId;
-    private int imageId;
+
+    // Images for each content pages
+    private int known_image_id = R.drawable.known_icon;
+    private int added_image_id = R.drawable.added_icon;
+    private int implications_image_id = R.drawable.implications_icon;
+
+    private String knownText;
+    private String addedText;
+    private String implicationsText;
 
 
     // Factory method for this fragment class. Constructs a new fragment for the given page number.
-    public static ContentPageFragment create(int pageNumber, String title, String text, int imaged_id) {
+    public static ContentPageFragment create(String known, String added, String implications) {
         ContentPageFragment fragment = new ContentPageFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_PAGE, pageNumber);
-        args.putString(BLUE_BOX_TITLE, title);
-        args.putString(BLUE_BOX_TEXT, text);
-        args.putInt(BLUE_BOX_IMAGE_ID,imaged_id);
+        args.putString(KNOWN_TEXT, known);
+        args.putString(ADDED_TEXT, added);
+        args.putString(IMPLICATIONS_TEXT, implications);
 
         fragment.setArguments(args);
         return fragment;
@@ -54,11 +56,9 @@ public class ContentPageFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pageNumber = getArguments().getInt(ARG_PAGE);
-        title = getArguments().getString(BLUE_BOX_TITLE);
-        text = getArguments().getString(BLUE_BOX_TEXT);
-        imageId = getArguments().getInt(BLUE_BOX_IMAGE_ID);
-
+        knownText = getArguments().getString(KNOWN_TEXT);
+        addedText = getArguments().getString(ADDED_TEXT);
+        implicationsText = getArguments().getString(IMPLICATIONS_TEXT);
     }
 
     @Override
@@ -69,26 +69,11 @@ public class ContentPageFragment extends Fragment {
                 .inflate(R.layout.fragment_content_page, container, false);
 
         // set the title view to show the page number.
-        ((TextView) rootView.findViewById(R.id.blue_box_title)).setText(title);
-        ((TextView) rootView.findViewById(R.id.blue_box_text)).setText(text);
-        ((ImageView)rootView.findViewById(R.id.blue_box_image_view)).setImageResource(imageId);
+        ((TextView) rootView.findViewById(R.id.known_text)).setText(knownText);
+        ((TextView) rootView.findViewById(R.id.added_text)).setText(addedText);
+        ((TextView)rootView.findViewById(R.id.implications_text)).setText(implicationsText);
 
 
         return rootView;
     }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_SUMMARY, Constants.SC_SECTION_SUMMARY);
-    }
-
-    /**
-     * Returns the page number represented by this fragment object.
-     */
-    public int getPageNumber() {
-        return pageNumber;
-    }
-
-
 }

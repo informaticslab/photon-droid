@@ -2,7 +2,6 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 tools:context="gov.cdc.mmwrexpress.ArticleDetailFragment"
                 android:gravity="center_vertical|center_horizontal">
 
@@ -41,33 +40,4 @@
         android:textSize="14sp"
         android:padding="16dp" />
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/link"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/number"
-        android:layout_centerHorizontal="true"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?attr/selectableItemBackground"
-        android:stateListAnimator="@anim/raise"
-        card_view:cardBackgroundColor="@color/mmwr_blue"
-        card_view:cardCornerRadius="5dp"
-        card_view:cardElevation="2dp">
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:padding="16dp"
-                android:text="VIEW FULL ARTICLE"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"
-                android:textStyle="bold">
-            </TextView>
-        </RelativeLayout>
-    </android.support.v7.widget.CardView>
 </RelativeLayout>

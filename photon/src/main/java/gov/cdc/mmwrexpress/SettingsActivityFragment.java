@@ -48,6 +48,22 @@ public class SettingsActivityFragment extends Fragment {
                     }
                 }
             });
+            CheckBox defaultTab = (CheckBox) view.findViewById(R.id.defaultTabCheckbox);
+            if(AppManager.pref.getInt(MmwrPreferences.DEFAULT_TAB, Constants.FULL_ARTICLE_TAB) == Constants.FULL_ARTICLE_TAB)
+                defaultTab.setChecked(true);
+            else
+                defaultTab.setChecked(false);
+
+            defaultTab.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(AppManager.pref.getInt(MmwrPreferences.DEFAULT_TAB, Constants.FULL_ARTICLE_TAB) == Constants.FULL_ARTICLE_TAB)
+                        AppManager.editor.putInt(MmwrPreferences.DEFAULT_TAB, Constants.SUMMARY_TAB).commit();
+                    else
+                        AppManager.editor.putInt(MmwrPreferences.DEFAULT_TAB, Constants.FULL_ARTICLE_TAB).commit();
+
+                }
+            });
         }
         return view;
     }

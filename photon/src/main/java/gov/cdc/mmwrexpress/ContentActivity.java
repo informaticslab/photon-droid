@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentActivity;
@@ -12,9 +13,17 @@ import android.support.v4.app.FragmentTabHost;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TabHost;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**ContentActivity.java
@@ -27,11 +36,11 @@ import java.util.UUID;
  * Activity shows a "next" and "previous" button that can advance the user to the next page of
  * content, as well as swiping.
  */
-//public class ContentActivity extends FragmentActivity {
-public class ContentActivity extends BaseActivity {
+
+public class ContentActivity extends AppCompatActivity {
 
     // number of content pages
-    private static final int NUM_PAGES = 3;
+    private static final int NUM_PAGES = 2;
 
     //pager widget handles animation and swiping to other pages of content
     private ViewPager mPager;
@@ -43,11 +52,8 @@ public class ContentActivity extends BaseActivity {
     private int volume;
     private int number;
     private String link;
-
-    // Images for each content pages
-    private static int known_image_id = R.drawable.known_icon;
-    private static int added_image_id = R.drawable.added_icon;
-    private static int implications_image_id = R.drawable.implications_icon;
+    private TabLayout tabLayout;
+    private int defaultTab;
 
     // pager adapter provides pages view pager widget
     private PagerAdapter mPagerAdapter;
@@ -74,9 +80,11 @@ public class ContentActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content);
 
-        // navigationview setup
-        setupToolbar();
-        initNavigationDrawer();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        final ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
 
         // Get the message from the intent
         Intent intent = getIntent();
@@ -89,15 +97,19 @@ public class ContentActivity extends BaseActivity {
         number = intent.getIntExtra("number", -1);
         link = intent.getStringExtra("link");
 
-
+        // Set toolbar title to Article title
+        ab.setTitle(title);
 
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ContentPagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_host);
+        tabLayout = (TabLayout) findViewById(R.id.tab_host);
         tabLayout.setupWithViewPager(mPager);
+
+        defaultTab = AppManager.pref.getInt(MmwrPreferences.DEFAULT_TAB, Constants.FULL_ARTICLE_TAB);
+
+        mPager.setCurrentItem(defaultTab);
 
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -106,20 +118,32 @@ public class ContentActivity extends BaseActivity {
                 invalidateOptionsMenu();
                 //showSwipeHelpSnackbar(position);
 
+                if (mPagerAdapter.getPageTitle(position) == "Full Article") {
+                    AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_FULL, Constants.SC_SECTION_SUMMARY);
+                } else {
+                    AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_SUMMARY, Constants.SC_SECTION_SUMMARY);
+                }
             }
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
             }
-
         });
-        //showSnackbar(R.string.content_page_1);
+    }
 
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mPagerAdapter.getPageTitle(mPager.getCurrentItem()) == "Full Article") {
+            AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_FULL, Constants.SC_SECTION_SUMMARY);
+        } else {
+            AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_SUMMARY, Constants.SC_SECTION_SUMMARY);
+        }
     }
 
     @Override
@@ -156,9 +180,6 @@ public class ContentActivity extends BaseActivity {
             case R.id.action_share:
                 share();
                 return true;
-            case R.id.article_details:
-                Intent intent = ArticleDetailActivity.newIntent(this, title, pubDate, volume, number, link);
-                startActivity(intent);
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -167,8 +188,8 @@ public class ContentActivity extends BaseActivity {
     /**
      * A pager adapter that represents the blue boxes in MMWR Weekly
      */
-    private class ContentPagerAdapter extends FragmentStatePagerAdapter {
-        private String [] tabTitles = new String [] {"Known", "Added", "Implications"};
+    private class ContentPagerAdapter extends FragmentPagerAdapter {
+        private String [] tabTitles = new String [] {"Summary", "Full Article"};
         public ContentPagerAdapter(android.support.v4.app.FragmentManager fm) {
             super(fm);
         }
@@ -176,13 +197,10 @@ public class ContentActivity extends BaseActivity {
         @Override
         public android.support.v4.app.Fragment getItem(int position) {
             if (position == 0 ) {
-                return ContentPageFragment.create(position, "What is already known?", known, known_image_id);
+                return ContentPageFragment.create(known, added, implications);
             }
             if (position == 1 ) {
-                return ContentPageFragment.create(position, "What is added by this report?", added, added_image_id);
-            }
-            if (position == 2 ) {
-                return ContentPageFragment.create(position, "What are the implications for public health practice?", implications, implications_image_id);
+                return FullArticleFragment.create(position, link);
             }
             return null;
         }
@@ -203,16 +221,6 @@ public class ContentActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        for(int i = 0; i < mNavigationView.getMenu().size(); i++){
-            if(mNavigationView.getMenu().getItem(i).isChecked()){
-                mNavigationView.getMenu().getItem(i).setChecked(false);
-            }
-        }
-
-    }
     private void share(){
         AppManager.sc.trackEvent(Constants.SC_EVENT_SHARE_BUTTON, Constants.SC_PAGE_TITLE_SUMMARY, Constants.SC_SECTION_SUMMARY);
         Intent shareIntent = new Intent(Intent.ACTION_SEND);

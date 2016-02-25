@@ -1,0 +1,23 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="gov.cdc.mmwrexpress.FullArticleFragment">
+
+    <ProgressBar
+        android:id="@+id/full_article_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/mmwr_blue"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:visibility="gone"/>
+    <WebView
+        android:id="@+id/full_article_webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/full_article_progress_bar"
+        />
+
+</RelativeLayout>

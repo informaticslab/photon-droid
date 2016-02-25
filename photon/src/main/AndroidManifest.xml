@@ -40,7 +40,7 @@
         <activity
             android:name=".ContentActivity"
             android:configChanges="orientation"
-            android:label="Summary"
+            android:parentActivityName=".ContentActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -53,22 +53,20 @@
             android:name=".KeywordArticleListActivity"
             android:configChanges="orientation"
             android:label="Search"
+            android:parentActivityName=".KeywordArticleListActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".WebViewActivity"
             android:configChanges="orientation"
-            android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".EulaActivity"
             android:configChanges="orientation"
-            android:label="@string/app_name"
+            android:label="@string/title_activity_eula"
             android:screenOrientation="portrait" >
         </activity>
-
-        <service android:name=".RssService" />
 
         <!-- Pushwoosh -->
         <meta-data
@@ -119,6 +117,7 @@
         <activity
             android:name=".ArticleDetailActivity"
             android:label="Article Details"
+            android:parentActivityName=".ArticleDetailActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity

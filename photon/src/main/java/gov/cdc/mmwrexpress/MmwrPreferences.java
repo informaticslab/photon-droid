@@ -16,4 +16,7 @@ public class MmwrPreferences {
     public static final String REFRESHED_ARTICLE_LIST_ON_FIRST_LAUNCH = "refreshedArticleListOnFirstLaunch";
     public static final String ALLOW_PUSH_NOTIFICATIONS = "allowPushNotifications";
     public static final String SET_INITIAL_SETTINGS = "setInitialSettings";
+
+    // Default tab
+    public static final String DEFAULT_TAB = "defaultTab";
 }

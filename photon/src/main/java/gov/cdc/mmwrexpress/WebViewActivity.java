@@ -2,12 +2,12 @@ package gov.cdc.mmwrexpress;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.ViewPager;
-import android.view.MenuItem;
+import android.view.accessibility.AccessibilityEvent;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 /**WebViewActivity.java
  * photon-droid
@@ -46,18 +46,30 @@ public class WebViewActivity extends BaseActivity {
         Intent intent = getIntent();
         mWebPage = intent.getStringExtra(WEB_VIEW_PAGE);
         mWebView = (WebView)findViewById(R.id.webview);
+        mWebView.setWebViewClient(new WebViewClient() {
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(intent);
+                return true;
+            }
+        });
+
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.addJavascriptInterface(new WebAppInterface(this), "Android");
         toolbarTitle = intent.getStringExtra("toolbarTitle");
-        setActionBarTitle(toolbarTitle);
+        //setActionBarTitle(toolbarTitle);
 
+        setTitle(toolbarTitle);
         mWebView.loadUrl("file:///android_asset/" + mWebPage);
-
 
     }
 
     @Override
     protected void onStart() {
+
+
         if(toolbarTitle.equals("Help"))
             AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_HELP, Constants.SC_SECTION_HELP);
         else if(toolbarTitle.equals("About"))
@@ -71,11 +83,12 @@ public class WebViewActivity extends BaseActivity {
     @Override
     protected void onResume() {
         if(toolbarTitle.equals("Help"))
-                mNavigationView.setCheckedItem(R.id.nav_help_fragment);
+            mNavigationView.setCheckedItem(R.id.nav_help_fragment);
         else if(toolbarTitle.equals("About"))
                 mNavigationView.setCheckedItem(R.id.nav_about_fragment);
         else if(toolbarTitle.equals("User License Agreement"))
                 mNavigationView.setCheckedItem(R.id.nav_eula_fragment);
+
 
         super.onResume();
     }
@@ -94,3 +107,4 @@ public class WebViewActivity extends BaseActivity {
         }
     }
 }
+

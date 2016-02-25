@@ -65,21 +65,11 @@ public class ArticleDetailFragment extends Fragment {
         TextView published = (TextView) view.findViewById(R.id.article_date);
         TextView volumeText = (TextView) view.findViewById(R.id.volume);
         TextView numberText = (TextView) view.findViewById(R.id.number);
-        CardView articleLink = (CardView) view.findViewById(R.id.link);
 
         titleText.setText(title);
         published.setText("Published on " +date);
         volumeText.setText("Volume " +volume);
         numberText.setText("Number " +number);
-        articleLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_FULL, Constants.SC_SECTION_DETAILS);
-                Uri uri = Uri.parse(link);
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
-            }
-        });
 
         return view;
     }
