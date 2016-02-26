@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import io.realm.Realm;
 import io.realm.RealmQuery;
 
-
 /**JsonArticleParser
  * photon-droid
  *
@@ -78,6 +77,18 @@ public class JsonArticleParser {
 
             realm.beginTransaction();
 
+            if(jsonObject.has(TAG_COMMAND)){
+                if(jsonObject.getString(TAG_COMMAND).equals(DELETE_COMMAND)){
+                    RealmQuery<Article> query = realm.where(Article.class).equalTo("title", jsonObject.getString(TAG_TITLE));
+                    if(query.findFirst() != null) {
+                        //Log.d("JsonArticleParser", "FEED! jsonObject: " + jsonObject.toString());
+                        Log.d("JsonArticleParser", "FEED! Deleting article: " + query.findFirst().getTitle());
+                        issuesManager.deleteArticle(query.findFirst());
+                    }
+                    realm.commitTransaction();
+                    return null;
+                }
+            }
             // process issue found in RSS feed and find stored issue
             // if no stored issue create a new one
             Issue issue = issuesManager.processRssIssue(jsonObject.getString(TAG_ISSUE_DATE),
@@ -113,14 +124,14 @@ public class JsonArticleParser {
                 }
             }
 
-            if(jsonObject.has(TAG_COMMAND)){
+            /*if(jsonObject.has(TAG_COMMAND)){
                 if(jsonObject.getString(TAG_COMMAND).equals(DELETE_COMMAND)){
                     RealmQuery<Article> query = realm.where(Article.class).equalTo("title", jsonObject.getString(TAG_TITLE));
                     Log.d("JsonArticleParser", "FEED! jsonObject: " +jsonObject.toString());
                     Log.d("JsonArticleParser","FEED! Deleting article: " +query.findFirst().getTitle());
                     issuesManager.deleteArticle(query.findFirst());
                 }
-            }
+            }*/
 
 
             realm.commitTransaction();
@@ -166,7 +177,6 @@ public class JsonArticleParser {
                 // or in not there create a new one
                 Article article = issuesManager.processRssArticle(issue, jsonObject.getString(TAG_TITLE), jsonObject.getInt(TAG_CONTENT_VER));
                 if (article != null) {
-
                     article.setAlready_known(jsonObject.getString(TAG_ALREADY_KNOWN));
                     article.setAdded_by_report(jsonObject.getString(TAG_ADDED_BY_REPORT));
                     article.setImplications(jsonObject.getString(TAG_IMPLICATIONS));

@@ -244,7 +244,7 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
             while (!cancelled) {
                 try {
                     CdcRssParser parser = new CdcRssParser();
-                    boolean debug = false;
+                    boolean debug = true;
 
                     //Uncomment fromDate to pull by date.
                     InputStream inputStream = getInputStream(RSS_LINK + "&" + (debug ? DEV_FEED_ID : RSS_FEED_ID) /*+"&" +fromDate*/ + "&" + RSS_FORMAT);

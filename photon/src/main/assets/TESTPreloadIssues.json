@@ -50,6 +50,33 @@
     "url":             "http:\/\/www.cdc.gov\/mmwr\/preview\/mmwrhtml\/mm6251a1.htm?s_cid=mm6251a1_w",
     "content-ver":     "1",
     "schema-ver":      "1",
+    "command": "add"
+  },
+  {
+    "issue-date":      "2014-01-03",
+    "issue-vol":       "62",
+    "issue-no":        "51",
+    "title":           "Histoplasmosis Outbreak Associated with the Renovation of an Old House \u2014 Quebec, Canada, 2013",
+    "already_known":   "Histoplasmosis outbreaks can occur when demolition work produces dust containing bird or bat droppings.",
+    "added_by_report": "During the renovation of an old house in Quebec, Canada, 14 of 30 workers and residents exposed to dust from bird or bat droppings experienced respiratory symptoms consistent with histoplasmosis. Of the four persons whose infection was laboratory-confirmed, two were hospitalized. Illness was highly correlated with exposure to dust during demolition of the exterior walls, and with the handling of contaminated debris away from the work site.",
+    "implications":    "Employers need to provide the appropriate protective equipment and reinforce to employees the necessity of applying protective measures during demolition work, including when handling debris away from the work site.",
+    "tags":            [
+      {
+        "tag": "Histoplasmosis"
+      },
+      {
+        "tag": "Dust Exposure"
+      },
+      {
+        "tag": "Outbreak"
+      },
+      {
+        "tag": "Canada"
+      }
+    ],
+    "url":             "http:\/\/www.cdc.gov\/mmwr\/preview\/mmwrhtml\/mm6251a1.htm?s_cid=mm6251a1_w",
+    "content-ver":     "1",
+    "schema-ver":      "1",
     "command": "delete"
   },
   {
