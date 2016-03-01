@@ -31,7 +31,7 @@ public class IssuesManager {
 
         Realm realm = Realm.getDefaultInstance();
         Date date = getIssueDateFromString(dateAsString);
-        RealmQuery<Issue> query = realm.where(Issue.class).equalTo("volume",volume).equalTo("number",number);
+        RealmQuery<Issue> query = realm.where(Issue.class).equalTo("volume",volume).equalTo("number",number).equalTo("date",date);
         Issue foundIssue = query.findFirst();
         Issue results;
         if (foundIssue != null) {

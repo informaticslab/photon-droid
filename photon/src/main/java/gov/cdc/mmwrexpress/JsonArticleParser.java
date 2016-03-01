@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.ArrayList;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmQuery;
 
 /**JsonArticleParser
@@ -72,19 +73,30 @@ public class JsonArticleParser {
         try {
 
             JSONObject jsonObject = new JSONObject(jsonArticle);
-            Log.d("JsonArticleParser", "FEED!" +jsonObject.toString());
+            //Log.d("JsonArticleParser", "Feed Article JSON object " +jsonObject.toString());
             int size = jsonObject.length();
 
             realm.beginTransaction();
 
             if(jsonObject.has(TAG_COMMAND)){
                 if(jsonObject.getString(TAG_COMMAND).equals(DELETE_COMMAND)){
-                    RealmQuery<Article> query = realm.where(Article.class).equalTo("title", jsonObject.getString(TAG_TITLE));
-                    if(query.findFirst() != null) {
-                        //Log.d("JsonArticleParser", "FEED! jsonObject: " + jsonObject.toString());
-                        Log.d("JsonArticleParser", "FEED! Deleting article: " + query.findFirst().getTitle());
-                        issuesManager.deleteArticle(query.findFirst());
+                    RealmQuery<Issue> issueQuery = realm.where(Issue.class)
+                            .equalTo("volume", jsonObject.getInt(TAG_ISSUE_VOL))
+                            .equalTo("number", jsonObject.getInt(TAG_ISSUE_NUM))
+                            .equalTo("date", IssuesManager.getIssueDateFromString(jsonObject.getString(TAG_ISSUE_DATE)));
+
+                    if(issueQuery.findFirst() != null) {
+                        Issue issue = issueQuery.findFirst();
+                        RealmList<Article> articles = issue.getArticles();
+
+                        for (Article article : articles) {
+                            if(article.getTitle().equals(jsonObject.getString(TAG_TITLE))){
+                                Log.d("JsonArticleParser", "Deleting article: " + article.getTitle());
+                                issuesManager.deleteArticle(article);
+                            }
+                        }
                     }
+
                     realm.commitTransaction();
                     return null;
                 }
@@ -124,18 +136,7 @@ public class JsonArticleParser {
                 }
             }
 
-            /*if(jsonObject.has(TAG_COMMAND)){
-                if(jsonObject.getString(TAG_COMMAND).equals(DELETE_COMMAND)){
-                    RealmQuery<Article> query = realm.where(Article.class).equalTo("title", jsonObject.getString(TAG_TITLE));
-                    Log.d("JsonArticleParser", "FEED! jsonObject: " +jsonObject.toString());
-                    Log.d("JsonArticleParser","FEED! Deleting article: " +query.findFirst().getTitle());
-                    issuesManager.deleteArticle(query.findFirst());
-                }
-            }*/
-
-
             realm.commitTransaction();
-
 
             //Log.d("JsonArticleParser", "JSON Article title = " + jsonObject.getString(TAG_TITLE));
 
@@ -200,14 +201,6 @@ public class JsonArticleParser {
 
                 }
 
-                if(jsonObject.has(TAG_COMMAND)){
-                    if(jsonObject.getString(TAG_COMMAND).equals(DELETE_COMMAND)){
-                        RealmQuery<Article> query = realm.where(Article.class).equalTo("title", jsonObject.getString(TAG_TITLE));
-                        Log.d("JsonArticleParser", "PRELOAD! jsonObject: " +jsonObject.toString());
-                        Log.d("JsonArticleParser","PRELOAD! Deleting article: " +query.findFirst().getTitle());
-                        issuesManager.deleteArticle(query.findFirst());
-                    }
-                }
                 //Log.d("JsonArticleParser", "JSON Article title = " + jsonObject.getString(TAG_TITLE));
 
                 //Log.d("JsonArticleParser", "JSON Article size = " + String.valueOf(size));
