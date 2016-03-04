@@ -15,6 +15,8 @@ import java.io.InputStream;
 
 public class SplashScreen extends AppCompatActivity {
     private Intent i;
+    private String prodAsset = "PreloadIssues.json";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,17 +42,18 @@ public class SplashScreen extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... params) {
-            if (!AppManager.pref.getBoolean(MmwrPreferences.PRELOAD_ARTICLES_LOADED, false)) {
+
+         if (!AppManager.pref.getBoolean(MmwrPreferences.PRELOAD_ARTICLES_LOADED, false)) {
                 loadJsonArticlesFromAsset();
                 AppManager.editor.putBoolean(MmwrPreferences.PRELOAD_ARTICLES_LOADED, true);
                 AppManager.editor.commit();
-            }
+           }
             else{
                 try {
                     Thread.sleep(750);
                 }
                 catch (InterruptedException ie){
-                    ie.printStackTrace();
+                   ie.printStackTrace();
                 }
             }
             startActivity(i);
@@ -65,8 +68,11 @@ public class SplashScreen extends AppCompatActivity {
 
         public void loadJsonArticlesFromAsset() {
             String json = null;
+            String asset;
+            asset = prodAsset;
+
             try {
-                InputStream is = getAssets().open("PreloadIssues.json");
+                InputStream is = getAssets().open(asset);
                 int size = is.available();
                 byte[] buffer = new byte[size];
                 is.read(buffer);
