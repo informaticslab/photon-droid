@@ -31,7 +31,7 @@ public class IssuesManager {
 
         Realm realm = Realm.getDefaultInstance();
         Date date = getIssueDateFromString(dateAsString);
-        RealmQuery<Issue> query = realm.where(Issue.class).equalTo("volume",volume).equalTo("number",number);
+        RealmQuery<Issue> query = realm.where(Issue.class).equalTo("volume",volume).equalTo("number",number).equalTo("date",date);
         Issue foundIssue = query.findFirst();
         Issue results;
         if (foundIssue != null) {
@@ -157,11 +157,20 @@ public class IssuesManager {
         }
         for(Keyword keyword : k){
             if(keyword.getArticles().size()==0){
-                Log.d("Remove keyword: ", " " +keyword.getText());
+                Log.d("Remove keyword: ", " " + keyword.getText());
                 keyword.removeFromRealm();
             }
         }
         realm.close();
+    }
+
+    // This method removes unused Issue objects in case all articles
+    // of an existing issue are deleted.
+    public void removeUnusedIssue(Issue issue){
+        if(issue.getArticles().size() == 0){
+            Log.d("Remove issue: ", "VOL " + issue.getVolume() + " NO " +issue.getNumber());
+            issue.removeFromRealm();
+        }
     }
     public static Date getIssueDateFromString(String dateAsString)
     {
@@ -177,5 +186,14 @@ public class IssuesManager {
 
         return date;
 
+    }
+
+    public Article deleteArticle(Article article){
+        Log.d("Remove article: ", "Title: " + article.getTitle());
+        Issue issue = article.getIssue();
+        article.removeFromRealm();
+        removeUnusedKeywords();
+        removeUnusedIssue(issue);
+        return null;
     }
 }

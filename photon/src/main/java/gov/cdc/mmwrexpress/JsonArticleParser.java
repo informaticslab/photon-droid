@@ -9,7 +9,8 @@ import java.util.HashMap;
 import java.util.ArrayList;
 
 import io.realm.Realm;
-
+import io.realm.RealmList;
+import io.realm.RealmQuery;
 
 /**JsonArticleParser
  * photon-droid
@@ -37,6 +38,8 @@ public class JsonArticleParser {
     private static final String TAG_URL = "url";
     private static final String TAG_CONTENT_VER = "content-ver";
     private static final String TAG_SCHEMA_VER = "schema-ver";
+    private static final String TAG_COMMAND = "command";
+    private static final String DELETE_COMMAND = "delete";
 
     public JsonArticleParser() {
 
@@ -70,11 +73,34 @@ public class JsonArticleParser {
         try {
 
             JSONObject jsonObject = new JSONObject(jsonArticle);
-
+            //Log.d("JsonArticleParser", "Feed Article JSON object " +jsonObject.toString());
             int size = jsonObject.length();
 
             realm.beginTransaction();
 
+            if(jsonObject.has(TAG_COMMAND)){
+                if(jsonObject.getString(TAG_COMMAND).equals(DELETE_COMMAND)){
+                    RealmQuery<Issue> issueQuery = realm.where(Issue.class)
+                            .equalTo("volume", jsonObject.getInt(TAG_ISSUE_VOL))
+                            .equalTo("number", jsonObject.getInt(TAG_ISSUE_NUM))
+                            .equalTo("date", IssuesManager.getIssueDateFromString(jsonObject.getString(TAG_ISSUE_DATE)));
+
+                    if(issueQuery.findFirst() != null) {
+                        Issue issue = issueQuery.findFirst();
+                        RealmList<Article> articles = issue.getArticles();
+
+                        for (Article article : articles) {
+                            if(article.getTitle().equals(jsonObject.getString(TAG_TITLE))){
+                                Log.d("JsonArticleParser", "Deleting article: " + article.getTitle());
+                                issuesManager.deleteArticle(article);
+                            }
+                        }
+                    }
+
+                    realm.commitTransaction();
+                    return null;
+                }
+            }
             // process issue found in RSS feed and find stored issue
             // if no stored issue create a new one
             Issue issue = issuesManager.processRssIssue(jsonObject.getString(TAG_ISSUE_DATE),
@@ -110,7 +136,6 @@ public class JsonArticleParser {
             }
 
             realm.commitTransaction();
-
 
             //Log.d("JsonArticleParser", "JSON Article title = " + jsonObject.getString(TAG_TITLE));
 
@@ -152,7 +177,6 @@ public class JsonArticleParser {
                 // or in not there create a new one
                 Article article = issuesManager.processRssArticle(issue, jsonObject.getString(TAG_TITLE), jsonObject.getInt(TAG_CONTENT_VER));
                 if (article != null) {
-
                     article.setAlready_known(jsonObject.getString(TAG_ALREADY_KNOWN));
                     article.setAdded_by_report(jsonObject.getString(TAG_ADDED_BY_REPORT));
                     article.setImplications(jsonObject.getString(TAG_IMPLICATIONS));
@@ -176,8 +200,6 @@ public class JsonArticleParser {
 
                 }
 
-
-
                 //Log.d("JsonArticleParser", "JSON Article title = " + jsonObject.getString(TAG_TITLE));
 
                 //Log.d("JsonArticleParser", "JSON Article size = " + String.valueOf(size));
@@ -194,5 +216,4 @@ public class JsonArticleParser {
             realm.close();
         }
     }
-
 }
