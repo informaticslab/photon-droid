@@ -1,6 +1,9 @@
 package gov.cdc.mmwrexpress;
 
+import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.view.View;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,7 +23,9 @@ public class IssuesManager {
 
     RealmResults<Issue> issues;
     RealmResults<Keyword> keywords;
+    public static UpdateFromFeedTask updateFromFeedTask;
     boolean hasIssues;
+    private SwipeRefreshLayout progressIndicator;
 
     public IssuesManager() {
 
@@ -48,6 +53,13 @@ public class IssuesManager {
         return results;
     }
 
+    public void registerProgressIndicator(SwipeRefreshLayout refreshLayout){
+        progressIndicator = refreshLayout;
+    }
+
+    public void unregisterProgressIndicator(SwipeRefreshLayout refreshLayout){
+        progressIndicator = null;
+    }
 
     public Article createArticleInIssue(Issue issue, String title, int version) {
         Realm realm = Realm.getDefaultInstance();
@@ -196,4 +208,48 @@ public class IssuesManager {
         removeUnusedIssue(issue);
         return null;
     }
+
+    public void update() {
+        updateFromFeedTask = new UpdateFromFeedTask();
+        updateFromFeedTask.execute();
+    }
+
+    public void onRefreshComplete(Integer resultCode){
+        if(progressIndicator != null)
+        {
+            progressIndicator.setRefreshing(false);
+            if (resultCode == 1) {
+                Snackbar.make(progressIndicator, "Article list updated.", Snackbar.LENGTH_LONG)
+                        .setCallback(new Snackbar.Callback() {
+                            @Override
+                            public void onShown(Snackbar snackbar) {
+                                super.onShown(snackbar);
+                                snackbar.getView().setContentDescription("Article list updated.");
+                            }
+                        }).show();
+            } else if (resultCode == 0) {
+                Snackbar.make(progressIndicator, "Error accessing CDC Feed. Check internet connection.",
+                        Snackbar.LENGTH_INDEFINITE)
+                        .setCallback(new Snackbar.Callback() {
+                            @Override
+                            public void onShown(Snackbar snackbar) {
+                                super.onShown(snackbar);
+                                snackbar.getView().setContentDescription("Error accessing CDC Feed. " +
+                                        "Check internet connection.");
+                            }
+                        })
+                        .setActionTextColor(progressIndicator.getResources().getColor(R.color.light_yellow))
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                update();
+                            }
+                        }).show();
+            } else if (resultCode == 2) {
+                Snackbar.make(progressIndicator, "Cancelled.", Snackbar.LENGTH_LONG).show();
+            }
+        }
+
+    }
+
 }

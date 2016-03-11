@@ -3,19 +3,20 @@ package gov.cdc.mmwrexpress;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.UiThread;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmList;
 
 
@@ -52,6 +53,12 @@ public class KeywordArticleListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mKeywordText = getArguments().getString(KEYWORD_TEXT);
         realm = Realm.getDefaultInstance();
+        realm.addChangeListener(new RealmChangeListener() {
+            @Override
+            public void onChange() {
+                updateUI();
+            }
+        });
         setRetainInstance(true);
     }
 
@@ -100,7 +107,7 @@ public class KeywordArticleListFragment extends Fragment {
             mArticlesRV.setAdapter(mAdapter);
 
         } else {
-            mAdapter.notifyDataSetChanged();
+            mAdapter.dataSetChanged();
         }
 
     }
@@ -133,6 +140,7 @@ public class KeywordArticleListFragment extends Fragment {
         private static final String TAG = "KeywordArticleAdapter";
         private ArrayList<KeywordArticleItem> listItems;
         private RealmList<Article> mKeywordArticles;
+        private String keywordText;
         private Keyword mKeyword;
 
         private final Context context;
@@ -141,9 +149,9 @@ public class KeywordArticleListFragment extends Fragment {
         public KeywordArticleAdapter(Context context, String keywordText) {
 
             this.context = context;
+            this.keywordText = keywordText;
             //Realm.deleteRealmFile(context);
-            Keyword firstKeyword  = realm.where(Keyword.class).equalTo("text", keywordText).findFirst();
-            mKeywordArticles = firstKeyword.getArticles();
+
             //Log.d(TAG, "realm path: " + realm.getPath());
 
             // refresh data from database
@@ -173,18 +181,32 @@ public class KeywordArticleListFragment extends Fragment {
         }
 
         public void refreshData() {
+            Keyword firstKeyword  = realm.where(Keyword.class).equalTo("text", keywordText).findFirst();
+            if(firstKeyword != null) {
+                mKeywordArticles = firstKeyword.getArticles();
+            } else {
+                mKeywordArticles = null;
+            }
 
             KeywordArticleItem item;
 
             //Log.d(TAG, "Keyword articles[] size = " + String.valueOf(mKeywordArticles.size()));
             this.listItems = new ArrayList<KeywordArticleItem>();
 
-            // use sorted articles for list view
-            for (Article article : mKeywordArticles) {
-                item = new KeywordArticleItem(article);
-                listItems.add(item);
+            if(mKeywordArticles != null) {
+                // use sorted articles for list view
+                for (Article article : mKeywordArticles) {
+                    item = new KeywordArticleItem(article);
+                    listItems.add(item);
+                }
+                Collections.sort(listItems, Collections.reverseOrder());
             }
-            Collections.sort(listItems, Collections.reverseOrder());
+        }
+
+        @UiThread
+        protected void dataSetChanged() {
+            refreshData();
+            notifyDataSetChanged();
         }
 
         public void setArticleReadState(Article article) {

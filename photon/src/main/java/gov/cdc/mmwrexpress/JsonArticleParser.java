@@ -23,7 +23,6 @@ public class JsonArticleParser {
 
     String json;
     Article article;
-    private IssuesManager issuesManager;
 
     // JSON Node names
     private static final String TAG_ISSUE_DATE = "issue-date";
@@ -43,7 +42,6 @@ public class JsonArticleParser {
 
     public JsonArticleParser() {
 
-        this.issuesManager = new IssuesManager();
     }
 
     public boolean isJSONValid(String test) {
@@ -92,7 +90,7 @@ public class JsonArticleParser {
                         for (Article article : articles) {
                             if(article.getTitle().equals(jsonObject.getString(TAG_TITLE))){
                                 Log.d("JsonArticleParser", "Deleting article: " + article.getTitle());
-                                issuesManager.deleteArticle(article);
+                                AppManager.issuesManager.deleteArticle(article);
                             }
                         }
                     }
@@ -103,13 +101,13 @@ public class JsonArticleParser {
             }
             // process issue found in RSS feed and find stored issue
             // if no stored issue create a new one
-            Issue issue = issuesManager.processRssIssue(jsonObject.getString(TAG_ISSUE_DATE),
+            Issue issue = AppManager.issuesManager.processRssIssue(jsonObject.getString(TAG_ISSUE_DATE),
                     jsonObject.getInt(TAG_ISSUE_VOL), jsonObject.getInt(TAG_ISSUE_NUM));
 
 
             // process article found in RSS feed and find stored issue
             // or in not there create a new one
-            Article article = issuesManager.processRssArticle(issue, jsonObject.getString(TAG_TITLE), jsonObject.getInt(TAG_CONTENT_VER));
+            Article article = AppManager.issuesManager.processRssArticle(issue, jsonObject.getString(TAG_TITLE), jsonObject.getInt(TAG_CONTENT_VER));
 
             if (article != null) {
 
@@ -128,7 +126,7 @@ public class JsonArticleParser {
                         keywordJson = (JSONObject) keywordJsonArray.get(i);
                         keywords[i] = keywordJson.getString(TAG_TAG);
                     }
-                    issuesManager.addArticleKeywords(keywords, article);
+                    AppManager.issuesManager.addArticleKeywords(keywords, article);
 
                 } catch (JSONException ex) {
                     ex.printStackTrace();
@@ -170,13 +168,13 @@ public class JsonArticleParser {
 
                 // process issue found in RSS feed and find stored issue
                 // if no stored issue create a new one
-                Issue issue = issuesManager.processRssIssue(jsonObject.getString(TAG_ISSUE_DATE),
+                Issue issue = AppManager.issuesManager.processRssIssue(jsonObject.getString(TAG_ISSUE_DATE),
                         jsonObject.getInt(TAG_ISSUE_VOL), jsonObject.getInt(TAG_ISSUE_NUM));
 
 
                 // process article found in RSS feed and find stored issue
                 // or in not there create a new one
-                Article article = issuesManager.processRssArticle(issue, jsonObject.getString(TAG_TITLE), jsonObject.getInt(TAG_CONTENT_VER));
+                Article article = AppManager.issuesManager.processRssArticle(issue, jsonObject.getString(TAG_TITLE), jsonObject.getInt(TAG_CONTENT_VER));
                 if (article != null) {
                     article.setAlready_known(jsonObject.getString(TAG_ALREADY_KNOWN));
                     article.setAdded_by_report(jsonObject.getString(TAG_ADDED_BY_REPORT));
@@ -192,7 +190,7 @@ public class JsonArticleParser {
                             keywordJson = (JSONObject) keywordJsonArray.get(i);
                             keywords[i] = keywordJson.getString(TAG_TAG);
                         }
-                        issuesManager.addArticleKeywords(keywords, article);
+                        AppManager.issuesManager.addArticleKeywords(keywords, article);
 
                     } catch (JSONException ex) {
                         ex.printStackTrace();

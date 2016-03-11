@@ -20,6 +20,7 @@ public class AppManager extends Application{
     public static SharedPreferences.Editor editor;
     public static SiteCatalystController sc;
     public static PushManager pushManager;
+    public static IssuesManager issuesManager;
 
     @Override
     public void onCreate() {
@@ -57,6 +58,8 @@ public class AppManager extends Application{
             }
 
         }
+
+        issuesManager = new IssuesManager();
     }
     private void setDefaultPrefs(){
         editor.putBoolean(MmwrPreferences.ALLOW_PUSH_NOTIFICATIONS, true);
