@@ -164,7 +164,7 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
             keywordsChangeListener = new RealmChangeListener() {
                 @Override
                 public void onChange() {
-                    Log.d("KeywordFragment", "Keywords change detected. Updating list.");
+                    //Log.d("KeywordFragment", "Keywords change detected. Updating list.");
                     updateUI();
                 }
             };

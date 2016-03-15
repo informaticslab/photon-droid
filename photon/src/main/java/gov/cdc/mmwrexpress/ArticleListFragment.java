@@ -181,7 +181,7 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
             issuesChangeListener = new RealmChangeListener() {
                 @Override
                 public void onChange() {
-                    Log.d("ArticleList", "Realm change detected. Updating list.");
+                    //Log.d("ArticleList", "Realm change detected. Updating list.");
                     updateUI();
                 }
             };

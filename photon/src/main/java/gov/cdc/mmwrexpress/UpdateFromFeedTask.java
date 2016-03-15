@@ -57,7 +57,7 @@ public class UpdateFromFeedTask extends AsyncTask<Void, Void, Integer> {
         while (!cancelled) {
             try {
                 CdcRssParser parser = new CdcRssParser();
-                boolean debug = true;
+                boolean debug = false;
 
                 // Check for production version and set debug to false. Don't want prod version
                 // pointing to dev feed - ever.
@@ -97,8 +97,4 @@ public class UpdateFromFeedTask extends AsyncTask<Void, Void, Integer> {
         super.onCancelled();
         cancelled = true;
     }
-    private void setSilent(){
-        silent = true;
-    }
-
 }
