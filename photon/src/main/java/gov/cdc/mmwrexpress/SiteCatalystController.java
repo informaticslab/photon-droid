@@ -99,7 +99,8 @@ public class SiteCatalystController {
             try {
                 /* forming th java.net.URL object */
                 URL url = new URL(params[0]);
-                //Log.d("SC URL: ", ""+url);
+                if(BuildConfig.APPLICATION_ID.contains("development"))
+                    Log.d("SC URL: ", ""+url);
 
                 urlConnection = (HttpURLConnection) url.openConnection();
                 //Log.d("SC: ", "urlCon status: " +urlConnection);

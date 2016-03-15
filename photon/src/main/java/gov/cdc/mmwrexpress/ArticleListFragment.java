@@ -1,28 +1,12 @@
 package gov.cdc.mmwrexpress;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import android.app.Application;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.ResultReceiver;
 import android.support.annotation.UiThread;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
@@ -32,13 +16,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.xmlpull.v1.XmlPullParserException;
-
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**ArticleListFragment
  * photon-droid
@@ -54,19 +37,13 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
     private View view;
     private ArticleAdapter mAdapter;
     private SwipeRefreshLayout swipeLayout;
-    private ConnectivityManager cm;
-    private NetworkInfo activeNetwork;
-    private HttpURLConnection httpURLConnection;
-    private UpdateArticleList updateArticleList;
+    private RealmChangeListener issuesChangeListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         realm = Realm.getDefaultInstance();
-        //Check connection
-        cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        activeNetwork = cm.getActiveNetworkInfo();
     }
 
     @Override
@@ -101,40 +78,28 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
     @Override
     public void onResume() {
         super.onResume();
-       activeNetwork = cm.getActiveNetworkInfo();
+        AppManager.issuesManager.registerProgressIndicator(swipeLayout);
         updateUI();
 
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if(updateArticleList != null){
-            updateArticleList.setSilent();
-        }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         realm.close();
-        if(updateArticleList != null){
-            updateArticleList.setSilent();
-        }
-
+        AppManager.issuesManager.unregisterProgressIndicator(swipeLayout);
     }
 
     private void updateUI() {
 
-        if (mAdapter == null) {
-            // read stored articles
+     if (mAdapter == null) {
+            //read stored articles
             mAdapter = new ArticleAdapter(getActivity());
             mArticlesRV.setAdapter(mAdapter);
 
         } else {
-            mAdapter.notifyDataSetChanged();
+            mAdapter.dataSetChanged();
         }
-
     }
 
 
@@ -160,130 +125,9 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
         }
     }
 
-    private void initiateRefresh(){
-            updateArticleList = new UpdateArticleList();
-            updateArticleList.execute();
+    public void initiateRefresh(){
+            AppManager.issuesManager.update();
         }
-    private void onRefreshComplete(int resultCode) {
-        swipeLayout.setRefreshing(false);
-
-        if (resultCode == 1) {
-            mAdapter.dataSetChanged();
-            Snackbar.make(view, "Article list updated.", Snackbar.LENGTH_LONG)
-                    .setCallback(new Snackbar.Callback() {
-                        @Override
-                        public void onShown(Snackbar snackbar) {
-                            super.onShown(snackbar);
-                            snackbar.getView().setContentDescription("Article list updated.");
-                        }
-                    }).show();
-        } else if (resultCode == 0) {
-            Snackbar.make(view, "Error accessing CDC Feed. Check internet connection.",
-                    Snackbar.LENGTH_INDEFINITE)
-                    .setCallback(new Snackbar.Callback() {
-                        @Override
-                        public void onShown(Snackbar snackbar) {
-                            super.onShown(snackbar);
-                            snackbar.getView().setContentDescription("Error accessing CDC Feed. " +
-                                    "Check internet connection.");
-                        }
-                    })
-                    .setActionTextColor(getResources().getColor(R.color.light_yellow))
-                    .setAction("RETRY", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            forceRefresh();
-                        }
-                    }).show();
-        } else if(resultCode == 2){
-            Snackbar.make(view, "Cancelled.", Snackbar.LENGTH_LONG).show();
-        }
-    }
-
-
-
-
-    private class UpdateArticleList extends AsyncTask<Void, Void, Integer>{
-
-        private static final String RSS_LINK = "http://t.cdc.gov/feed.aspx?";
-        private static final String RSS_FEED_ID= "feedid=100";
-        private static final String DEV_FEED_ID = "feedid=105";
-        private static final String RSS_FORMAT = "format=rss2";
-        private String fromDate;
-        private boolean cancelled;
-        private boolean silent;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            cancelled = false;
-            silent = false;
-        }
-
-        public InputStream getInputStream(String link) {
-            try {
-                URL url = new URL(link);
-                httpURLConnection = (HttpURLConnection) url.openConnection();
-
-                if(httpURLConnection.getResponseCode() == 200 && httpURLConnection.getURL().equals(url)) {
-                    return url.openConnection().getInputStream();
-                }
-                else
-                    return null;
-            } catch (IOException e) {
-                Log.w(Constants.RSS_SERVICE, "Exception while retrieving the input stream", e);
-                return null;
-            }
-            finally {
-                httpURLConnection.disconnect();
-            }
-        }
-
-        @Override
-        protected Integer doInBackground(Void... params) {
-            while (!cancelled) {
-                try {
-                    CdcRssParser parser = new CdcRssParser();
-                    boolean debug = false;
-
-                    //Uncomment fromDate to pull by date.
-                    InputStream inputStream = getInputStream(RSS_LINK + "&" + (debug ? DEV_FEED_ID : RSS_FEED_ID) /*+"&" +fromDate*/ + "&" + RSS_FORMAT);
-                    if (inputStream != null) {
-                        parser.parse(inputStream);
-                        Date currDate = new Date();
-                        AppManager.editor.putString(MmwrPreferences.LAST_UPDATE, new SimpleDateFormat("yyyy-MM-dd").format(currDate));
-                        AppManager.editor.commit();
-                        inputStream.close();
-                    } else
-                        return 0;
-                } catch (XmlPullParserException e) {
-                    Log.w(e.getMessage(), e);
-                } catch (IOException e) {
-                    Log.w(e.getMessage(), e);
-
-                }
-                return 1;
-            }
-            return 2;
-        }
-
-        @Override
-        protected void onPostExecute(Integer integer) {
-            super.onPostExecute(integer);
-            if(!silent)
-                onRefreshComplete(integer);
-        }
-
-        @Override
-        protected void onCancelled() {
-            super.onCancelled();
-            cancelled = true;
-        }
-        private void setSilent(){
-            silent = true;
-        }
-    }
-
 
     private class IssueArticleItem {
 
@@ -333,9 +177,18 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
             //Realm.deleteRealmFile(context);
 
             //Log.d(TAG, "realm path: " + realm.getPath());
+            issues = realm.where(Issue.class).findAllSorted("date", Sort.DESCENDING);
+            issuesChangeListener = new RealmChangeListener() {
+                @Override
+                public void onChange() {
+                    //Log.d("ArticleList", "Realm change detected. Updating list.");
+                    updateUI();
+                }
+            };
+            issues.addChangeListener(issuesChangeListener);
 
             // refresh data from database
-            this.refreshData();
+            this.dataSetChanged();
         }
 
         @Override
@@ -383,8 +236,8 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
         public void refreshData() {
             try {
                 IssueArticleItem item;
-                issues = realm.where(Issue.class).findAllSorted("date", RealmResults.SORT_ORDER_DESCENDING);
-                Log.d(TAG, "Issues size = " + String.valueOf(issues.size()));
+
+                //Log.d(TAG, "Issues size = " + String.valueOf(issues.size()));
                 this.articles = new ArrayList<Article>();
                 this.listItems = new ArrayList<IssueArticleItem>();
 

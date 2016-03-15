@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.UiThread;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -23,7 +22,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**KeywordSearchFragment.java
  * photon-droid
@@ -40,6 +41,7 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
     private View view;
     private KeywordAdapter mAdapter;
     private Realm realm;
+    private RealmChangeListener keywordsChangeListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -105,7 +107,7 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
             mKeywordsRV.setAdapter(mAdapter);
 
         } else {
-            mAdapter.notifyDataSetChanged();
+            mAdapter.dataSetChanged();
         }
 
     }
@@ -158,7 +160,15 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
 
             this.context = context;
             //Log.d(TAG, "realm path: " + realm.getPath());
-
+            realmKeywords = realm.where(Keyword.class).findAllSorted("text".toLowerCase(), Sort.ASCENDING);
+            keywordsChangeListener = new RealmChangeListener() {
+                @Override
+                public void onChange() {
+                    //Log.d("KeywordFragment", "Keywords change detected. Updating list.");
+                    updateUI();
+                }
+            };
+            realmKeywords.addChangeListener(keywordsChangeListener);
             // refresh data from database
             this.refreshData();
         }
@@ -186,7 +196,6 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
         public void refreshData() {
 
             KeywordItem item;
-            realmKeywords = realm.where(Keyword.class).findAllSorted("text".toLowerCase(), RealmResults.SORT_ORDER_ASCENDING);
 
             //Log.d(TAG, "Keywords size = " + String.valueOf(realmKeywords.size()));
             this.mKeywords = new ArrayList<Keyword>();
@@ -201,6 +210,11 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
             Collections.sort(listItems);
         }
 
+        @UiThread
+        protected void dataSetChanged() {
+            refreshData();
+            notifyDataSetChanged();
+        }
 
         public void setFilter(String queryText) {
 
@@ -208,7 +222,7 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
             //Text view from layout that is initially set as non-visible. Visibility is changed dynamically below.
             TextView noResults = (TextView) view.findViewById(R.id.no_results);
 
-            realmKeywords = realm.where(Keyword.class).findAllSorted("text".toLowerCase(), RealmResults.SORT_ORDER_ASCENDING);
+            realmKeywords = realm.where(Keyword.class).findAllSorted("text".toLowerCase(), Sort.ASCENDING);
 
             listItems = new ArrayList<>();
             //constraint = constraint.toString().toLowerCase();
