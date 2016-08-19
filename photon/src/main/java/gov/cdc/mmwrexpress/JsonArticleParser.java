@@ -93,6 +93,7 @@ public class JsonArticleParser {
                                 AppManager.issuesManager.deleteArticle(article);
                             }
                         }
+                        AppManager.issuesManager.removeUnusedIssue(issue);
                     }
 
                     realm.commitTransaction();
