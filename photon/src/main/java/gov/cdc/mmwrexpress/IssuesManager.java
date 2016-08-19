@@ -205,7 +205,6 @@ public class IssuesManager {
         Issue issue = article.getIssue();
         article.removeFromRealm();
         removeUnusedKeywords();
-        removeUnusedIssue(issue);
         return null;
     }
 
