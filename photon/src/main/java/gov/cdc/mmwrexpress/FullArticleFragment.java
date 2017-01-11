@@ -150,13 +150,13 @@ public class FullArticleFragment extends Fragment {
             try {
                 URL url = new URL(params[0]);
                 httpURLConnection = (HttpURLConnection) url.openConnection();
-
-                if (httpURLConnection.getResponseCode()== 200 && httpURLConnection.getURL().equals(url)) {
-                    return 1;
-                } else
+                if(httpURLConnection.getResponseCode() >= 400){
                     return 0;
+                } else {
+                    return 1;
+                }
             } catch (IOException e) {
-                Log.w("Full Article", "Exception while retrieving the input stream", e);
+                Log.w("Full Article", "Exception while opening the page", e);
                 return 0;
             } finally {
                 httpURLConnection.disconnect();
