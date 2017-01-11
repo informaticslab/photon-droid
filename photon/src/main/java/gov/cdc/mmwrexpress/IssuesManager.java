@@ -246,6 +246,8 @@ public class IssuesManager {
                         }).show();
             } else if (resultCode == 2) {
                 Snackbar.make(progressIndicator, "Cancelled.", Snackbar.LENGTH_LONG).show();
+            } else if (resultCode == 3) {
+                Snackbar.make(progressIndicator, "An error has occurred.", Snackbar.LENGTH_LONG).show();
             }
         }
 

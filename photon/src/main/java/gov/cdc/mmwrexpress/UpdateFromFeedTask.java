@@ -12,19 +12,21 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.net.ssl.HttpsURLConnection;
+
 /**
  * Created by jason on 3/10/16.
  */
 public class UpdateFromFeedTask extends AsyncTask<Void, Void, Integer> {
 
-    private static final String RSS_LINK = "http://t.cdc.gov/feed.aspx?";
+    private static final String RSS_LINK = "https://t.cdc.gov/feed.aspx?";
     private static final String RSS_FEED_ID= "feedid=100";
     private static final String DEV_FEED_ID = "feedid=105";
     private static final String RSS_FORMAT = "format=rss2";
     private String fromDate;
     private boolean cancelled;
     private boolean silent;
-    private HttpURLConnection httpURLConnection;
+    private HttpsURLConnection httpsURLConnection;
 
     @Override
     protected void onPreExecute() {
@@ -36,19 +38,19 @@ public class UpdateFromFeedTask extends AsyncTask<Void, Void, Integer> {
     public InputStream getInputStream(String link) {
         try {
             URL url = new URL(link);
-            httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpsURLConnection = (HttpsURLConnection) url.openConnection();
 
-            if(httpURLConnection.getResponseCode() == 200 && httpURLConnection.getURL().equals(url)) {
+            if(httpsURLConnection.getResponseCode() >= 400) {
+                return null;
+            } else {
                 return url.openConnection().getInputStream();
             }
-            else
-                return null;
         } catch (IOException e) {
             Log.w(Constants.RSS_SERVICE, "Exception while retrieving the input stream", e);
             return null;
         }
         finally {
-            httpURLConnection.disconnect();
+            httpsURLConnection.disconnect();
         }
     }
 
@@ -73,15 +75,16 @@ public class UpdateFromFeedTask extends AsyncTask<Void, Void, Integer> {
                     AppManager.editor.putString(MmwrPreferences.LAST_UPDATE, new SimpleDateFormat("yyyy-MM-dd").format(currDate));
                     AppManager.editor.commit();
                     inputStream.close();
-                } else
+                    return 1;
+                } else {
                     return 0;
+                }
             } catch (XmlPullParserException e) {
                 Log.w(e.getMessage(), e);
             } catch (IOException e) {
                 Log.w(e.getMessage(), e);
-
             }
-            return 1;
+            return 3;
         }
         return 2;
     }
