@@ -19,7 +19,7 @@ import javax.net.ssl.HttpsURLConnection;
  */
 public class UpdateFromFeedTask extends AsyncTask<Void, Void, Integer> {
 
-    private static final String RSS_LINK = "https://t.cdc.gov/feed.aspx?";
+    private static final String RSS_LINK = "https://prototype.cdc.gov/api/v2/resources/media/338384.rss";
     private static final String RSS_FEED_ID= "feedid=100";
     private static final String DEV_FEED_ID = "feedid=105";
     private static final String RSS_FORMAT = "format=rss2";
@@ -68,7 +68,7 @@ public class UpdateFromFeedTask extends AsyncTask<Void, Void, Integer> {
                 }
 
                 //Uncomment fromDate to pull by date.
-                InputStream inputStream = getInputStream(RSS_LINK + "&" + (debug ? DEV_FEED_ID : RSS_FEED_ID) /*+"&" +fromDate*/ + "&" + RSS_FORMAT);
+                InputStream inputStream = getInputStream(RSS_LINK);
                 if (inputStream != null) {
                     parser.parse(inputStream);
                     Date currDate = new Date();
