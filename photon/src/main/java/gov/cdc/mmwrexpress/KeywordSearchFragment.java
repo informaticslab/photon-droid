@@ -96,6 +96,7 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
     @Override
     public void onDestroy() {
         super.onDestroy();
+        realm.removeAllChangeListeners();
         realm.close();
     }
 
@@ -163,12 +164,12 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
             realmKeywords = realm.where(Keyword.class).findAllSorted("text".toLowerCase(), Sort.ASCENDING);
             keywordsChangeListener = new RealmChangeListener() {
                 @Override
-                public void onChange() {
+                public void onChange(Object o) {
                     //Log.d("KeywordFragment", "Keywords change detected. Updating list.");
                     updateUI();
                 }
             };
-            realmKeywords.addChangeListener(keywordsChangeListener);
+            realm.addChangeListener(keywordsChangeListener);
             // refresh data from database
             this.refreshData();
         }

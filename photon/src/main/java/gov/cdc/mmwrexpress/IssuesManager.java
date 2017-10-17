@@ -4,6 +4,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
+import java.lang.ref.WeakReference;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class IssuesManager {
     RealmResults<Keyword> keywords;
     public static UpdateFromFeedTask updateFromFeedTask;
     boolean hasIssues;
-    private SwipeRefreshLayout progressIndicator;
+    private WeakReference<SwipeRefreshLayout> progressIndicatorReference;
 
     public IssuesManager() {
 
@@ -54,11 +55,11 @@ public class IssuesManager {
     }
 
     public void registerProgressIndicator(SwipeRefreshLayout refreshLayout){
-        progressIndicator = refreshLayout;
+        progressIndicatorReference = new WeakReference<>(refreshLayout);
     }
 
     public void unregisterProgressIndicator(SwipeRefreshLayout refreshLayout){
-        progressIndicator = null;
+        progressIndicatorReference = null;
     }
 
     public Article createArticleInIssue(Issue issue, String title, int version) {
@@ -86,13 +87,13 @@ public class IssuesManager {
 
             // check if article with this title already exists in current issue
             if (article.getTitle().equals(title)) {
-
+                Log.d("IssuesManager ", "processRssArticle: existing article found.");
                 // check if version number of stored article is less than
                 // version number of article from RSS feed
                 if (article.getVersion() < version) {
-
+                    Log.d("IssuesManager ", "processRssArticle: feed version is newer, replace existing article.");
                     // delete stored article and create new one
-                    article.removeFromRealm();
+                    article.deleteFromRealm();
                     removeUnusedKeywords();
                     return createArticleInIssue(issue, title, version);
 
@@ -100,6 +101,7 @@ public class IssuesManager {
 
                  // if already have this article, return null
                 if (article.getVersion() == version)
+                    Log.d("IssuesManager ", "processRssArticle: feed version is same or older, do nothing.");
                     return null;
 
             }
@@ -113,7 +115,7 @@ public class IssuesManager {
 
     private Keyword getKeywordWithText(String text) {
         Realm realm = Realm.getDefaultInstance();
-        this.keywords = realm.allObjects(Keyword.class);
+        this.keywords = realm.where(Keyword.class).findAll();
 
         for (Keyword currKeyword : this.keywords) {
 
@@ -161,7 +163,7 @@ public class IssuesManager {
 
     public void removeUnusedKeywords(){
         Realm realm = Realm.getDefaultInstance();
-        this.keywords = realm.allObjects(Keyword.class);
+        this.keywords = realm.where(Keyword.class).findAll();
         ArrayList<Keyword> k = new ArrayList<Keyword>();
         for(Keyword keyword : keywords)
         {
@@ -170,7 +172,7 @@ public class IssuesManager {
         for(Keyword keyword : k){
             if(keyword.getArticles().size()==0){
                 Log.d("Remove keyword: ", " " + keyword.getText());
-                keyword.removeFromRealm();
+                keyword.deleteFromRealm();
             }
         }
         realm.close();
@@ -181,7 +183,7 @@ public class IssuesManager {
     public void removeUnusedIssue(Issue issue){
         if(issue.getArticles().size() == 0){
             Log.d("Remove issue: ", "VOL " + issue.getVolume() + " NO " +issue.getNumber());
-            issue.removeFromRealm();
+            issue.deleteFromRealm();
         }
     }
     public static Date getIssueDateFromString(String dateAsString)
@@ -203,7 +205,7 @@ public class IssuesManager {
     public Article deleteArticle(Article article){
         Log.d("Remove article: ", "Title: " + article.getTitle());
         Issue issue = article.getIssue();
-        article.removeFromRealm();
+        article.deleteFromRealm();
         removeUnusedKeywords();
         return null;
     }
@@ -214,8 +216,9 @@ public class IssuesManager {
     }
 
     public void onRefreshComplete(Integer resultCode){
-        if(progressIndicator != null)
+        if(progressIndicatorReference != null)
         {
+            SwipeRefreshLayout progressIndicator = progressIndicatorReference.get();
             progressIndicator.setRefreshing(false);
             if (resultCode == 1) {
                 Snackbar.make(progressIndicator, "Article list updated.", Snackbar.LENGTH_LONG)

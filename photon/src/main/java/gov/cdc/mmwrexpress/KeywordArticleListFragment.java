@@ -55,7 +55,7 @@ public class KeywordArticleListFragment extends Fragment {
         realm = Realm.getDefaultInstance();
         realm.addChangeListener(new RealmChangeListener() {
             @Override
-            public void onChange() {
+            public void onChange(Object o) {
                 updateUI();
             }
         });
@@ -96,6 +96,7 @@ public class KeywordArticleListFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        realm.removeAllChangeListeners();
         realm.close();
     }
 

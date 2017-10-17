@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="UnusedResources">
+        <ignore path="src/main/res/drawable-hdpi/pw_notification.png" />
+        <ignore path="src/main/res/drawable-mdpi/pw_notification.png" />
+        <ignore path="src/main/res/drawable-xhdpi/pw_notification.png" />
+        <ignore path="src/main/res/drawable-xxhdpi/pw_notification.png" />
+        <ignore path="src/main/res/drawable-xxxhdpi/pw_notification.png" />
+    </issue>
+</lint>

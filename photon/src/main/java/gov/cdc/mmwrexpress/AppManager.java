@@ -5,7 +5,9 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
-import com.pushwoosh.PushManager;
+import com.pushwoosh.Pushwoosh;
+import com.pushwoosh.notification.PushwooshNotificationSettings;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -19,7 +21,7 @@ public class AppManager extends Application{
     public static SharedPreferences pref;
     public static SharedPreferences.Editor editor;
     public static SiteCatalystController sc;
-    public static PushManager pushManager;
+    public static Pushwoosh pushManager;
     public static IssuesManager issuesManager;
 
     @Override
@@ -38,25 +40,22 @@ public class AppManager extends Application{
         }
 
         //Setup default Realm instance. All classes should call Realm.getDefaultInstance() when using Realm objects.
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this).build();
+        Realm.init(this);
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
         Realm.setDefaultConfiguration(realmConfiguration);
 
         //Create SiteCatalystController instance and log App Launch event.
         sc = new SiteCatalystController();
         sc.trackAppLaunchEvent();
 
-        pushManager = PushManager.getInstance(this);
+        pushManager = Pushwoosh.getInstance();
 
         //Register for Pushwoosh
         if (pref.getBoolean(MmwrPreferences.ALLOW_PUSH_NOTIFICATIONS, true)) {
-                //Register for push!
-                pushManager.registerForPushNotifications();
-            try {
-                pushManager.onStartup(this);
-            } catch (Exception e) {
-                //push notifications are not available or AndroidManifest.xml is not configured properly
-            }
-
+            //Register for push!
+            pushManager.registerForPushNotifications();
+            PushwooshNotificationSettings.setMultiNotificationMode(true);
+            PushwooshNotificationSettings.setNotificationChannelName("MMWR DEV");
         }
 
         issuesManager = new IssuesManager();

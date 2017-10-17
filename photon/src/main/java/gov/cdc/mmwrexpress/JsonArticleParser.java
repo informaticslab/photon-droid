@@ -6,8 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.HashMap;
-import java.util.ArrayList;
-
+import io.realm.OrderedRealmCollectionSnapshot;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmQuery;
@@ -48,10 +47,12 @@ public class JsonArticleParser {
         try {
             new JSONObject(test);
         } catch (JSONException ex) {
+            ex.printStackTrace();
             // e.g. in case JSONArray is valid as well...
             try {
                 new JSONArray(test);
             } catch (JSONException ex1) {
+                ex1.printStackTrace();
                 return false;
             }
         }
@@ -64,7 +65,7 @@ public class JsonArticleParser {
         if (jsonArticle == null)
             return null;
 
-        if (isJSONValid(jsonArticle) == false)
+        if (!isJSONValid(jsonArticle))
             return null;
         Realm realm = Realm.getDefaultInstance();
         // create new JSON object from string
@@ -86,10 +87,10 @@ public class JsonArticleParser {
                     if(issueQuery.findFirst() != null) {
                         Issue issue = issueQuery.findFirst();
                         RealmList<Article> articles = issue.getArticles();
+                        OrderedRealmCollectionSnapshot<Article> articlesSnapshot = articles.createSnapshot();
 
-                        for (Article article : articles) {
+                        for (Article article : articlesSnapshot) {
                             if(article.getTitle().equals(jsonObject.getString(TAG_TITLE))){
-                                Log.d("JsonArticleParser", "Deleting article: " + article.getTitle());
                                 AppManager.issuesManager.deleteArticle(article);
                             }
                         }

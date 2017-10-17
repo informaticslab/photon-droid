@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '25.0.0'
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId 'gov.cdc.mmwrexpress'
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 26
         versionCode 5
-        versionName "1.2.3.1"
+        versionName "1.3.0.1"
     }
     buildTypes {
         release {
@@ -28,14 +28,18 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:recyclerview-v7:23.1.1'
-    compile 'com.android.support:cardview-v7:23.1.1'
-    compile 'com.android.support:design:23.1.1'
-    compile 'com.google.android.gms:play-services:8.4.0'
-    compile 'com.squareup.retrofit:retrofit:1.9.0'
-    compile 'com.pushwoosh:pushwoosh:3.5.0'
-    compile 'com.android.support:support-v4:23.1.1'
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.android.support:recyclerview-v7:26.1.0'
+    compile 'com.android.support:cardview-v7:26.1.0'
+    compile 'com.android.support:design:26.1.0'
+    compile 'com.google.firebase:firebase-messaging:11.0.4'
+    compile 'com.google.firebase:firebase-core:11.0.4'
+    compile 'com.google.firebase:firebase-auth:11.0.4'
+    compile 'com.pushwoosh:pushwoosh:5.1.1'
+    compile 'com.android.support:support-v4:26.1.0'
 }
 
 apply plugin: 'realm-android'
+
+
+apply plugin: 'com.google.gms.google-services'

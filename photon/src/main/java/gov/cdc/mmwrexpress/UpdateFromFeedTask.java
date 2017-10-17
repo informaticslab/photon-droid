@@ -7,22 +7,23 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.net.ssl.HttpsURLConnection;
 
+
 /**
  * Created by jason on 3/10/16.
  */
 public class UpdateFromFeedTask extends AsyncTask<Void, Void, Integer> {
 
-    private static final String RSS_LINK = "https://prototype.cdc.gov/api/v2/resources/media/338384.rss";
-    private static final String RSS_FEED_ID= "feedid=100";
-    private static final String DEV_FEED_ID = "feedid=105";
-    private static final String RSS_FORMAT = "format=rss2";
+    private static final String FEED_LINK = "https://prototype.cdc.gov/api/v2/resources/media/";
+    private static final String RSS_FEED_ID= "338387";
+    private static final String DEV_FEED_ID = "338384";
+    private static final String RSS_FORMAT = ".rss?";
+    private static final String FROM_DATE = "fromdatemodified=";
     private String fromDate;
     private boolean cancelled;
     private boolean silent;
@@ -50,7 +51,9 @@ public class UpdateFromFeedTask extends AsyncTask<Void, Void, Integer> {
             return null;
         }
         finally {
-            httpsURLConnection.disconnect();
+            if(httpsURLConnection != null) {
+                httpsURLConnection.disconnect();
+            }
         }
     }
 
@@ -67,12 +70,17 @@ public class UpdateFromFeedTask extends AsyncTask<Void, Void, Integer> {
                     debug = false;
                 }
 
-                //Uncomment fromDate to pull by date.
-                InputStream inputStream = getInputStream(RSS_LINK);
+                String lastUpdate = AppManager.pref.getString(MmwrPreferences.LAST_UPDATE, "");
+
+                InputStream inputStream = getInputStream(FEED_LINK +RSS_FEED_ID +RSS_FORMAT +FROM_DATE +lastUpdate);
+                Log.d("UpdateFromFeedTask", "doInBackground: UpdateURL: " +FEED_LINK +DEV_FEED_ID +FROM_DATE +lastUpdate);
                 if (inputStream != null) {
+                    Log.d("UpdateFromFeedTask", "doInBackground: pulling articles after " +lastUpdate);
                     parser.parse(inputStream);
                     Date currDate = new Date();
-                    AppManager.editor.putString(MmwrPreferences.LAST_UPDATE, new SimpleDateFormat("yyyy-MM-dd").format(currDate));
+                    String formattedDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(currDate);
+                    Log.d("UpdateFromFeedTask", "doInBackground: currDate: " +currDate +" formatted: " +formattedDate);
+                    AppManager.editor.putString(MmwrPreferences.LAST_UPDATE, formattedDate);
                     AppManager.editor.commit();
                     inputStream.close();
                     return 1;

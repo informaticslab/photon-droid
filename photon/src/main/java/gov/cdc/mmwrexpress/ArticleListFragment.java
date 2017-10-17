@@ -86,6 +86,7 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        realm.removeAllChangeListeners();
         realm.close();
         AppManager.issuesManager.unregisterProgressIndicator(swipeLayout);
     }
@@ -180,12 +181,11 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
             issues = realm.where(Issue.class).findAllSorted("date", Sort.DESCENDING);
             issuesChangeListener = new RealmChangeListener() {
                 @Override
-                public void onChange() {
-                    //Log.d("ArticleList", "Realm change detected. Updating list.");
+                public void onChange(Object o) {
                     updateUI();
                 }
             };
-            issues.addChangeListener(issuesChangeListener);
+            realm.addChangeListener(issuesChangeListener);
 
             // refresh data from database
             this.dataSetChanged();

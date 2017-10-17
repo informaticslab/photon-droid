@@ -2,16 +2,10 @@ package gov.cdc.mmwrexpress;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
-
-import android.content.Context;
+import android.util.Log;
 import android.util.Xml;
-
-import io.realm.Realm;
 
 /**CdcRssParser.java
  * photon-droid
@@ -30,13 +24,13 @@ public class CdcRssParser {
         this.jsonArticleParser = new JsonArticleParser();
     }
 
-    public List<ArticleListItem> parse(InputStream inputStream) throws XmlPullParserException, IOException {
+    public void parse(InputStream inputStream) throws XmlPullParserException, IOException {
         try {
             XmlPullParser parser = Xml.newPullParser();
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             parser.setInput(inputStream, null);
             parser.nextTag();
-            return readFeed(parser);
+            readFeed(parser);
         } finally {
             if (inputStream != null)
                 inputStream.close();
@@ -45,14 +39,13 @@ public class CdcRssParser {
 
 
 
-    private List<ArticleListItem> readFeed(XmlPullParser parser) throws XmlPullParserException, IOException {
+    private void readFeed(XmlPullParser parser) throws XmlPullParserException, IOException {
         parser.require(XmlPullParser.START_TAG, null, "rss");
         String title = null;
         String link = null;
         String description = null;
         Article article = null;
-
-        List<ArticleListItem> items = new ArrayList<ArticleListItem>();
+        int feedItemCounter = 0;
 
         // get RSS2 tags <title>, <link> and <description>
         while (parser.next() != XmlPullParser.END_DOCUMENT) {
@@ -70,19 +63,18 @@ public class CdcRssParser {
 
                 // all content for blue boxes of article are store in description
                 description = readDescription(parser);
+                feedItemCounter++;
+                Log.d("CDCRSSParser ", "readFeed: feedItemCounter = " +feedItemCounter);
                 article = this.jsonArticleParser.parseJsonArticle(description);
 
             }
             if (title != null && link != null && description != null && article != null ) {
-                ArticleListItem item = new ArticleListItem(title, link, description, article);
-                items.add(item);
                 title = null;
                 link = null;
                 description = null;
                 article = null;
             }
         }
-        return items;
     }
 
     private String readLink(XmlPullParser parser) throws XmlPullParserException, IOException {

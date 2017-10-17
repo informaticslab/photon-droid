@@ -16,21 +16,15 @@
 
     <application
         android:name=".AppManager"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@drawable/ic_launcher_debug"
         android:label="@string/app_name_dev"
         tools:replace="icon,label"
         android:theme="@style/AppTheme" >
 
         <!-- Pushwoosh -->
-        <meta-data
-            android:name="PW_APPID"
-            android:value="75B48-4972A"
-            tools:replace="value"/>
-        <meta-data
-            android:name="PW_PROJECT_ID"
-            android:value="A104460978602"
-            tools:replace="value"/>
+        <meta-data android:name="com.pushwoosh.appid" android:value="BDF38-637C3" />
+        <meta-data android:name="com.pushwoosh.senderid" android:value="@string/fcm_sender_id" />
 
         <activity
             android:name=".SplashScreen"
@@ -44,5 +38,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
