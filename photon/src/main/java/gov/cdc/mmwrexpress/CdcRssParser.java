@@ -45,7 +45,6 @@ public class CdcRssParser {
         String link = null;
         String description = null;
         Article article = null;
-        int feedItemCounter = 0;
 
         // get RSS2 tags <title>, <link> and <description>
         while (parser.next() != XmlPullParser.END_DOCUMENT) {
@@ -63,8 +62,6 @@ public class CdcRssParser {
 
                 // all content for blue boxes of article are store in description
                 description = readDescription(parser);
-                feedItemCounter++;
-                Log.d("CDCRSSParser ", "readFeed: feedItemCounter = " +feedItemCounter);
                 article = this.jsonArticleParser.parseJsonArticle(description);
 
             }

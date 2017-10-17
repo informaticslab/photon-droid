@@ -87,11 +87,11 @@ public class IssuesManager {
 
             // check if article with this title already exists in current issue
             if (article.getTitle().equals(title)) {
-                Log.d("IssuesManager ", "processRssArticle: existing article found.");
+                //Log.d("IssuesManager ", "processRssArticle: existing article found.");
                 // check if version number of stored article is less than
                 // version number of article from RSS feed
                 if (article.getVersion() < version) {
-                    Log.d("IssuesManager ", "processRssArticle: feed version is newer, replace existing article.");
+                    //Log.d("IssuesManager ", "processRssArticle: feed version is newer, replace existing article.");
                     // delete stored article and create new one
                     article.deleteFromRealm();
                     removeUnusedKeywords();
@@ -101,7 +101,7 @@ public class IssuesManager {
 
                  // if already have this article, return null
                 if (article.getVersion() == version)
-                    Log.d("IssuesManager ", "processRssArticle: feed version is same or older, do nothing.");
+                    //Log.d("IssuesManager ", "processRssArticle: feed version is same or older, do nothing.");
                     return null;
 
             }
@@ -152,7 +152,7 @@ public class IssuesManager {
 
             } else {
                 if (article == null)
-                    Log.d("IssueManager", "Attempt to add null article to keyword " + keyword.getText());
+//                    Log.d("IssueManager", "Attempt to add null article to keyword " + keyword.getText());
                 keyword.setText(currKeyword);
                 keyword.getArticles().add(article);
 
@@ -171,7 +171,7 @@ public class IssuesManager {
         }
         for(Keyword keyword : k){
             if(keyword.getArticles().size()==0){
-                Log.d("Remove keyword: ", " " + keyword.getText());
+//                Log.d("Remove keyword: ", " " + keyword.getText());
                 keyword.deleteFromRealm();
             }
         }
@@ -182,7 +182,7 @@ public class IssuesManager {
     // of an existing issue are deleted.
     public void removeUnusedIssue(Issue issue){
         if(issue.getArticles().size() == 0){
-            Log.d("Remove issue: ", "VOL " + issue.getVolume() + " NO " +issue.getNumber());
+//            Log.d("Remove issue: ", "VOL " + issue.getVolume() + " NO " +issue.getNumber());
             issue.deleteFromRealm();
         }
     }
@@ -203,7 +203,7 @@ public class IssuesManager {
     }
 
     public Article deleteArticle(Article article){
-        Log.d("Remove article: ", "Title: " + article.getTitle());
+//        Log.d("Remove article: ", "Title: " + article.getTitle());
         Issue issue = article.getIssue();
         article.deleteFromRealm();
         removeUnusedKeywords();
