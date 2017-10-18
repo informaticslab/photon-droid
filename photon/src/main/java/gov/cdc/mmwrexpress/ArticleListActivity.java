@@ -79,7 +79,7 @@ public class ArticleListActivity extends BaseActivity {
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_TEXT, "I'm using CDC's MMWR Express mobile app. "
-                + "Learn more about it here: \nhttp://www.cdc.gov/mmwr/mmwr_expresspage.html");
+                + "Learn more about it here: \nhttps://www.cdc.gov/mmwr/mmwr_expresspage.html");
         startActivity(shareIntent);
     }
 
