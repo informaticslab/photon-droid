@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/mmwr_blue"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:text="I Agree"
+        android:text="@string/i_agree"
         android:id="@+id/btnAgree"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />

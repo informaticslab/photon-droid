@@ -3,16 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_search"
-        android:title="Search"
+        android:title="@string/search"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_search_white"/>
     <item
         android:id="@+id/action_share"
-        android:title="Share"
+        android:title="@string/share"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_share"/>
     <item
         android:id="@+id/action_refresh"
-        android:title="Refresh"
+        android:title="@string/refresh"
         app:showAsAction="never"/>
 </menu>

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.accessibility.AccessibilityEvent;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -36,7 +35,7 @@ public class WebViewActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_webview);
+        setContentView(R.layout.webview_activity);
 
         // navigationview setup
         setupToolbar();
@@ -68,26 +67,33 @@ public class WebViewActivity extends BaseActivity {
 
     @Override
     protected void onStart() {
-
-
-        if(toolbarTitle.equals("Help"))
-            AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_HELP, Constants.SC_SECTION_HELP);
-        else if(toolbarTitle.equals("About"))
-            AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_ABOUT, Constants.SC_SECTION_ABOUT);
-        else if(toolbarTitle.equals("User License Agreement"))
-            AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_EULA, Constants.SC_SECTION_EULA);
+        switch (toolbarTitle) {
+            case "Help":
+                AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_HELP, Constants.SC_SECTION_HELP);
+                break;
+            case "About":
+                AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_ABOUT, Constants.SC_SECTION_ABOUT);
+                break;
+            case "User License Agreement":
+                AppManager.sc.trackNavigationEvent(Constants.SC_PAGE_TITLE_EULA, Constants.SC_SECTION_EULA);
+                break;
+        }
         super.onStart();
-
     }
 
     @Override
     protected void onResume() {
-        if(toolbarTitle.equals("Help"))
-            mNavigationView.setCheckedItem(R.id.nav_help_fragment);
-        else if(toolbarTitle.equals("About"))
+        switch (toolbarTitle) {
+            case "Help":
+                mNavigationView.setCheckedItem(R.id.nav_help_fragment);
+                break;
+            case "About":
                 mNavigationView.setCheckedItem(R.id.nav_about_fragment);
-        else if(toolbarTitle.equals("User License Agreement"))
+                break;
+            case "User License Agreement":
                 mNavigationView.setCheckedItem(R.id.nav_eula_fragment);
+                break;
+        }
 
 
         super.onResume();

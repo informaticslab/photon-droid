@@ -26,7 +26,7 @@ import android.view.accessibility.AccessibilityEvent;
  * Copyright (c) 2015 Informatics Research and Development Lab. All rights reserved.
  */
 
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     protected ActionBarDrawerToggle mDrawerToggle;
     protected DrawerLayout mDrawerLayout;
@@ -81,7 +81,7 @@ public class BaseActivity extends AppCompatActivity {
                 //Snackbar.make(drawerView, R.string.drawer_open, Snackbar.LENGTH_SHORT).show();
             }
         };
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
 
     }
 
@@ -168,12 +168,6 @@ public class BaseActivity extends AppCompatActivity {
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
     }
 
     @Override

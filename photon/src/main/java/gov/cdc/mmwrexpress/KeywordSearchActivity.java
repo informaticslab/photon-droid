@@ -1,17 +1,10 @@
 package gov.cdc.mmwrexpress;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.SearchView;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -30,7 +23,7 @@ public class KeywordSearchActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_keyword_search);
+        setContentView(R.layout.keyword_search_activity);
 
         // navigationview setup
         setupToolbar();
@@ -122,12 +115,18 @@ public class KeywordSearchActivity extends BaseActivity {
                 }
             }
         };
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
     }
 
     @Override
     protected void onResume() {
         mNavigationView.setCheckedItem(R.id.nav_search_fragment);
         super.onResume();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mDrawerLayout.removeDrawerListener(mDrawerToggle);
     }
 }

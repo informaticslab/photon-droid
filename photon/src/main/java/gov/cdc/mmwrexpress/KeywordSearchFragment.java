@@ -9,7 +9,6 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -55,7 +54,7 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         realm = Realm.getDefaultInstance();
         if (view == null) {
-            view = inflater.inflate(R.layout.fragment_keyword_list, container, false);
+            view = inflater.inflate(R.layout.keyword_search_fragment, container, false);
             mKeywordsRV = (RecyclerView) view.findViewById(R.id.keywords_rv);
             mKeywordsRV.setLayoutManager(new LinearLayoutManager(getActivity()));
             mKeywordsRV.addItemDecoration(new SimpleDividerItemDecoration(
@@ -80,7 +79,7 @@ public class KeywordSearchFragment extends Fragment implements SearchView.OnQuer
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu,inflater);
-        inflater.inflate(R.menu.menu_keyword, menu);
+        inflater.inflate(R.menu.keyword_search, menu);
         final MenuItem item = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
         searchView.setOnQueryTextListener(this);

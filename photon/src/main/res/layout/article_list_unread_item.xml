@@ -4,12 +4,14 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
+    android:minHeight="48dp"
     android:background="?attr/selectableItemBackground">
 
     <ImageView
         android:id="@+id/blueDot"
         android:layout_width="11dp"
         android:layout_height="11dp"
+        android:contentDescription="@string/unread_article_icon"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="10dp"
@@ -27,7 +29,7 @@
         android:paddingRight="12dp"
         android:layout_toRightOf="@id/blueDot"
         android:text="@+id/label"
-        android:textSize="18dp" >
+        android:textSize="18sp" >
     </TextView>
 
 </RelativeLayout>

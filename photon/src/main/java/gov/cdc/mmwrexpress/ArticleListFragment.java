@@ -4,7 +4,6 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.UiThread;
 import android.support.v4.app.Fragment;
@@ -187,6 +186,7 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
             };
             realm.addChangeListener(issuesChangeListener);
 
+
             // refresh data from database
             this.dataSetChanged();
         }
@@ -331,7 +331,7 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
             if(mViewType != ArticleAdapter.ISSUE_VIEW_TYPE) {
                 Article article = mIssueArticleItem.article;
                 mAdapter.setArticleReadState(article);
-                Intent intent = ContentActivity.newIntent(getActivity(), article.getAlready_known(),
+                Intent intent = ArticleDetailActivity.newIntent(getActivity(), article.getAlready_known(),
                         article.getAdded_by_report(), article.getImplications(), title, date, volume, number, link);
                 startActivity(intent);
             }

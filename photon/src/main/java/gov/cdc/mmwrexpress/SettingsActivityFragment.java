@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
+import com.pushwoosh.Pushwoosh;
+
 /**
  * A placeholder fragment containing a simple view.
  */
@@ -20,7 +22,7 @@ public class SettingsActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (view == null) {
-            view = inflater.inflate(R.layout.fragment_settings, container, false);
+            view = inflater.inflate(R.layout.settings_fragment, container, false);
             CheckBox pushNotifications = (CheckBox) view.findViewById(R.id.allowNotificationsCheckBox);
             if(AppManager.pref.getBoolean(MmwrPreferences.ALLOW_PUSH_NOTIFICATIONS,true))
                 pushNotifications.setChecked(true);
@@ -33,7 +35,7 @@ public class SettingsActivityFragment extends Fragment {
                     if (isChecked) {
                         if (!AppManager.pref.getBoolean(MmwrPreferences.ALLOW_PUSH_NOTIFICATIONS, true)) {
                             AppManager.editor.putBoolean(MmwrPreferences.ALLOW_PUSH_NOTIFICATIONS, true).commit();
-                            AppManager.pushManager.registerForPushNotifications();
+                           Pushwoosh.getInstance().registerForPushNotifications();
                             AppManager.sc.trackEvent(Constants.SC_EVENT_ENABLE_PUSH_NOTIFICATIONS,
                                     Constants.SC_PAGE_TITLE_SETTINGS, Constants.SC_SECTION_SETTINGS);
                         }
@@ -41,7 +43,7 @@ public class SettingsActivityFragment extends Fragment {
                     else {
                         if (AppManager.pref.getBoolean(MmwrPreferences.ALLOW_PUSH_NOTIFICATIONS, true)) {
                             AppManager.editor.putBoolean(MmwrPreferences.ALLOW_PUSH_NOTIFICATIONS, false).commit();
-                            AppManager.pushManager.unregisterForPushNotifications();
+                            Pushwoosh.getInstance().unregisterForPushNotifications();
                             AppManager.sc.trackEvent(Constants.SC_EVENT_DISABLE_PUSH_NOTIFICATIONS,
                                     Constants.SC_PAGE_TITLE_SETTINGS, Constants.SC_SECTION_SETTINGS);
                         }

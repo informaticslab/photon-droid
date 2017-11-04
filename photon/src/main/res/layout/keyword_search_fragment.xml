@@ -1,6 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+    >
 <android.support.v7.widget.RecyclerView
         android:id="@+id/keywords_rv"
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -16,5 +18,5 @@
         android:visibility="gone"
         android:padding="16dp"
         android:textSize="20sp"
-        android:text="No results found"/>
+        android:text="@string/no_results_found"/>
 </LinearLayout>

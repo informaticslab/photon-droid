@@ -20,7 +20,7 @@ public class SplashScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash_screen);
+        setContentView(R.layout.splash_screen_activity);
 
         if(!AppManager.pref.getBoolean(MmwrPreferences.AGREED_TO_EULA, false))
             i = new Intent(getApplicationContext(), EulaActivity.class);
@@ -34,7 +34,7 @@ public class SplashScreen extends AppCompatActivity {
 
     }
 
-    private class parsePreloadJsonTask extends AsyncTask<Void, Void, Void> {
+    class parsePreloadJsonTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -55,7 +55,6 @@ public class SplashScreen extends AppCompatActivity {
                    ie.printStackTrace();
                 }
             }
-            startActivity(i);
             finish();
             return null;
         }
@@ -63,6 +62,7 @@ public class SplashScreen extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            startActivity(i);
         }
 
         public void loadJsonArticlesFromAsset() {
@@ -81,9 +81,7 @@ public class SplashScreen extends AppCompatActivity {
                 jsonArticleParser.parseEmbeddedArticles(json);
             } catch (IOException ex) {
                 ex.printStackTrace();
-                return;
             }
-            return;
         }
     }
 }

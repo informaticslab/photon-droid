@@ -14,7 +14,7 @@
         android:layout_marginRight="4dp"
         android:layout_marginTop="4dp"
         android:text="@+id/label"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:textColor="#373836"
         >
     </TextView>

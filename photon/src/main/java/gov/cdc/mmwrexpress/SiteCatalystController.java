@@ -21,7 +21,6 @@ public class SiteCatalystController {
     private String commonConstParams = "c8=Mobile+App&c51=Standalone&c52=MMWR+Express&c5=eng&channel=IIU";
     private String prodConstParams = "reportsuite=cdcsynd";
     private String debugConstParams = "reportsuite=devcdc";
-    private HttpURLConnection urlConnection;
 
     public void trackEvent(String event, String title, String section){
         String deviceModel, deviceOsName, deviceOsVers, deviceParams;
@@ -90,11 +89,11 @@ public class SiteCatalystController {
         AsyncHttpTask at = new AsyncHttpTask();
         at.execute(scString);
     }
-    public class AsyncHttpTask extends AsyncTask<String, Void, Integer> {
+    public static class AsyncHttpTask extends AsyncTask<String, Void, Integer> {
 
         @Override
         protected Integer doInBackground(String... params) {
-            urlConnection = null;
+            HttpURLConnection urlConnection = null;
             Integer result = 0;
             try {
                 /* forming th java.net.URL object */
@@ -116,9 +115,6 @@ public class SiteCatalystController {
 
             } catch (Exception e) {
                 Log.d("SC:", e.getLocalizedMessage());
-            }
-            finally {
-                urlConnection.disconnect();
             }
             return result; //"Failed to fetch data!";
         }

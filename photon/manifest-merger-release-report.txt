@@ -40,7 +40,7 @@ category#android.intent.category.LAUNCHER
 ADDED from AndroidManifest.xml:16:17
 	android:name
 		ADDED from AndroidManifest.xml:16:27
-activity#gov.cdc.mmwrexpress.ContentActivity
+activity#gov.cdc.mmwrexpress.ArticleDetailActivity
 ADDED from AndroidManifest.xml:19:9
 	android:label
 		ADDED from AndroidManifest.xml:21:13

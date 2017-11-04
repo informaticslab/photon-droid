@@ -1,6 +1,7 @@
 package gov.cdc.mmwrexpress;
 
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -28,6 +29,7 @@ public class UpdateFromFeedTask extends AsyncTask<Void, Void, Integer> {
     private boolean cancelled;
     private boolean silent;
     private HttpsURLConnection httpsURLConnection;
+    private InputStream inputStream;
 
     @Override
     protected void onPreExecute() {
@@ -36,29 +38,9 @@ public class UpdateFromFeedTask extends AsyncTask<Void, Void, Integer> {
         silent = false;
     }
 
-    public InputStream getInputStream(String link) {
-        try {
-            URL url = new URL(link);
-            httpsURLConnection = (HttpsURLConnection) url.openConnection();
-
-            if(httpsURLConnection.getResponseCode() >= 400) {
-                return null;
-            } else {
-                return url.openConnection().getInputStream();
-            }
-        } catch (IOException e) {
-            Log.w(Constants.RSS_SERVICE, "Exception while retrieving the input stream", e);
-            return null;
-        }
-        finally {
-            if(httpsURLConnection != null) {
-                httpsURLConnection.disconnect();
-            }
-        }
-    }
-
     @Override
     protected Integer doInBackground(Void... params) {
+
         while (!cancelled) {
             try {
                 CdcRssParser parser = new CdcRssParser();
@@ -70,9 +52,15 @@ public class UpdateFromFeedTask extends AsyncTask<Void, Void, Integer> {
                     debug = false;
                 }
 
-                String lastUpdate = AppManager.pref.getString(MmwrPreferences.LAST_UPDATE, "");
+                String lastUpdate = AppManager.pref.getString(MmwrPreferences.LAST_UPDATE, "2016-12-31");
+                URL url = new URL(FEED_LINK +RSS_FEED_ID +RSS_FORMAT +FROM_DATE +lastUpdate);
+                httpsURLConnection = (HttpsURLConnection) url.openConnection();
 
-                InputStream inputStream = getInputStream(FEED_LINK +RSS_FEED_ID +RSS_FORMAT +FROM_DATE +lastUpdate);
+                if(httpsURLConnection.getResponseCode() >= 400) {
+                    return 0;
+                }
+
+                inputStream = url.openConnection().getInputStream();
                 Log.d("UpdateFromFeedTask", "doInBackground: UpdateURL: " +FEED_LINK +DEV_FEED_ID +FROM_DATE +lastUpdate);
                 if (inputStream != null) {
                     Log.d("UpdateFromFeedTask", "doInBackground: pulling articles after " +lastUpdate);

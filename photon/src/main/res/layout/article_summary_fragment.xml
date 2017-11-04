@@ -46,7 +46,7 @@
             <TextView
                     android:id="@+id/known_label"
                       style="?android:textAppearanceLarge"
-                      android:text="What is already known?"
+                      android:text="@string/what_is_already_known"
                       android:textStyle="bold"
                     android:focusable="true"
                       android:nextFocusDown="@+id/known_text"
@@ -88,7 +88,7 @@
             <TextView
                 android:id="@+id/added_label"
                 style="?android:textAppearanceLarge"
-                android:text="What is added by this report?"
+                android:text="@string/what_is_added_by_this_report"
                 android:textStyle="bold"
                 android:focusable="true"
                 android:nextFocusUp="@+id/known_text"
@@ -123,14 +123,14 @@
                 android:id="@+id/implications_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="implications_icon_description"
+                android:contentDescription="@string/implications_icon_description"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/implications_icon"/>
 
             <TextView
                 android:id="@+id/implications_label"
                 style="?android:textAppearanceLarge"
-                android:text="What are the implications for the public health practice?"
+                android:text="@string/what_are_the_implications_for_the_public_health_practice"
                 android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

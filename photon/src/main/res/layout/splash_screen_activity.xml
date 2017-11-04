@@ -9,6 +9,7 @@
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:contentDescription="@string/splash_screen_image"
         android:id="@+id/imageView"
         android:src="@drawable/splash_screen"
         />

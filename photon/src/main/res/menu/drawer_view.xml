@@ -3,31 +3,31 @@
         <item
             android:id="@+id/nav_articles_list_fragment"
             android:icon="@drawable/ic_articles"
-            android:title="Articles" />
+            android:title="@string/nav_drawer_label_articles" />
         <item
             android:id="@+id/nav_search_fragment"
             android:icon="@drawable/ic_search"
-            android:title="Search" />
+            android:title="@string/nav_drawer_label_search" />
         <item
             android:id="@+id/nav_help_fragment"
             android:icon="@drawable/ic_help"
-            android:title="Help" />
+            android:title="@string/nav_drawer_label_help" />
         <item
             android:id="@+id/nav_about_fragment"
             android:icon="@drawable/ic_about"
-            android:title="About" />
+            android:title="@string/nav_drawer_label_about" />
         <item
             android:id="@+id/nav_eula_fragment"
             android:icon="@drawable/ic_feedback"
-            android:title="User License Agreement" />
+            android:title="@string/nav_drawer_label_user_license_agreement" />
         <item
             android:id="@+id/nav_settings_fragment"
             android:icon="@drawable/ic_settings"
-            android:title="Settings"
+            android:title="@string/nav_drawer_label_settings"
             />
         <item
             android:id="@+id/nav_support_fragment"
-            android:title="Support"
+            android:title="@string/nav_drawer_label_support"
             android:icon="@drawable/ic_support"/>
     </group>
 </menu>

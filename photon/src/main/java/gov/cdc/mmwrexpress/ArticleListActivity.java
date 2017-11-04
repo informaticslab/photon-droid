@@ -23,7 +23,7 @@ public class ArticleListActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.article_list_activity);
 
         // navigation view setup
         setupToolbar();
@@ -45,7 +45,7 @@ public class ArticleListActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_list, menu);
+        getMenuInflater().inflate(R.menu.article_list, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

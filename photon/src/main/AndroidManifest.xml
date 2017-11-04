@@ -38,9 +38,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ContentActivity"
+            android:name=".ArticleDetailActivity"
             android:configChanges="orientation"
-            android:parentActivityName=".ContentActivity"
+            android:parentActivityName=".ArticleDetailActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -69,25 +69,10 @@
         </activity>
 
         <!-- Pushwoosh -->
-        <meta-data
-            android:name="PW_APPID"
-            android:value="0EEA8-DC709" />
-        <meta-data
-            android:name="PW_PROJECT_ID"
-            android:value="A40896656703" />
-        <meta-data
-            android:name="PW_LOG_LEVEL"
-            android:value="ERROR" />
-
+        <meta-data android:name="com.pushwoosh.appid" android:value="0EEA8-DC709" />
+        <meta-data android:name="com.pushwoosh.senderid" android:value="A40896656703" />
         <meta-data android:name="com.pushwoosh.log_level" android:value="ERROR" />
 
-
-        <activity
-            android:name=".ArticleDetailActivity"
-            android:label="Article Details"
-            android:parentActivityName=".ArticleDetailActivity"
-            android:screenOrientation="portrait" >
-        </activity>
         <activity
             android:name=".SplashScreen"
             android:label="@string/app_name"

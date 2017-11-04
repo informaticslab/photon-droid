@@ -4,9 +4,9 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-
 import com.pushwoosh.Pushwoosh;
 import com.pushwoosh.notification.PushwooshNotificationSettings;
+import com.squareup.leakcanary.LeakCanary;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -21,12 +21,17 @@ public class AppManager extends Application{
     public static SharedPreferences pref;
     public static SharedPreferences.Editor editor;
     public static SiteCatalystController sc;
-    public static Pushwoosh pushManager;
     public static IssuesManager issuesManager;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
 
         //set global instance of Shared Prefs and instantiate global editor
         pref = getApplicationContext().getSharedPreferences(MmwrPreferences.PREFS_NAME, 0);
@@ -48,12 +53,10 @@ public class AppManager extends Application{
         sc = new SiteCatalystController();
         sc.trackAppLaunchEvent();
 
-        pushManager = Pushwoosh.getInstance();
-
         //Register for Pushwoosh
         if (pref.getBoolean(MmwrPreferences.ALLOW_PUSH_NOTIFICATIONS, true)) {
             //Register for push!
-            pushManager.registerForPushNotifications();
+            Pushwoosh.getInstance().registerForPushNotifications();
             PushwooshNotificationSettings.setMultiNotificationMode(true);
             PushwooshNotificationSettings.setNotificationChannelName("MMWR DEV");
         }

@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true">
 
     <!-- include your content layout -->
-    <include layout="@layout/content_layout"/>
+    <include layout="@layout/content_wrapper_layout"/>
 
     <!-- Navigation view -->
     <android.support.design.widget.NavigationView

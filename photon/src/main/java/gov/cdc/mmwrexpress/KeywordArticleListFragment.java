@@ -65,7 +65,7 @@ public class KeywordArticleListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (view == null) {
-            view = inflater.inflate(R.layout.fragment_keyword_article_list, container, false);
+            view = inflater.inflate(R.layout.keyword_article_list_fragment, container, false);
             mArticlesRV = (RecyclerView) view.findViewById(R.id.keyword_articles_rv);
             mArticlesRV.setLayoutManager(new LinearLayoutManager(getActivity()));
             mArticlesRV.addItemDecoration(new SimpleDividerItemDecoration(
@@ -260,7 +260,7 @@ public class KeywordArticleListFragment extends Fragment {
 
             Article article = mKeywordArticleItem.article;
             mAdapter.setArticleReadState(article);
-            Intent intent = ContentActivity.newIntent(getActivity(), article.getAlready_known(),
+            Intent intent = ArticleDetailActivity.newIntent(getActivity(), article.getAlready_known(),
                     article.getAdded_by_report(), article.getImplications(), title, date, volume, number, link);
             startActivity(intent);
 

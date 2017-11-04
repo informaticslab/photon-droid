@@ -1,27 +1,20 @@
 package gov.cdc.mmwrexpress;
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
-/**ContentPageFragment.java
+/**ArticleSummaryFragment.java
  * photon-droid
  *
  * Copyright (c) 2015 Informatics Research and Development Lab. All rights reserved.
  */
 
-public class ContentPageFragment extends Fragment {
+public class ArticleSummaryFragment extends Fragment {
 
     public static final String KNOWN_TEXT = "KNOWN_TEXT";
     public static final String ADDED_TEXT = "ADDED_TEXT";
@@ -39,8 +32,8 @@ public class ContentPageFragment extends Fragment {
 
 
     // Factory method for this fragment class. Constructs a new fragment for the given page number.
-    public static ContentPageFragment create(String known, String added, String implications) {
-        ContentPageFragment fragment = new ContentPageFragment();
+    public static ArticleSummaryFragment create(String known, String added, String implications) {
+        ArticleSummaryFragment fragment = new ArticleSummaryFragment();
         Bundle args = new Bundle();
         args.putString(KNOWN_TEXT, known);
         args.putString(ADDED_TEXT, added);
@@ -50,7 +43,7 @@ public class ContentPageFragment extends Fragment {
         return fragment;
     }
 
-    public ContentPageFragment() {
+    public ArticleSummaryFragment() {
     }
 
     @Override
@@ -66,7 +59,7 @@ public class ContentPageFragment extends Fragment {
                              Bundle savedInstanceState) {
         // inflate the layout containing a title and body text
         ViewGroup rootView = (ViewGroup) inflater
-                .inflate(R.layout.fragment_content_page, container, false);
+                .inflate(R.layout.article_summary_fragment, container, false);
 
         // set the title view to show the page number.
         ((TextView) rootView.findViewById(R.id.known_text)).setText(knownText);
