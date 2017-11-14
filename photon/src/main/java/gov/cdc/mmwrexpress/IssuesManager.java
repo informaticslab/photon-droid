@@ -87,11 +87,11 @@ public class IssuesManager {
 
             // check if article with this title already exists in current issue
             if (article.getTitle().equals(title)) {
-                //Log.d("IssuesManager ", "processRssArticle: existing article found.");
+                Log.d("IssuesManager ", "processRssArticle: existing article found: " +title);
                 // check if version number of stored article is less than
                 // version number of article from RSS feed
                 if (article.getVersion() < version) {
-                    //Log.d("IssuesManager ", "processRssArticle: feed version is newer, replace existing article.");
+                    Log.d("IssuesManager ", "processRssArticle: feed version is newer, replace existing article: " +title);
                     // delete stored article and create new one
                     article.deleteFromRealm();
                     removeUnusedKeywords();
@@ -101,7 +101,7 @@ public class IssuesManager {
 
                  // if already have this article, return null
                 if (article.getVersion() == version)
-                    //Log.d("IssuesManager ", "processRssArticle: feed version is same or older, do nothing.");
+                    Log.d("IssuesManager ", "processRssArticle: feed version is same or older, do nothing: " +title);
                     return null;
 
             }
@@ -211,6 +211,10 @@ public class IssuesManager {
     }
 
     public void update() {
+        if(progressIndicatorReference != null) {
+            SwipeRefreshLayout progressIndicator = progressIndicatorReference.get();
+            progressIndicator.setRefreshing(true);
+        }
         updateFromFeedTask = new UpdateFromFeedTask();
         updateFromFeedTask.execute();
     }
@@ -222,35 +226,31 @@ public class IssuesManager {
             progressIndicator.setRefreshing(false);
             if (resultCode == 1) {
                 Snackbar.make(progressIndicator, "Article list updated.", Snackbar.LENGTH_LONG)
-                        .setCallback(new Snackbar.Callback() {
-                            @Override
-                            public void onShown(Snackbar snackbar) {
-                                super.onShown(snackbar);
-                                snackbar.getView().setContentDescription("Article list updated.");
-                            }
-                        }).show();
+                        .show();
             } else if (resultCode == 0) {
-                Snackbar.make(progressIndicator, "Error accessing CDC Feed. Check internet connection.",
+                Snackbar.make(progressIndicator, "Error accessing MMWR Feed.",
                         Snackbar.LENGTH_INDEFINITE)
-                        .setCallback(new Snackbar.Callback() {
-                            @Override
-                            public void onShown(Snackbar snackbar) {
-                                super.onShown(snackbar);
-                                snackbar.getView().setContentDescription("Error accessing CDC Feed. " +
-                                        "Check internet connection.");
-                            }
-                        })
                         .setActionTextColor(progressIndicator.getResources().getColor(R.color.light_yellow))
                         .setAction("RETRY", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 update();
                             }
-                        }).show();
+                        })
+                        .show();
             } else if (resultCode == 2) {
                 Snackbar.make(progressIndicator, "Cancelled.", Snackbar.LENGTH_LONG).show();
             } else if (resultCode == 3) {
-                Snackbar.make(progressIndicator, "An error has occurred.", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(progressIndicator, "An error has occurred. Check internet connection.",
+                        Snackbar.LENGTH_INDEFINITE)
+                        .setActionTextColor(progressIndicator.getResources().getColor(R.color.light_yellow))
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                update();
+                            }
+                        })
+                        .show();
             }
         }
 

@@ -24,7 +24,19 @@
 
         <!-- Pushwoosh -->
         <meta-data android:name="com.pushwoosh.appid" android:value="BDF38-637C3" tools:replace="name,value" />
-        <meta-data android:name="com.pushwoosh.senderid" android:value="@string/fcm_sender_id" tools:replace="name,value" />
+        <meta-data android:name="com.pushwoosh.senderid" android:value="A681902695796" tools:replace="name,value" />
+
+        <activity
+            android:name="com.pushwoosh.DeepLinkActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="pw-BDF38-637C3" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".SplashScreen"

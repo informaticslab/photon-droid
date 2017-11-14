@@ -6,6 +6,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
@@ -14,11 +16,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.accessibility.AccessibilityEvent;
+import io.realm.Realm;
 
 /**BaseActivity.java
  * photon-droid
@@ -31,8 +31,13 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected ActionBarDrawerToggle mDrawerToggle;
     protected DrawerLayout mDrawerLayout;
     protected NavigationView mNavigationView;
+    private Realm realm;
 
-
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        realm = Realm.getDefaultInstance();
+    }
 
     protected void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -135,7 +140,11 @@ public abstract class BaseActivity extends AppCompatActivity {
                                         + "Application Version: " + getApplicationVersionName() + "\n"
                                         + "OS: Android " + Build.VERSION.RELEASE + "\n"
                                         + "Device Info: " + (Build.MODEL.toLowerCase().startsWith(Build.MANUFACTURER.toLowerCase()) ? Build.MODEL : Build.MANUFACTURER + "-" + Build.MODEL) + "\n"
-                                        + "\nPlease provide as much detail as possible for your request:"
+                                        + "Last refreshed: " +AppManager.pref.getString(MmwrPreferences.LAST_UPDATE, "") +"\n"
+                                        + "DB Issue count: " +realm.where(Issue.class).count() +"\n"
+                                        + "DB Article count: " +realm.where(Article.class).count() +"\n"
+                                        + "DB Keyword count: " +realm.where(Keyword.class).count()+"\n"
+                                         + "\nPlease provide as much detail as possible for your request:"
                                         + "\n");
                                 try {
                                     startActivity(intent);
@@ -149,6 +158,12 @@ public abstract class BaseActivity extends AppCompatActivity {
                         return true;
                     }
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        realm.close();
     }
 
     @Override

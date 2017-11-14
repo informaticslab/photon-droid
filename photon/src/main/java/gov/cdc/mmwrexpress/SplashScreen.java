@@ -1,7 +1,7 @@
 package gov.cdc.mmwrexpress;
 
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import java.io.IOException;
@@ -21,57 +21,36 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_screen_activity);
+    }
 
-        if(!AppManager.pref.getBoolean(MmwrPreferences.AGREED_TO_EULA, false))
-            i = new Intent(getApplicationContext(), EulaActivity.class);
-        else
-            i = new Intent(getApplicationContext(), ArticleListActivity.class);
+    @Override
+    protected void onStart() {
+        super.onStart();
 
-        new parsePreloadJsonTask().execute();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadArticlesFromPreload();
 
+                if (!AppManager.pref.getBoolean(MmwrPreferences.AGREED_TO_EULA, false))
+                    i = new Intent(getApplicationContext(), EulaActivity.class);
+                else
+                    i = new Intent(getApplicationContext(), ArticleListActivity.class);
 
-
+                startActivity(i);
+                finish();
+            }
+        }, 750);
 
     }
 
-    class parsePreloadJsonTask extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            if (!AppManager.pref.getBoolean(MmwrPreferences.PRELOAD_ARTICLES_LOADED, false)) {
-                loadJsonArticlesFromAsset();
-                AppManager.editor.putBoolean(MmwrPreferences.PRELOAD_ARTICLES_LOADED, true);
-                AppManager.editor.commit();
-           }
-            else{
-                try {
-                    Thread.sleep(750);
-                }
-                catch (InterruptedException ie){
-                   ie.printStackTrace();
-                }
-            }
-            finish();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            startActivity(i);
-        }
-
-        public void loadJsonArticlesFromAsset() {
+    private void loadArticlesFromPreload() {
+        if (!AppManager.pref.getBoolean(MmwrPreferences.PRELOAD_ARTICLES_LOADED, false)) {
             String json = null;
-            String asset;
-            asset = prodAsset;
+            String prodAsset = "PreloadIssues.json";
 
             try {
-                InputStream is = getAssets().open(asset);
+                InputStream is = getAssets().open(prodAsset);
                 int size = is.available();
                 byte[] buffer = new byte[size];
                 is.read(buffer);
@@ -81,7 +60,10 @@ public class SplashScreen extends AppCompatActivity {
                 jsonArticleParser.parseEmbeddedArticles(json);
             } catch (IOException ex) {
                 ex.printStackTrace();
+            } finally {
+                AppManager.editor.putBoolean(MmwrPreferences.PRELOAD_ARTICLES_LOADED, true).commit();
             }
         }
     }
+
 }

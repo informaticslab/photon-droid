@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <string name="fcm_sender_id">681902695796</string>
-
     <!-- Titles  -->
     <string name="app_name">MMWR Express</string>
 

@@ -19,6 +19,8 @@ gen/
 # Gradle files
 .gradle/
 build/
+photon/development/
+photon/production/
 
 # Local configuration file (sdk path, etc)
 local.properties

@@ -1,7 +1,6 @@
 package gov.cdc.mmwrexpress;
 
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -11,6 +10,8 @@ import java.io.InputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -19,10 +20,11 @@ import javax.net.ssl.HttpsURLConnection;
  * Created by jason on 3/10/16.
  */
 public class UpdateFromFeedTask extends AsyncTask<Void, Void, Integer> {
-
-    private static final String FEED_LINK = "https://prototype.cdc.gov/api/v2/resources/media/";
-    private static final String RSS_FEED_ID= "338387";
-    private static final String DEV_FEED_ID = "338384";
+    private static final String PROD_FEED_LINK = "https://tools.cdc.gov/api/v2/resources/media/";
+    private static final String DEV_FEED_LINK = "https://prototype.cdc.gov/api/v2/resources/media/";
+    private static final String PROD_FEED_ID = "342419";
+    private static final String DEV_FEED_ID= "338387";
+    private static final String TEST_FEED_ID = "338384";
     private static final String RSS_FORMAT = ".rss?";
     private static final String FROM_DATE = "fromdatemodified=";
     private String fromDate;
@@ -44,16 +46,12 @@ public class UpdateFromFeedTask extends AsyncTask<Void, Void, Integer> {
         while (!cancelled) {
             try {
                 CdcRssParser parser = new CdcRssParser();
-                boolean debug = false;
 
-                // Check for production version and set debug to false. Don't want prod version
-                // pointing to dev feed - ever.
-                if(!BuildConfig.APPLICATION_ID.contains("development")){
-                    debug = false;
-                }
+                String lastUpdate = AppManager.pref.getString(MmwrPreferences.LAST_UPDATE, "");
 
-                String lastUpdate = AppManager.pref.getString(MmwrPreferences.LAST_UPDATE, "2016-12-31");
-                URL url = new URL(FEED_LINK +RSS_FEED_ID +RSS_FORMAT +FROM_DATE +lastUpdate);
+                //Modify this url to point to different feed
+                URL url = new URL(PROD_FEED_LINK +PROD_FEED_ID +RSS_FORMAT +FROM_DATE +lastUpdate);
+
                 httpsURLConnection = (HttpsURLConnection) url.openConnection();
 
                 if(httpsURLConnection.getResponseCode() >= 400) {
@@ -61,12 +59,14 @@ public class UpdateFromFeedTask extends AsyncTask<Void, Void, Integer> {
                 }
 
                 inputStream = url.openConnection().getInputStream();
-                Log.d("UpdateFromFeedTask", "doInBackground: UpdateURL: " +FEED_LINK +DEV_FEED_ID +FROM_DATE +lastUpdate);
+                Log.d("UpdateFromFeedTask", "doInBackground: UpdateURL: " +url);
                 if (inputStream != null) {
                     Log.d("UpdateFromFeedTask", "doInBackground: pulling articles after " +lastUpdate);
                     parser.parse(inputStream);
                     Date currDate = new Date();
-                    String formattedDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(currDate);
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
+                    df.setTimeZone(TimeZone.getTimeZone("GMT"));
+                    String formattedDate = df.format(currDate);
                     Log.d("UpdateFromFeedTask", "doInBackground: currDate: " +currDate +" formatted: " +formattedDate);
                     AppManager.editor.putString(MmwrPreferences.LAST_UPDATE, formattedDate);
                     AppManager.editor.commit();

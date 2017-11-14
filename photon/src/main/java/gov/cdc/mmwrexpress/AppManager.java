@@ -6,8 +6,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import com.pushwoosh.Pushwoosh;
 import com.pushwoosh.notification.PushwooshNotificationSettings;
-import com.squareup.leakcanary.LeakCanary;
-
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -26,13 +24,6 @@ public class AppManager extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            return;
-        }
-        LeakCanary.install(this);
-
         //set global instance of Shared Prefs and instantiate global editor
         pref = getApplicationContext().getSharedPreferences(MmwrPreferences.PREFS_NAME, 0);
         editor =  pref.edit();

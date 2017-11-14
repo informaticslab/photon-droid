@@ -43,30 +43,24 @@ public class JsonArticleParser {
 
     }
 
-    public boolean isJSONValid(String test) {
+    private boolean isJSONValid(String test) {
         try {
             new JSONObject(test);
         } catch (JSONException ex) {
+            Log.d("JSONArticleParser", "JSON Error with JSON String: " +test);
             ex.printStackTrace();
-            // e.g. in case JSONArray is valid as well...
-            try {
-                new JSONArray(test);
-            } catch (JSONException ex1) {
-                ex1.printStackTrace();
-                return false;
-            }
         }
         return true;
     }
 
     public Article parseJsonArticle(String jsonArticle) {
-
-
         if (jsonArticle == null)
             return null;
 
-        if (!isJSONValid(jsonArticle))
+        if (!isJSONValid(jsonArticle)) {
             return null;
+        }
+
         Realm realm = Realm.getDefaultInstance();
         // create new JSON object from string
         try {
@@ -153,68 +147,16 @@ public class JsonArticleParser {
 
     }
 
-
-
     public void parseEmbeddedArticles(String articles) {
-        Realm realm = Realm.getDefaultInstance();
-        // create new JSON object from string
         try {
             JSONArray articleArray = new JSONArray(articles);
 
-
-            for (int j = 0; j < articleArray.length(); j++) {
-                HashMap<String, String> map = new HashMap<String, String>();
-                JSONObject jsonObject = articleArray.getJSONObject(j);
-
-                realm.beginTransaction();
-
-                // process issue found in RSS feed and find stored issue
-                // if no stored issue create a new one
-                Issue issue = AppManager.issuesManager.processRssIssue(jsonObject.getString(TAG_ISSUE_DATE),
-                        jsonObject.getInt(TAG_ISSUE_VOL), jsonObject.getInt(TAG_ISSUE_NUM));
-
-
-                // process article found in RSS feed and find stored issue
-                // or in not there create a new one
-                Article article = AppManager.issuesManager.processRssArticle(issue, jsonObject.getString(TAG_TITLE), jsonObject.getInt(TAG_CONTENT_VER));
-                if (article != null) {
-                    article.setAlready_known(jsonObject.getString(TAG_ALREADY_KNOWN));
-                    article.setAdded_by_report(jsonObject.getString(TAG_ADDED_BY_REPORT));
-                    article.setImplications(jsonObject.getString(TAG_IMPLICATIONS));
-                    article.setUrl(jsonObject.getString(TAG_URL));
-                    article.setIssue(issue);
-
-                    try {
-                        JSONArray keywordJsonArray = jsonObject.getJSONArray(TAG_TAGS);
-                        JSONObject keywordJson;
-                        String[] keywords = new String[keywordJsonArray.length()];
-                        for (int i = 0; i < keywordJsonArray.length(); i++) {
-                            keywordJson = (JSONObject) keywordJsonArray.get(i);
-                            keywords[i] = keywordJson.getString(TAG_TAG);
-                        }
-                        AppManager.issuesManager.addArticleKeywords(keywords, article);
-
-                    } catch (JSONException ex) {
-                        ex.printStackTrace();
-                        Log.d("JsonArticleParser", "JSON Article title = " + jsonObject.getString(TAG_TITLE));
-                    }
-
-                }
-
-                //Log.d("JsonArticleParser", "JSON Article title = " + jsonObject.getString(TAG_TITLE));
-
-                //Log.d("JsonArticleParser", "JSON Article size = " + String.valueOf(size));
-                //Log.d("JsonArticleParser", "JSON issue date  = " + jsonObject.getString(TAG_ISSUE_DATE));
-
-                realm.commitTransaction();
-
+            for(int i = 0; i < articleArray.length(); i++) {
+                parseJsonArticle(articleArray.get(i).toString());
             }
-
-        } catch (JSONException ex) {
-            ex.printStackTrace();
         }
-        finally {
-            realm.close();
+        catch(JSONException e) {
+            e.printStackTrace();
         }
     }
 }
