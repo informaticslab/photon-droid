@@ -3,17 +3,6 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="gov.cdc.mmwrexpress" >
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <!--
-  Creates a custom permission so only this app can receive its messages.
-
-  NOTE: the permission *must* be called PACKAGE.permission.C2D_MESSAGE,
-        where PACKAGE is the application's package name.
-    -->
-
     <application
         android:name=".AppManager"
         android:allowBackup="false"
@@ -21,22 +10,6 @@
         android:label="@string/app_name_dev"
         tools:replace="icon,label"
         android:theme="@style/AppTheme" >
-
-        <!-- Pushwoosh -->
-        <meta-data android:name="com.pushwoosh.appid" android:value="BDF38-637C3" tools:replace="name,value" />
-        <meta-data android:name="com.pushwoosh.senderid" android:value="A681902695796" tools:replace="name,value" />
-
-        <activity
-            android:name="com.pushwoosh.DeepLinkActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="pw-BDF38-637C3" />
-            </intent-filter>
-        </activity>
 
         <activity
             android:name=".SplashScreen"
