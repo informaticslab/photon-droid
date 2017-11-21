@@ -87,11 +87,11 @@ public class IssuesManager {
 
             // check if article with this title already exists in current issue
             if (article.getTitle().equals(title)) {
-                Log.d("IssuesManager ", "processRssArticle: existing article found: " +title);
+                //Log.d("IssuesManager ", "processRssArticle: existing article found: " +title);
                 // check if version number of stored article is less than
                 // version number of article from RSS feed
                 if (article.getVersion() < version) {
-                    Log.d("IssuesManager ", "processRssArticle: feed version is newer, replace existing article: " +title);
+                    //Log.d("IssuesManager ", "processRssArticle: feed version is newer, replace existing article: " +title);
                     // delete stored article and create new one
                     article.deleteFromRealm();
                     removeUnusedKeywords();
@@ -101,7 +101,7 @@ public class IssuesManager {
 
                  // if already have this article, return null
                 if (article.getVersion() == version)
-                    Log.d("IssuesManager ", "processRssArticle: feed version is same or older, do nothing: " +title);
+                    //Log.d("IssuesManager ", "processRssArticle: feed version is same or older, do nothing: " +title);
                     return null;
 
             }

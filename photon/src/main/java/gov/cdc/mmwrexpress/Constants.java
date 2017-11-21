@@ -26,6 +26,7 @@ public class Constants {
     public static final String SC_EVENT_AGREE_TO_EULA = "Eula:Button";
     public static final String SC_EVENT_DISABLE_PUSH_NOTIFICATIONS = "Settings:Disable-Push-Notifications";
     public static final String SC_EVENT_ENABLE_PUSH_NOTIFICATIONS = "Settings:Enable-Push-Notifications";
+    public static final String SC_EVENT_REFRESH_ARTICLE_LIST = "Refreshed-Articles";
 
     public static final String SC_SECTION_ARTICLES = "Articles";
     public static final String SC_SECTION_SEARCH = "Search";

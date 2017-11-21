@@ -125,7 +125,8 @@ public class ArticleListFragment extends Fragment implements OnRefreshListener {
         }
     }
 
-    public void initiateRefresh(){
+    public void initiateRefresh() {
+            AppManager.sc.trackEvent(Constants.SC_EVENT_REFRESH_ARTICLE_LIST ,Constants.SC_PAGE_TITLE_LIST, Constants.SC_SECTION_ARTICLES);
             AppManager.issuesManager.update();
         }
 
