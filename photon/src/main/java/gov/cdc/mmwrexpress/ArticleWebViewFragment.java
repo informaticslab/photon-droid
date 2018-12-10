@@ -73,50 +73,10 @@ public class ArticleWebViewFragment extends Fragment {
         webView.getSettings()
                 .setJavaScriptEnabled(true);
 
-        // Add Download listener in case user clicks link to a file as most MMWR articles have a link to a PDF file.
-        webView.setDownloadListener(new DownloadListener() {
-            @Override
-            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(url));
-                startActivity(intent);
-            }
-        });
-
         // Enable zoom controls
         webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setDisplayZoomControls(false);
 
-        // Enable webview browser back navigation
-        webView.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                    switch (keyCode) {
-                        case KeyEvent.KEYCODE_BACK:
-                            if (webView.canGoBack()) {
-                                webView.goBack();
-                                return true;
-                            }
-                            break;
-                    }
-                }
-                return false;
-            }
-        });
-
-        //
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (!url.startsWith("http")) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse(url));
-                    startActivity(intent);
-                    return true;
-                } else return false;
-            }
-        });
         return rootView;
     }
 
